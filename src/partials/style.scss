@@ -1,0 +1,105 @@
+:host {
+  display: inline-block;
+  align-items: flex-start;
+  cursor: default;
+  margin: 0;
+
+  // border-color: #dddddd;
+  // border-width: 2px;
+  // border-style: outset;
+  // border-image: initial;
+
+  padding: 2px 7px;
+
+  font: 400 13.3333px Arial;
+  text-rendering: auto;
+  text-transform: none;
+  text-indent: 0;
+  text-shadow: none;
+  text-align: center;
+  letter-spacing: normal;
+  word-spacing: normal;
+
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+
+  position: relative;
+  width: auto;
+  height: auto;
+
+  color: #000000;
+  overflow: hidden;
+
+  #card {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform-style: preserve-3d;
+    transition: transform .2s ease;
+    perspective: 800px;
+    backface-visibility: hidden;
+
+    figure {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      backface-visibility: hidden;
+
+      -webkit-appearance: var(--catalyst-flip-button-appearance, button);
+         -moz-appearance: var(--catalyst-flip-button-appearance, button);
+              appearance: var(--catalyst-flip-button-appearance, button);
+
+      &.front {
+        background: var(--catalyst-flip-button-front-background, #dddddd);
+      }
+
+      &.back {
+        background: var(--catalyst-flip-button-back-background, #dddddd);
+        transform: rotateY(180deg);
+      }
+    }
+  }
+}
+:host([flipped]) {
+  #card {
+    transform: rotateY(180deg);
+  }
+}
+:host(:focus) {
+  outline: none;
+
+  #card {
+    .front {
+      outline: #000000 dotted 1px;
+      outline: -webkit-focus-ring-color auto 5px;
+    }
+
+    .back {
+      outline: none;
+    }
+  }
+}
+:host([flipped]:focus) {
+  #card {
+    .front {
+      outline: none;
+    }
+
+    .back {
+      outline: #000000 dotted 1px;
+      outline: -webkit-focus-ring-color auto 5px;
+    }
+  }
+}
+:host([hidden]) {
+  display: none;
+}
