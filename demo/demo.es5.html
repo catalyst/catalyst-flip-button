@@ -12,6 +12,23 @@
     <script src="../dist/catalyst-flip-button.es5.min.js"></script>
   </head>
   <body>
+    <h3>Basic use:</h3>
     <catalyst-flip-button value="Foo Button" flipped-value="Bar Button"></catalyst-flip-button>
+
+    <h3>Styled:</h3>
+    <style>
+    catalyst-flip-button.demo2 {
+      font-size: 18px;
+      padding: 5px 25px;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+
+      --catalyst-flip-button-appearance: none;
+      --catalyst-flip-button-front-background: red;
+      --catalyst-flip-button-back-background: green;
+    }
+    </style>
+    <catalyst-flip-button value="Off" flipped-value="On" class="demo2"></catalyst-flip-button>
   </body>
 </html>
