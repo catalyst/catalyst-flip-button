@@ -58,14 +58,12 @@ To use this version, include it's script instead of the ES6 version and make sur
 
 ### Dependencies
 
-Project dependencies are managed through [Yarn](https://yarnpkg.com/lang/en/docs/install/) (not npm).  
+Project dependencies are managed through [Yarn](https://yarnpkg.com/lang/en/docs/install/) (not npm directly).  
 Install dependencies with:
 
 ```sh
 yarn
 ```
-
-Note: [Bower](https://bower.io/) only here because [web-component-tester](https://github.com/Polymer/web-component-tester) won't run from the command line without it.
 
 ### Building
 

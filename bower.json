@@ -1,6 +1,0 @@
-{
-  "name": "catalyst-flip-button",
-  "devDependencies": {
-    "web-component-tester": "^6.4.1"
-  }
-}
