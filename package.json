@@ -9,7 +9,8 @@
     "build": "node ./node_modules/gulp/bin/gulp.js",
     "analyze": "node ./node_modules/polymer-cli/bin/polymer.js analyze > analysis.json",
     "build-docs": "node ./node_modules/polymer-cli/bin/polymer.js build",
-    "postinstall": "[ \"${PWD##*/}\" != node_modules ] && node ./node_modules/gulp/bin/gulp.js fix-dependency-tree || :"
+    "tests": "node ./node_modules/web-component-tester/bin/wct",
+    "postinstall": "[ \"${PWD##*/}\" != node_modules ] && node ./node_modules/gulp/bin/gulp.js fix-dependency-tree && node ./node_modules/bower/bin/bower install || :"
   },
   "devDependencies": {
     "@webcomponents/shadycss": "^1.1.0",
@@ -18,6 +19,7 @@
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-minify": "^0.2.0",
+    "bower": "^1.8.2",
     "eslint": "^4.13.1",
     "eslint-plugin-html": "^4.0.1",
     "font-roboto": "https://github.com/PolymerElements/font-roboto#^1.0.1",

@@ -65,6 +65,8 @@ Install dependencies with:
 yarn
 ```
 
+Note: [Bower](https://bower.io/) only here because [web-component-tester](https://github.com/Polymer/web-component-tester) won't run from the command line without it.
+
 ### Building
 
 [Gulp](https://gulpjs.com/) is used to build the source files (```./src```) into the distribution files (```./dist```).  
@@ -94,3 +96,25 @@ To build the docs manually:
 ```sh
 npm run build-docs
 ```
+
+## Testing
+
+Testing is done using the [web-component-tester](https://github.com/Polymer/web-component-tester).
+
+### Running Tests
+
+#### On The Command Line
+
+```sh
+npm run tests
+```
+
+#### In The Browser
+
+First start up a local server:
+
+```sh
+python -m SimpleHTTPServer 8000
+```
+
+Then visit http://0.0.0.0:8000/test/ to see the tests in action.
