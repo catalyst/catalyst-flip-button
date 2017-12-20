@@ -18,6 +18,8 @@
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-minify": "^0.2.0",
+    "eslint": "^4.13.1",
+    "eslint-plugin-html": "^4.0.1",
     "font-roboto": "https://github.com/PolymerElements/font-roboto#^1.0.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
@@ -55,6 +57,7 @@
     "polymer": "https://github.com/Polymer/polymer#1.9 - 2",
     "polymer-cli": "^1.5.7",
     "prism": "^1.9.0",
-    "prism-element": "https://github.com/PolymerElements/prism-element#1 - 2"
+    "prism-element": "https://github.com/PolymerElements/prism-element#1 - 2",
+    "web-component-tester": "^6.4.1"
   }
 }

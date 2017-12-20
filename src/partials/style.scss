@@ -19,6 +19,7 @@
   text-align: center;
   letter-spacing: normal;
   word-spacing: normal;
+  vertical-align: bottom;
 
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -29,75 +30,62 @@
   height: auto;
 
   color: #000000;
-  overflow: hidden;
 
-  #card {
+  transform-style: preserve-3d;
+  transition: transform .2s ease;
+  perspective: 800px;
+
+  figure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    transform-style: preserve-3d;
-    transition: transform .2s ease;
-    perspective: 800px;
     backface-visibility: hidden;
 
-    figure {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0;
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      backface-visibility: hidden;
+    border-radius: var(--catalyst-flip-button-border-radius);
 
-      -webkit-appearance: var(--catalyst-flip-button-appearance, button);
-         -moz-appearance: var(--catalyst-flip-button-appearance, button);
-              appearance: var(--catalyst-flip-button-appearance, button);
+    -webkit-appearance: var(--catalyst-flip-button-appearance, button);
+       -moz-appearance: var(--catalyst-flip-button-appearance, button);
+            appearance: var(--catalyst-flip-button-appearance, button);
 
-      &.front {
-        background: var(--catalyst-flip-button-front-background, #dddddd);
-      }
+    &#front {
+      background: var(--catalyst-flip-button-front-background, #dddddd);
+    }
 
-      &.back {
-        background: var(--catalyst-flip-button-back-background, #dddddd);
-        transform: rotateY(180deg);
-      }
+    &#back {
+      background: var(--catalyst-flip-button-back-background, #dddddd);
+      transform: rotateY(180deg);
     }
   }
 }
 :host([flipped]) {
-  #card {
-    transform: rotateY(180deg);
-  }
+  transform: rotateY(180deg);
 }
 :host(:focus) {
   outline: none;
 
-  #card {
-    .front {
-      outline: #000000 dotted 1px;
-      outline: -webkit-focus-ring-color auto 5px;
-    }
+  #front {
+    outline: #000000 dotted 1px;
+    outline: -webkit-focus-ring-color auto 5px;
+  }
 
-    .back {
-      outline: none;
-    }
+  #back {
+    outline: none;
   }
 }
 :host([flipped]:focus) {
-  #card {
-    .front {
-      outline: none;
-    }
+  #front {
+    outline: none;
+  }
 
-    .back {
-      outline: #000000 dotted 1px;
-      outline: -webkit-focus-ring-color auto 5px;
-    }
+  #back {
+    outline: #000000 dotted 1px;
+    outline: -webkit-focus-ring-color auto 5px;
   }
 }
 :host([hidden]) {

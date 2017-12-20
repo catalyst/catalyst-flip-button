@@ -16,14 +16,14 @@
   <body>
 
     <h3>Basic use:</h3>
-    <demo-snippet>
+    <demo-snippet id="demo1">
       <template>
-        <catalyst-flip-button value="Foo Button" flipped-value="Bar Button"></catalyst-flip-button>
+        <catalyst-flip-button default-label="Foo Button" flipped-label="Bar Button"></catalyst-flip-button>
       </template>
     </demo-snippet>
 
     <h3>Styled:</h3>
-    <demo-snippet>
+    <demo-snippet id="demo2">
       <template>
         <style>
           catalyst-flip-button.demo2 {
@@ -31,15 +31,31 @@
             padding: 5px 25px;
             color: white;
             font-weight: bold;
-            border-radius: 8px;
 
             --catalyst-flip-button-appearance: none;
             --catalyst-flip-button-front-background: red;
             --catalyst-flip-button-back-background: green;
+            --catalyst-flip-button-border-radius: 8px;
           }
         </style>
-        <catalyst-flip-button value="Off" flipped-value="On" class="demo2"></catalyst-flip-button>
+
+        <catalyst-flip-button default-label="Off" flipped-label="On" class="demo2"></catalyst-flip-button>
       </template>
     </demo-snippet>
+
+    <h3>In a form:</h3>
+    <demo-snippet id="demo3">
+      <template>
+        <form action="?" method="get">
+          <catalyst-flip-button
+            default-label="Value Not Submitted"
+            flipped-label="Value Submitted"
+            name="baz"
+            value="flip"
+          ></catalyst-flip-button>
+        </form>
+      </template>
+    </demo-snippet>
+
   </body>
 </html>

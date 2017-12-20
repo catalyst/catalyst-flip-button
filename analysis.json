@@ -13,11 +13,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 62,
+              "line": 71,
               "column": 8
             },
             "end": {
-              "line": 100,
+              "line": 105,
               "column": 9
             }
           },
@@ -30,11 +30,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 113,
+              "line": 118,
               "column": 8
             },
             "end": {
-              "line": 121,
+              "line": 126,
               "column": 9
             }
           },
@@ -53,11 +53,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 123,
+              "line": 128,
               "column": 8
             },
             "end": {
-              "line": 160,
+              "line": 158,
               "column": 9
             }
           },
@@ -70,11 +70,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 165,
+              "line": 163,
               "column": 8
             },
             "end": {
-              "line": 168,
+              "line": 166,
               "column": 9
             }
           },
@@ -87,11 +87,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 267,
+              "line": 354,
               "column": 8
             },
             "end": {
-              "line": 307,
+              "line": 417,
               "column": 9
             }
           },
@@ -120,11 +120,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 314,
+              "line": 424,
               "column": 8
             },
             "end": {
-              "line": 332,
+              "line": 442,
               "column": 9
             }
           },
@@ -142,21 +142,16 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 339,
+              "line": 447,
               "column": 8
             },
             "end": {
-              "line": 341,
+              "line": 450,
               "column": 9
             }
           },
           "metadata": {},
-          "params": [
-            {
-              "name": "event",
-              "type": "MouseEvent"
-            }
-          ]
+          "params": []
         },
         {
           "name": "_togglePressed",
@@ -164,11 +159,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 348,
+              "line": 457,
               "column": 8
             },
             "end": {
-              "line": 364,
+              "line": 473,
               "column": 9
             }
           },
@@ -193,7 +188,7 @@
           "column": 6
         },
         "end": {
-          "line": 365,
+          "line": 474,
           "column": 7
         }
       },

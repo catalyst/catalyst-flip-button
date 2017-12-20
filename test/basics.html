@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <!-- Polyfills -->
+  <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="../node_modules/@webcomponents/shadycss/custom-style-interface.min.js"></script>
+
+  <!-- Web Tester -->
+  <script src="../node_modules/web-component-tester/browser.js"></script>
+
+  <!-- Element -->
+  <script src="../dist/catalyst-flip-button.js"></script>
+</head>
+<body>
+
+  <test-fixture id="basic">
+    <template>
+      <catalyst-flip-button
+        default-label="Foo"
+        flipped-label="Bar"
+        ></catalyst-flip-button>
+    </template>
+  </test-fixture>
+
+  <script>
+    /**
+     * Basics suite.
+     */
+    suite('', () => {
+      let element;
+
+      /**
+       * Called before each following test is run.
+       */
+      setup(() => {
+        element = fixture('basic');
+      });
+
+      /**
+       * Test the inital state of the element.
+       */
+      suite('Initial State', () => {
+
+        /**
+         * Test the attributes and properties of the element in it's inital state.
+         */
+        suite('Attributes & Properties', () => {
+
+          /**
+           * Test default-label.
+           */
+          test('default-label', () => {
+            expect(element.hasAttribute('default-label')).to.be.true;
+            expect(element.getAttribute('default-label')).to.equal('Foo');
+            expect(element).to.have.property('defaultLabel', 'Foo');
+          });
+
+          /**
+           * Test flipped-label.
+           */
+          test('flipped-label', () => {
+            expect(element.hasAttribute('flipped-label')).to.be.true;
+            expect(element.getAttribute('flipped-label')).to.equal('Bar');
+            expect(element).to.have.property('flippedLabel', 'Bar');
+          });
+
+          /**
+           * Test flipped.
+           */
+          test('flipped', () => {
+            expect(element.hasAttribute('flipped')).to.be.false;
+          });
+
+          /**
+           * Test textContent.
+           */
+          test('textContent', () => {
+            expect(element).to.have.property('textContent', 'Foo');
+          });
+        });
+
+        /**
+         * Test the accessibility of the element in it's inital state.
+         */
+        suite('Accessibility', () => {
+
+          /**
+           * Test role.
+           */
+          test('role', () => {
+            // role
+            expect(element.hasAttribute('role'), '"role" missing').to.be.true;
+            expect(element.getAttribute('role')).to.equal('button', '"role" should be set to "button"');
+          });
+
+          /**
+           * Test tabindex.
+           */
+          test('tabindex', () => {
+            expect(element.hasAttribute('tabindex'), '"tabindex" missing').to.be.true;
+            expect(Number.parseInt(element.getAttribute('tabindex'))).to.equal(0, '"tabindex" should be 0');
+          });
+
+          /**
+           * Test aria-label.
+           */
+          test('aria-label', () => {
+            expect(element.hasAttribute('aria-label'), '"aria-label" missing').to.be.true;
+            expect(element.getAttribute('aria-label')).to.equal('Foo');
+          });
+
+          /**
+           * Test aria-pressed.
+           */
+          test('aria-pressed', () => {
+            expect(element.hasAttribute('aria-pressed'), '"aria-label" pressed').to.be.true;
+            expect(element.getAttribute('aria-pressed')).to.equal('false');
+          });
+
+          /**
+           * Test aria-disabled.
+           */
+          test('aria-disabled', () => {
+            expect(element.hasAttribute('aria-disabled'), '"aria-label" disabled').to.be.true;
+            expect(element.getAttribute('aria-disabled')).to.equal('false');
+          });
+        });
+      });
+
+      /**
+       * Test the attributes and properties of the element in it's inital state.
+       */
+      suite('Changing State', () => {
+
+        /**
+         * Mouse Interaction.
+         */
+        suite('Mouse Interaction', () => {
+
+          /**
+           * Test clicking the element.
+           */
+          test('Click Once', (done) => {
+            let defaultLabel = element.defaultLabel;
+            let flippedLabel = element.flippedLabel;
+            let role = element.getAttribute('role');
+            let tabindex = element.getAttribute('tabindex');
+            let ariaDisabled = element.getAttribute('aria-disabled');
+
+            // Change event needs to be fired.
+            element.addEventListener('change', () => {
+              done();
+            });
+
+            element.click();
+
+            // Values that should not change.
+            expect(element).to.have.property('defaultLabel', defaultLabel);
+            expect(element).to.have.property('flippedLabel', flippedLabel);
+            expect(element.getAttribute('role')).to.equal(role);
+            expect(element.getAttribute('tabindex')).to.equal(tabindex);
+            expect(element.getAttribute('aria-disabled')).to.equal(ariaDisabled);
+
+            // Values that should change.
+            expect(element.hasAttribute('flipped')).to.be.true;
+            expect(element).to.have.property('textContent', flippedLabel);
+            expect(element.getAttribute('aria-label')).to.equal(flippedLabel);
+            expect(element.getAttribute('aria-pressed')).to.equal('true');
+
+            setTimeout(function () {
+              assert(false, 'Change event was not fired within 100 ms.');
+              done();
+            }, 100);
+          });
+
+          /**
+           * Test clicking the element twice.
+           */
+          test('Click Twice', () => {
+            let defaultLabel = element.defaultLabel;
+            let flippedLabel = element.flippedLabel;
+            let role = element.getAttribute('role');
+            let tabindex = element.getAttribute('tabindex');
+            let ariaDisabled = element.getAttribute('aria-disabled');
+
+            element.click();
+            element.click();
+
+            // Values that should not change.
+            expect(element).to.have.property('defaultLabel', defaultLabel);
+            expect(element).to.have.property('flippedLabel', flippedLabel);
+            expect(element.getAttribute('role')).to.equal(role);
+            expect(element.getAttribute('tabindex')).to.equal(tabindex);
+            expect(element.getAttribute('aria-disabled')).to.equal(ariaDisabled);
+            expect(element).to.have.property('textContent', defaultLabel);
+            expect(element.getAttribute('aria-label')).to.equal(defaultLabel);
+            expect(element.getAttribute('aria-pressed')).to.equal('false');
+          });
+
+          /**
+           * Test clicking the element when disabled.
+           */
+           test('Click When Disabled', () => {
+            element.disabled = true;
+
+            // Change event should not be fired.
+            element.addEventListener('change', () => {
+              assert(false, 'Change event should not be fired.');
+              done();
+            });
+
+            element.click();
+
+            expect(element.hasAttribute('flipped')).to.be.false;
+            expect(element).to.have.property('textContent', 'Foo');
+            expect(element.getAttribute('aria-label')).to.equal('Foo');
+            expect(element.getAttribute('aria-pressed')).to.equal('false');
+
+            setTimeout(function () {
+              done();
+            }, 100);
+          });
+        });
+
+        /**
+         * KeyBoard Interaction.
+         * TODO: write tests.
+         */
+        suite('KeyBoard Interaction', () => {
+
+        });
+      });
+    });
+  </script>
+</body>
+</html>

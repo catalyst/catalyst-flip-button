@@ -42,7 +42,7 @@
          * The attributes on this element to observe.
          */
         static get observedAttributes() {
-          return ['flipped', 'disabled', 'value', 'flipped-value'];
+          return ['flipped', 'disabled', 'default-label', 'flipped-label', 'name', 'value', 'form'];
         }
 
         /**
@@ -54,6 +54,15 @@
           // Create a shadow root and stamp out the template's content inside.
           this.attachShadow({mode: 'open'});
           this.shadowRoot.appendChild(template.content.cloneNode(true));
+
+          // Create shadowDom references to the elements.
+          this._frontFaceElement = this.shadowRoot.querySelector('#front');
+          this._backFaceElement  = this.shadowRoot.querySelector('#back');
+
+          // Input element needs to be in the lightDom to work with form elements.
+          this._inputElement     = document.createElement('input');
+          this._inputElement.type =  'checkbox';
+          this.appendChild(this._inputElement);
         }
 
         /**
@@ -69,16 +78,9 @@
           // Upgrade the element's properties.
           this._upgradeProperty('flipped');
           this._upgradeProperty('disabled');
+          this._upgradeProperty('defaultLabel');
+          this._upgradeProperty('flippedLabel');
           this._upgradeProperty('value');
-          this._upgradeProperty('flippedValue');
-
-          // No value set but textContent is set.
-          if (this.value === '' && this.textContent !== '') {
-            this.value = this.textContent;
-            this.textContent = null;
-          } else {
-            this._setUpDimensions();
-          }
 
           // Set this element's role, tab index and aria attributes if they are not already set.
           if (!this.hasAttribute('role')) {
@@ -93,6 +95,9 @@
           if (!this.hasAttribute('aria-disabled')) {
             this.setAttribute('aria-disabled', this.disabled);
           }
+
+          // Set the size of the element.
+          this._setUpDimensions();
 
           // Add the element's event listeners.
           this.addEventListener('keydown', this._onKeyDown);
@@ -132,23 +137,16 @@
           let adjustHeight = height === 0;
 
           if (adjustWidth || adjustHeight) {
-            let card = this.shadowRoot.querySelector('#card');
-            let frontFace = card.querySelector('.front');
-            let backFace  = card.querySelector('.back');
 
-            card.style.position = 'relative';
+            this._frontFaceElement.style.position = 'relative';
+            let w1 = adjustWidth  ? this._frontFaceElement.offsetWidth  : 0;
+            let h1 = adjustHeight ? this._frontFaceElement.offsetHeight : 0;
+            this._frontFaceElement.style.position = '';
 
-            frontFace.style.position = 'relative';
-            let w1 = adjustWidth  ? frontFace.offsetWidth  : 0;
-            let h1 = adjustHeight ? frontFace.offsetHeight : 0;
-            frontFace.style.position = '';
-
-            backFace.style.position = 'relative';
-            let w2 = adjustWidth  ? backFace.offsetWidth  : 0;
-            let h2 = adjustHeight ? backFace.offsetHeight : 0;
-            backFace.style.position = '';
-
-            card.style.position = '';
+            this._frontFaceElement.style.position = 'relative';
+            let w2 = adjustWidth  ? this._frontFaceElement.offsetWidth  : 0;
+            let h2 = adjustHeight ? this._frontFaceElement.offsetHeight : 0;
+            this._frontFaceElement.style.position = '';
 
             if (adjustWidth) {
               this.style.width = (Math.max(w1, w2) + 2) + 'px';
@@ -213,6 +211,89 @@
         }
 
         /**
+         * Setter for `defaultLabel`.
+         *
+         * @param {*} value
+         *   The value to set.
+         */
+        set defaultLabel(value) {
+          this.setAttribute('default-label', new String(value));
+        }
+
+        /**
+         * Getter for `defaultLabel`.
+         */
+        get defaultLabel() {
+          if (this.hasAttribute('default-label')) {
+            return this.getAttribute('default-label');
+          } else {
+            return '';
+          }
+        }
+
+        /**
+         * Setter for `flippedLabel`.
+         *
+         * @param {*} value
+         *   The value to set.
+         */
+        set flippedLabel(value) {
+          this.setAttribute('flipped-label', new String(value));
+        }
+
+        /**
+         * Getter for `flippedLabel`.
+         */
+        get flippedLabel() {
+          if (this.hasAttribute('flipped-label')) {
+            return this.getAttribute('flipped-label');
+          } else {
+            return '';
+          }
+        }
+
+        /**
+         * Setter for `name`.
+         *
+         * @param {*} value
+         *   The value to set.
+         */
+        set name(value) {
+          this.setAttribute('name', new String(value));
+        }
+
+        /**
+         * Getter for `name`.
+         */
+        get name() {
+          if (this.hasAttribute('name')) {
+            return this.getAttribute('name');
+          } else {
+            return '';
+          }
+        }
+
+        /**
+         * Setter for `form`.
+         *
+         * @param {*} value
+         *   The value to set.
+         */
+        set form(value) {
+          this._inputElement.form = value
+          if (this._inputElement.hasAttribute('form')) {
+            this.setAttribute('form', this._inputElement.getAttribute('form'));
+          }
+        }
+
+        /**
+         * Getter for `form`.
+         */
+        get form() {
+          return this._inputElement.form;
+        }
+
+        /**
          * Setter for `value`.
          *
          * @param {*} value
@@ -226,32 +307,38 @@
          * Getter for `value`.
          */
         get value() {
-          if (!this.hasAttribute('value')) {
-            return '';
+          if (this.hasAttribute('value')) {
+            return this.getAttribute('value');
+          } else {
+            return 'on';
           }
-
-          return this.getAttribute('value');
         }
 
         /**
-         * Setter for `flippedValue`.
+         * Setter for `textContent`.
          *
          * @param {*} value
          *   The value to set.
          */
-        set flippedValue(value) {
-          this.setAttribute('flipped-value', new String(value));
+        set textContent(value) {
+          if (this.flipped) {
+            this._backFaceElement.textContent = value;
+          }
+          else {
+            this._frontFaceElement.textContent = value;
+          }
         }
 
         /**
-         * Getter for `flippedValue`.
+         * Getter for `textContent`.
          */
-        get flippedValue() {
-          if (!this.hasAttribute('flipped-value')) {
-            return '';
+        get textContent() {
+          if (this.flipped) {
+            return this._backFaceElement.textContent;
           }
-
-          return this.getAttribute('flipped-value');
+          else {
+            return this._frontFaceElement.textContent;
+          }
         }
 
         /**
@@ -268,8 +355,15 @@
           const hasValue = newValue !== null;
           switch (name) {
             case 'flipped':
-              // Set the aria value.
+              // Set the aria values.
               this.setAttribute('aria-pressed', hasValue);
+              if (hasValue) {
+                this.setAttribute('aria-label', this.flippedLabel);
+                this._inputElement.checked = true;
+              } else {
+                this.setAttribute('aria-label', this.defaultLabel);
+                this._inputElement.checked = false;
+              }
               break;
 
             case 'disabled':
@@ -292,16 +386,32 @@
               }
               break;
 
-            case 'value':
-              let frontFace = this.shadowRoot.querySelector('.front');
-              frontFace.textContent = this.value;
+            case 'default-label':
+              this._frontFaceElement.textContent = newValue;
+              if (!this.flipped) {
+                this.setAttribute('aria-label', newValue);
+              }
               this._setUpDimensions();
               break;
 
-            case 'flipped-value':
-              let backFace = this.shadowRoot.querySelector('.back');
-              backFace.textContent = this.flippedValue;
+            case 'flipped-label':
+              this._backFaceElement.textContent = newValue;
+              if (this.flipped) {
+                this.setAttribute('aria-label', newValue);
+              }
               this._setUpDimensions();
+              break;
+
+            case 'name':
+              this._inputElement.name = newValue;
+              break;
+
+            case 'value':
+              this._inputElement.value = newValue;
+              break;
+
+            case 'form':
+              this._inputElement.for = newValue;
               break;
           }
         }
@@ -333,11 +443,10 @@
 
         /**
          * Called when this element is clicked.
-         *
-         * @param {MouseEvent} event
          */
-        _onClick(event) {
+        _onClick() {
           this._togglePressed();
+          this.blur();
         }
 
         /**
