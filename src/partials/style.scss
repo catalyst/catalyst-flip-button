@@ -53,13 +53,17 @@
        -moz-appearance: var(--catalyst-flip-button-appearance, button);
             appearance: var(--catalyst-flip-button-appearance, button);
 
+    @apply --catalyst-flip-button;
+
     &#front {
       background: var(--catalyst-flip-button-front-background, #dddddd);
+      @apply --catalyst-flip-button-default;
     }
 
     &#back {
       background: var(--catalyst-flip-button-back-background, #dddddd);
       transform: rotateY(180deg);
+      @apply --catalyst-flip-button-flipped;
     }
   }
 }

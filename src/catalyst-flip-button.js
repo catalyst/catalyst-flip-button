@@ -1,5 +1,5 @@
 /**
- * A toggle button web component.
+ * A toggle button web component with a flip animation.
  */
 (function() {
 
@@ -9,12 +9,16 @@
     function createElement() {
 
       /**
-       * The name of the element tag.
+       * @constant {string}
+       *   The name of the element tag.
        */
       const elementTagName = 'catalyst-flip-button';
 
       /**
        * Key codes.
+       *
+       * @readonly
+       * @enum {number}
        */
       const KEYCODE = {
         SPACE: 32,
@@ -22,7 +26,8 @@
       };
 
       /**
-       * The template of the component.
+       * @constant {string}
+       *   The template of the component.
        */
       const template = document.createElement('template');
       template.innerHTML = `<style>[[inject:style]][[endinject]]</style>[[inject:template]][[endinject]]`;
@@ -34,12 +39,65 @@
       }
 
       /**
-       * Class for the <catalyst-flip-button> element.
+       * `<catalyst-flip-button>` is a toggle button with a flip animation.
+       *
+       *     <catalyst-flip-button default-label="Default Label" flipped-label="Flipped Label"></catalyst-flip-button>
+       *
+       * It may include optional form control setting.
+       *
+       *     <catalyst-flip-button name="form-element-name" value="value" default-label="Default Label" flipped-label="Flipped Label"></catalyst-flip-button>
+       *
+       * ### Events
+       *
+       * Name     | Cause
+       * -------- |-------------
+       * `change` | Fired when the component's `flipped` value changes due to user interaction.
+       *
+       * ### Focus
+       * To focus a catalyst-flip-button, you can call the native `focus()` method as long as the
+       * element has a tab index. Similarly, `blur()` will blur the element.
+       *
+       * ### Styling
+       *
+       * The following custom properties and mixins are available for styling:
+       *
+       * _Note: Mixins currently do not work with the ES5 version of this component and should probably be avoided.
+       * They can be used for testing out styling changes without needing to make any changes to this component's code._
+       *
+       * Custom property | Description | Default
+       * ----------------|-------------|----------
+       * `--catalyst-flip-button-appearance` | Custom Property applied to both the front and back faces' appearance | button
+       * `--catalyst-flip-button-border-radius` | Custom Property applied to both the front and back faces' border-radius | unset
+       * `--catalyst-flip-button-front-background` | Custom Property applied to the front face's background | #dddddd
+       * `--catalyst-flip-button-back-background` | Custom Property applied to the back face's background | #dddddd
+       * `--catalyst-flip-button` | Mixin applied to both the front and back face of the element | {}
+       * `--catalyst-flip-button-default` | Mixin applied to the front face of the element | {}
+       * `--catalyst-flip-button-flipped` | Mixin applied to the back face of the element | {}
+       *
+       * @class
+       * @extends HTMLElement
+       *
+       * @property {HTMLElement} _frontFaceElement
+       *   The element that represents the front face of this component.
+       * @property {HTMLElement} _backFaceElement
+       *   The element that represents the back face of this component.
+       * @property {HTMLElement} _formElement
+       *   The element that will be submitting as part of a form to represent this component.
+       *
+       * @group Catalyst Elements
+       * @element catalyst-flip-button
+       * @demo ../demo/demo.es5.html
+       *   ES5 Component Demo
+       * @demo ../demo/demo.es6.html
+       *   ES6 Component Demo
        */
       class CatalystFlipButton extends HTMLElement {
 
         /**
          * The attributes on this element to observe.
+         *
+         * @returns {Array.<string>}
+         *   The attributes this element is observing for changes.
          */
         static get observedAttributes() {
           return ['flipped', 'disabled', 'default-label', 'flipped-label', 'name', 'value', 'form'];
@@ -60,9 +118,9 @@
           this._backFaceElement  = this.shadowRoot.querySelector('#back');
 
           // Input element needs to be in the lightDom to work with form elements.
-          this._inputElement     = document.createElement('input');
-          this._inputElement.type =  'checkbox';
-          this.appendChild(this._inputElement);
+          this._formElement = document.createElement('input');
+          this._formElement.type =  'checkbox';
+          this.appendChild(this._formElement);
         }
 
         /**
@@ -125,34 +183,50 @@
           }
         }
 
+        /**
+         * Set the dimensions of this element.
+         *
+         * This element cannot obtain it's dimensions automatically from it's children
+         * as they are positioned absolutely. This method will manually calculate the
+         * minimum size this component should be to contain its children.
+         */
         _setUpDimensions() {
-          this.style.width = '';
-          this.style.height = '';
+          // Remove any previous settings.
+          this.style.minWidth = '';
+          this.style.minHeight = '';
 
+          // Get the size of this element as is.
           let style = getComputedStyle(this);
           let width = Number.parseInt(style.width, 10);
           let height = Number.parseInt(style.height, 10);
 
+          // If the element now has no size (i.e. a user has not manually set a size),
+          // mark it as needing to be sized.
           let adjustWidth = width === 0;
           let adjustHeight = height === 0;
 
+          // If the element needs to be sized.
           if (adjustWidth || adjustHeight) {
 
+            // Get the size of the front face when position relatively.
             this._frontFaceElement.style.position = 'relative';
-            let w1 = adjustWidth  ? this._frontFaceElement.offsetWidth  : 0;
-            let h1 = adjustHeight ? this._frontFaceElement.offsetHeight : 0;
+            let w1 = this._frontFaceElement.offsetWidth;
+            let h1 = this._frontFaceElement.offsetHeight;
             this._frontFaceElement.style.position = '';
 
+            // Get the size of the back face when position relatively.
             this._frontFaceElement.style.position = 'relative';
-            let w2 = adjustWidth  ? this._frontFaceElement.offsetWidth  : 0;
-            let h2 = adjustHeight ? this._frontFaceElement.offsetHeight : 0;
+            let w2 = this._frontFaceElement.offsetWidth;
+            let h2 = this._frontFaceElement.offsetHeight;
             this._frontFaceElement.style.position = '';
 
+            // For each dimension that needs to be adjusted, set it to the largest
+            // of the two faces' dimensions, with a little extra room for safety.
             if (adjustWidth) {
-              this.style.width = (Math.max(w1, w2) + 2) + 'px';
+              this.style.minWidth = (Math.max(w1, w2) + 2) + 'px';
             }
             if (adjustHeight) {
-              this.style.height = (Math.max(h1, h2) + 2) + 'px';
+              this.style.minHeight = (Math.max(h1, h2) + 2) + 'px';
             }
           }
         }
@@ -182,6 +256,8 @@
 
         /**
          * Getter for `flipped`.
+         *
+         * @returns {boolean}
          */
         get flipped() {
           return this.hasAttribute('flipped');
@@ -205,6 +281,8 @@
 
         /**
          * Getter for `disabled`.
+         *
+         * @returns {boolean}
          */
         get disabled() {
           return this.hasAttribute('disabled');
@@ -222,6 +300,8 @@
 
         /**
          * Getter for `defaultLabel`.
+         *
+         * @returns {string}
          */
         get defaultLabel() {
           if (this.hasAttribute('default-label')) {
@@ -243,6 +323,8 @@
 
         /**
          * Getter for `flippedLabel`.
+         *
+         * @returns {string}
          */
         get flippedLabel() {
           if (this.hasAttribute('flipped-label')) {
@@ -264,6 +346,8 @@
 
         /**
          * Getter for `name`.
+         *
+         * @returns {string}
          */
         get name() {
           if (this.hasAttribute('name')) {
@@ -280,17 +364,19 @@
          *   The value to set.
          */
         set form(value) {
-          this._inputElement.form = value
-          if (this._inputElement.hasAttribute('form')) {
-            this.setAttribute('form', this._inputElement.getAttribute('form'));
+          this._formElement.form = value
+          if (this._formElement.hasAttribute('form')) {
+            this.setAttribute('form', this._formElement.getAttribute('form'));
           }
         }
 
         /**
          * Getter for `form`.
+         *
+         * @returns {HTMLFormElement}
          */
         get form() {
-          return this._inputElement.form;
+          return this._formElement.form;
         }
 
         /**
@@ -305,6 +391,8 @@
 
         /**
          * Getter for `value`.
+         *
+         * @returns {string}
          */
         get value() {
           if (this.hasAttribute('value')) {
@@ -331,6 +419,8 @@
 
         /**
          * Getter for `textContent`.
+         *
+         * @returns {string}
          */
         get textContent() {
           if (this.flipped) {
@@ -359,10 +449,10 @@
               this.setAttribute('aria-pressed', hasValue);
               if (hasValue) {
                 this.setAttribute('aria-label', this.flippedLabel);
-                this._inputElement.checked = true;
+                this._formElement.checked = true;
               } else {
                 this.setAttribute('aria-label', this.defaultLabel);
-                this._inputElement.checked = false;
+                this._formElement.checked = false;
               }
               break;
 
@@ -387,7 +477,9 @@
               break;
 
             case 'default-label':
+              // Update the front face's text.
               this._frontFaceElement.textContent = newValue;
+              // If the front face is currently displayed, update the aria label.
               if (!this.flipped) {
                 this.setAttribute('aria-label', newValue);
               }
@@ -395,7 +487,9 @@
               break;
 
             case 'flipped-label':
+              // Update the back face's text.
               this._backFaceElement.textContent = newValue;
+              // If the back face is currently displayed, update the aria label.
               if (this.flipped) {
                 this.setAttribute('aria-label', newValue);
               }
@@ -403,15 +497,18 @@
               break;
 
             case 'name':
-              this._inputElement.name = newValue;
+              // Update the form element's name.
+              this._formElement.name = newValue;
               break;
 
             case 'value':
-              this._inputElement.value = newValue;
+              // Update the form element's value.
+              this._formElement.value = newValue;
               break;
 
             case 'form':
-              this._inputElement.for = newValue;
+              // Update the form element's form.
+              this._formElement.for = newValue;
               break;
           }
         }
@@ -450,9 +547,11 @@
         }
 
         /**
-         * `_togglePressed()` calls the `pressed` setter and flips its state.
+         * `_togglePressed()` calls the `flipped` setter and flips its state.
          * Because `_togglePressed()` is only caused by a user action, it will
          * also dispatch a change event.
+         *
+         * @fires change
          */
         _togglePressed() {
           // Don't do anything if disabled.
@@ -463,7 +562,11 @@
           // Change the value of flipped.
           this.flipped = !this.flipped;
 
-          // This method is only caused by user action so dispatch a change event.
+          /**
+           * This method is only caused by user action so dispatch a change event.
+           *
+           * @event change
+           */
           this.dispatchEvent(new CustomEvent('change', {
             detail: {
               flipped: this.flipped,

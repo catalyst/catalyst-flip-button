@@ -7,10 +7,10 @@
   "main": "src/catalyst-flip-button.js",
   "scripts": {
     "build": "node ./node_modules/gulp/bin/gulp.js",
-    "analyze": "node ./node_modules/polymer-cli/bin/polymer.js analyze > analysis.json",
+    "analyze": "node ./node_modules/polymer-cli/bin/polymer.js analyze --input dist/catalyst-flip-button.js > analysis.json && node ./node_modules/gulp/bin/gulp.js analysis-fixer",
     "build-docs": "node ./node_modules/polymer-cli/bin/polymer.js build",
     "tests": "node ./node_modules/web-component-tester/bin/wct",
-    "postinstall": "[ \"${PWD##*/}\" != node_modules ] && node ./node_modules/gulp/bin/gulp.js fix-dependency-tree && node ./node_modules/bower/bin/bower install || :"
+    "postinstall": "[ \"${PWD##*/}\" != node_modules ] && node ./node_modules/gulp/bin/gulp.js fix-dependency-tree || :"
   },
   "devDependencies": {
     "@bower_components/accessibility-developer-tools": "GoogleChrome/accessibility-developer-tools#^2.10.0",
@@ -29,7 +29,6 @@
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-minify": "^0.2.0",
-    "bower": "^1.8.2",
     "eslint": "^4.13.1",
     "eslint-plugin-html": "^4.0.1",
     "font-roboto": "https://github.com/PolymerElements/font-roboto#^1.0.1",
@@ -38,6 +37,7 @@
     "gulp-clean": "^0.3.2",
     "gulp-htmlmin": "^3.0.0",
     "gulp-inject": "^4.3.0",
+    "gulp-json-editor": "^2.2.1",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
     "iron-a11y-announcer": "https://github.com/PolymerElements/iron-a11y-announcer#1 - 2",
