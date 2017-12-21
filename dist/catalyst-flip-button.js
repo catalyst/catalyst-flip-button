@@ -26,12 +26,12 @@
       };
 
       /**
-       * @constant {string}
+       * @constant {HTMLTemplateElement}
        *   The template of the component.
        */
       const template = document.createElement('template');
-      template.innerHTML = `<style>:host{display:inline-block;align-items:flex-start;cursor:default;margin:0;padding:2px 7px;font:400 13.3333px Arial;text-rendering:auto;text-transform:none;text-indent:0;text-shadow:none;text-align:center;letter-spacing:normal;word-spacing:normal;vertical-align:bottom;-webkit-user-select:none;-moz-user-select:none;user-select:none;position:relative;width:auto;height:auto;color:#000000;transform-style:preserve-3d;transition:transform .2s ease;perspective:800px}:host figure{display:flex;align-items:center;justify-content:center;margin:0;position:absolute;top:0;right:0;bottom:0;left:0;backface-visibility:hidden;border-radius:var(--catalyst-flip-button-border-radius);-webkit-appearance:var(--catalyst-flip-button-appearance, button);-moz-appearance:var(--catalyst-flip-button-appearance, button);appearance:var(--catalyst-flip-button-appearance, button);@apply --catalyst-flip-button}:host figure#front{background:var(--catalyst-flip-button-front-background, #ddd);@apply --catalyst-flip-button-default}:host figure#back{background:var(--catalyst-flip-button-back-background, #ddd);transform:rotateY(180deg);@apply --catalyst-flip-button-flipped}:host([flipped]){transform:rotateY(180deg)}:host(:focus){outline:none}:host(:focus) #front{outline:#000000 dotted 1px;outline:-webkit-focus-ring-color auto 5px}:host(:focus) #back{outline:none}:host([flipped]:focus) #front{outline:none}:host([flipped]:focus) #back{outline:#000000 dotted 1px;outline:-webkit-focus-ring-color auto 5px}:host([hidden]){display:none}
-</style><figure id="front">1</figure><figure id="back">2</figure>`;
+      template.innerHTML = `<style>:host{display:inline-block;align-items:flex-start;cursor:default;margin:0;padding:2px 7px;font:400 13.3333px Arial;text-rendering:auto;text-transform:none;text-indent:0;text-shadow:none;text-align:center;letter-spacing:normal;word-spacing:normal;vertical-align:bottom;-webkit-user-select:none;-moz-user-select:none;user-select:none;position:relative;width:auto;height:auto;color:#000000;perspective:100px}:host #card{position:absolute;top:0;right:0;bottom:0;left:0;transform-style:preserve-3d;transition:transform .4s ease}:host #card figure{display:flex;align-items:center;justify-content:center;margin:0;position:absolute;top:0;right:0;bottom:0;left:0;backface-visibility:hidden;z-index:2;border-radius:var(--catalyst-flip-button-border-radius);-webkit-appearance:var(--catalyst-flip-button-appearance, button);-moz-appearance:var(--catalyst-flip-button-appearance, button);appearance:var(--catalyst-flip-button-appearance, button);@apply --catalyst-flip-button}:host #card figure#front{z-index:1;background:var(--catalyst-flip-button-front-background, #ddd);@apply --catalyst-flip-button-default}:host #card figure#back{background:var(--catalyst-flip-button-back-background, #ddd);transform:rotateY(180deg);@apply --catalyst-flip-button-flipped}:host([flipped]) #card{transform:rotateY(180deg)}:host(:focus){outline:none}:host(:focus) #front{outline:#000000 dotted 1px;outline:-webkit-focus-ring-color auto 5px}:host(:focus) #back{outline:none}:host([flipped]:focus) #front{outline:none}:host([flipped]:focus) #back{outline:#000000 dotted 1px;outline:-webkit-focus-ring-color auto 5px}:host([hidden]){display:none}
+</style><div id="card"><figure id="front">1</figure><figure id="back">2</figure></div>`;
 
       // If using ShadyCSS.
       if (window.ShadyCSS !== undefined) {
@@ -44,7 +44,7 @@
        *
        *     <catalyst-flip-button default-label="Default Label" flipped-label="Flipped Label"></catalyst-flip-button>
        *
-       * It may include optional form control setting.
+       * It may include optional form control setting for use in a form.
        *
        *     <catalyst-flip-button name="form-element-name" value="value" default-label="Default Label" flipped-label="Flipped Label"></catalyst-flip-button>
        *
@@ -106,14 +106,20 @@
           this.shadowRoot.appendChild(template.content.cloneNode(true));
 
           /**
+           * @property {HTMLElement} _cardElement
+           *   The element that represents the card that is flipped.
+           */
+          this._cardElement = this.shadowRoot.querySelector('#card');
+
+          /**
            * @property {HTMLElement} _frontFaceElement
-           *   The element that represents the front face of this component.
+           *   The element that represents the front face of the card.
            */
           this._frontFaceElement = this.shadowRoot.querySelector('#front');
 
           /**
            * @property {HTMLElement} _backFaceElement
-           *   The element that represents the back face of this component.
+           *   The element that represents the back face of the card.
            */
           this._backFaceElement  = this.shadowRoot.querySelector('#back');
 
@@ -124,7 +130,8 @@
            *   The element that will be submitting as part of a form to represent this component.
            */
           this._formElement = document.createElement('input');
-          this._formElement.type =  'checkbox';
+          this._formElement.type = 'checkbox';
+          this._formElement.style.display = 'none';
           this.appendChild(this._formElement);
         }
 
@@ -213,6 +220,9 @@
           // If the element needs to be sized.
           if (adjustWidth || adjustHeight) {
 
+            // Position the card relatively so sizes can be calculated.
+            this._cardElement.style.position = 'relative';
+
             // Get the size of the front face when position relatively.
             this._frontFaceElement.style.position = 'relative';
             let w1 = this._frontFaceElement.offsetWidth;
@@ -225,10 +235,15 @@
             let h2 = this._frontFaceElement.offsetHeight;
             this._frontFaceElement.style.position = '';
 
+            // Restore the card styles.
+            this._cardElement.style.position = '';
+
             // For each dimension that needs to be adjusted, set it to the largest
             // of the two faces' dimensions, with a little extra room for safety.
             if (adjustWidth) {
-              this.style.minWidth = (Math.max(w1, w2) + 2) + 'px';
+              let newWidth = (Math.max(w1, w2) + 2);
+              this.style.minWidth = newWidth + 'px';
+              this.style.perspective = (5 * newWidth) + 'px';
             }
             if (adjustHeight) {
               this.style.minHeight = (Math.max(h1, h2) + 2) + 'px';

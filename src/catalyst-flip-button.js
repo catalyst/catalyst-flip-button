@@ -105,14 +105,20 @@
           this.shadowRoot.appendChild(template.content.cloneNode(true));
 
           /**
+           * @property {HTMLElement} _cardElement
+           *   The element that represents the card that is flipped.
+           */
+          this._cardElement = this.shadowRoot.querySelector('#card');
+
+          /**
            * @property {HTMLElement} _frontFaceElement
-           *   The element that represents the front face of this component.
+           *   The element that represents the front face of the card.
            */
           this._frontFaceElement = this.shadowRoot.querySelector('#front');
 
           /**
            * @property {HTMLElement} _backFaceElement
-           *   The element that represents the back face of this component.
+           *   The element that represents the back face of the card.
            */
           this._backFaceElement  = this.shadowRoot.querySelector('#back');
 
@@ -213,6 +219,9 @@
           // If the element needs to be sized.
           if (adjustWidth || adjustHeight) {
 
+            // Position the card relatively so sizes can be calculated.
+            this._cardElement.style.position = 'relative';
+
             // Get the size of the front face when position relatively.
             this._frontFaceElement.style.position = 'relative';
             let w1 = this._frontFaceElement.offsetWidth;
@@ -225,10 +234,15 @@
             let h2 = this._frontFaceElement.offsetHeight;
             this._frontFaceElement.style.position = '';
 
+            // Restore the card styles.
+            this._cardElement.style.position = '';
+
             // For each dimension that needs to be adjusted, set it to the largest
             // of the two faces' dimensions, with a little extra room for safety.
             if (adjustWidth) {
-              this.style.minWidth = (Math.max(w1, w2) + 2) + 'px';
+              let newWidth = (Math.max(w1, w2) + 2);
+              this.style.minWidth = newWidth + 'px';
+              this.style.perspective = (5 * newWidth) + 'px';
             }
             if (adjustHeight) {
               this.style.minHeight = (Math.max(h1, h2) + 2) + 'px';

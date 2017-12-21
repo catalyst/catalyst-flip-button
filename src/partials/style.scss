@@ -31,44 +31,56 @@
 
   color: #000000;
 
-  transform-style: preserve-3d;
-  transition: transform .2s ease;
-  perspective: 800px;
+  perspective: 100px;
 
-  figure {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
+  #card {
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    transition: transform .4s ease;
 
-    border-radius: var(--catalyst-flip-button-border-radius);
+    figure {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      backface-visibility: hidden;
+      z-index: 2;
 
-    -webkit-appearance: var(--catalyst-flip-button-appearance, button);
-       -moz-appearance: var(--catalyst-flip-button-appearance, button);
-            appearance: var(--catalyst-flip-button-appearance, button);
+      border-radius: var(--catalyst-flip-button-border-radius);
 
-    @apply --catalyst-flip-button;
+      -webkit-appearance: var(--catalyst-flip-button-appearance, button);
+        -moz-appearance: var(--catalyst-flip-button-appearance, button);
+              appearance: var(--catalyst-flip-button-appearance, button);
 
-    &#front {
-      background: var(--catalyst-flip-button-front-background, #dddddd);
-      @apply --catalyst-flip-button-default;
-    }
+      @apply --catalyst-flip-button;
 
-    &#back {
-      background: var(--catalyst-flip-button-back-background, #dddddd);
-      transform: rotateY(180deg);
-      @apply --catalyst-flip-button-flipped;
+      &#front {
+        z-index: 1;
+        background: var(--catalyst-flip-button-front-background, #dddddd);
+        @apply --catalyst-flip-button-default;
+      }
+
+      &#back {
+        background: var(--catalyst-flip-button-back-background, #dddddd);
+        transform: rotateY(180deg);
+        @apply --catalyst-flip-button-flipped;
+      }
     }
   }
 }
 :host([flipped]) {
-  transform: rotateY(180deg);
+  #card {
+    transform: rotateY(180deg);
+  }
 }
 :host(:focus) {
   outline: none;
