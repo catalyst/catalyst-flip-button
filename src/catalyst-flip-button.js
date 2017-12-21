@@ -66,30 +66,21 @@
        *
        * Custom property | Description | Default
        * ----------------|-------------|----------
-       * `--catalyst-flip-button-appearance` | Custom Property applied to both the front and back faces' appearance | button
-       * `--catalyst-flip-button-border-radius` | Custom Property applied to both the front and back faces' border-radius | unset
-       * `--catalyst-flip-button-front-background` | Custom Property applied to the front face's background | #dddddd
-       * `--catalyst-flip-button-back-background` | Custom Property applied to the back face's background | #dddddd
-       * `--catalyst-flip-button` | Mixin applied to both the front and back face of the element | {}
-       * `--catalyst-flip-button-default` | Mixin applied to the front face of the element | {}
-       * `--catalyst-flip-button-flipped` | Mixin applied to the back face of the element | {}
+       * `--catalyst-flip-button-appearance` | The appearance of both the front and back faces | `button`
+       * `--catalyst-flip-button-border-radius` | The border-radius of both the front and back faces | `unset`
+       * `--catalyst-flip-button-front-background` | The background of the front face | `#dddddd`
+       * `--catalyst-flip-button-back-background` | The background of the back face | `#dddddd`
+       * `--catalyst-flip-button` | Mixin applied to both the front and back face of the element | `{}`
+       * `--catalyst-flip-button-default` | Mixin applied to the front face of the element | `{}`
+       * `--catalyst-flip-button-flipped` | Mixin applied to the back face of the element | `{}`
        *
        * @class
        * @extends HTMLElement
        *
-       * @property {HTMLElement} _frontFaceElement
-       *   The element that represents the front face of this component.
-       * @property {HTMLElement} _backFaceElement
-       *   The element that represents the back face of this component.
-       * @property {HTMLElement} _formElement
-       *   The element that will be submitting as part of a form to represent this component.
-       *
        * @group Catalyst Elements
        * @element catalyst-flip-button
-       * @demo demo/demo.es5.html
-       *   ES5 Component Demo
-       * @demo demo/demo.es6.html
-       *   ES6 Component Demo
+       * @demo demo/demo.es5.html ES5 Component Demo
+       * @demo demo/demo.es6.html ES6 Component Demo
        */
       class CatalystFlipButton extends HTMLElement {
 
@@ -113,11 +104,24 @@
           this.attachShadow({mode: 'open'});
           this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-          // Create shadowDom references to the elements.
+          /**
+           * @property {HTMLElement} _frontFaceElement
+           *   The element that represents the front face of this component.
+           */
           this._frontFaceElement = this.shadowRoot.querySelector('#front');
+
+          /**
+           * @property {HTMLElement} _backFaceElement
+           *   The element that represents the back face of this component.
+           */
           this._backFaceElement  = this.shadowRoot.querySelector('#back');
 
-          // Input element needs to be in the lightDom to work with form elements.
+          /**
+           * The form element needs to be in the lightDom to work with form elements.
+           *
+           * @property {HTMLElement} _formElement
+           *   The element that will be submitting as part of a form to represent this component.
+           */
           this._formElement = document.createElement('input');
           this._formElement.type =  'checkbox';
           this.appendChild(this._formElement);
