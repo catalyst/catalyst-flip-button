@@ -86,9 +86,9 @@
        *
        * @group Catalyst Elements
        * @element catalyst-flip-button
-       * @demo ../demo/demo.es5.html
+       * @demo demo/demo.es5.html
        *   ES5 Component Demo
-       * @demo ../demo/demo.es6.html
+       * @demo demo/demo.es6.html
        *   ES6 Component Demo
        */
       class CatalystFlipButton extends HTMLElement {
