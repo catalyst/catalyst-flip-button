@@ -115,7 +115,7 @@
            * Test aria-pressed.
            */
           test('aria-pressed', () => {
-            expect(element.hasAttribute('aria-pressed'), '"aria-label" pressed').to.be.true;
+            expect(element.hasAttribute('aria-pressed'), '"aria-pressed" missing').to.be.true;
             expect(element.getAttribute('aria-pressed')).to.equal('false');
           });
 
@@ -123,7 +123,7 @@
            * Test aria-disabled.
            */
           test('aria-disabled', () => {
-            expect(element.hasAttribute('aria-disabled'), '"aria-label" disabled').to.be.true;
+            expect(element.hasAttribute('aria-disabled'), '"aria-disabled" missing').to.be.true;
             expect(element.getAttribute('aria-disabled')).to.equal('false');
           });
         });

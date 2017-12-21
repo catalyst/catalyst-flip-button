@@ -118,7 +118,7 @@ gulp.task('fix-dependency-tree', () => {
 
 // Fix issues with analysis.json
 gulp.task('analysis-fixer', () => {
-  gulp.src("./analysis.json")
+  return gulp.src("./analysis.json")
     .pipe(jeditor(function(json) {
 
       // If `classes` is defined.

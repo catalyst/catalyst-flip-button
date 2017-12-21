@@ -1,9 +1,9 @@
 # &lt;catalyst-flip-button&gt;
 
-`catalyst-flip-button` is a toggle button similar to [catalyst-toggle-button](https://gitlab.wgtn.cat-it.co.nz/rebeccastevens/catalyst-toggle-button).
+`catalyst-flip-button` is a flip button web component. It has a flip animation that reveal the back face when clicked.
+The back face can be styled differently to the front face and contain different content.
 
-For compatibility reasons, this element extends HTMLElement instead of CatalystToggleButton.
-Because of this a lot of code in this repository is a duplicate of code from [catalyst-toggle-button](https://gitlab.wgtn.cat-it.co.nz/rebeccastevens/catalyst-toggle-button).
+Also see [catalyst-toggle-button](https://gitlab.wgtn.cat-it.co.nz/rebeccastevens/catalyst-toggle-button).
 
 ## Usage
 
@@ -16,7 +16,7 @@ Import the script for the web component on each page it is to be used on:
 Then simply use it like any other tag:
 
 ```html
-<catalyst-flip-button>My Button</catalyst-flip-button>
+<catalyst-flip-button default-label="Foo Button" flipped-label="Bar Button"></catalyst-flip-button>
 ```
 
 ## Docs ans Demos

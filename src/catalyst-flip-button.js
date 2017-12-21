@@ -26,7 +26,7 @@
       };
 
       /**
-       * @constant {string}
+       * @constant {HTMLTemplateElement}
        *   The template of the component.
        */
       const template = document.createElement('template');
@@ -43,7 +43,7 @@
        *
        *     <catalyst-flip-button default-label="Default Label" flipped-label="Flipped Label"></catalyst-flip-button>
        *
-       * It may include optional form control setting.
+       * It may include optional form control setting for use in a form.
        *
        *     <catalyst-flip-button name="form-element-name" value="value" default-label="Default Label" flipped-label="Flipped Label"></catalyst-flip-button>
        *
@@ -123,7 +123,8 @@
            *   The element that will be submitting as part of a form to represent this component.
            */
           this._formElement = document.createElement('input');
-          this._formElement.type =  'checkbox';
+          this._formElement.type = 'checkbox';
+          this._formElement.style.display = 'none';
           this.appendChild(this._formElement);
         }
 
