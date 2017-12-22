@@ -174,11 +174,17 @@
 
           // Add the element's event listeners.
           this.addEventListener('keydown', this._onKeyDown);
-          this.addEventListener('click', this._onClick);
+          this.addEventListener('click', this._onLeftClick);
+          this.addEventListener('contextmenu', this._onRightClick);
 
-          // Watch for changes in the lightDom.
-          let childObserver = new MutationObserver(this._onChildrenMutation.bind(this));
-          childObserver.observe(this, {
+          /**
+           * Watch for changes in the lightDom.
+           *
+           * @property {MutationObserver} _childObserver
+           *   Watch for mutations in the lightDom.
+           */
+          this._childObserver = new MutationObserver(this._onChildrenMutation.bind(this));
+          this._childObserver.observe(this, {
             childList: true
           });
 
@@ -300,7 +306,9 @@
          */
         disconnectedCallback() {
           this.removeEventListener('keydown', this._onKeyDown);
-          this.removeEventListener('click', this._onClick);
+          this.removeEventListener('click', this._onLeftClick);
+          this.removeEventListener('contextmenu', this._onRightClick);
+          this._childObserver.disconnect();
         }
 
         /**
@@ -411,21 +419,36 @@
          */
         set selectedIndex(value) {
           let number = Number(value);
-          if (number >= 0 && number < this.length) {
+          let length = this.length;
+
+          if (number >= 0 && number < length) {
+            // Save the current value before changing it.
+            let prevValue = this._selectedIndex;
+
             // Set the new value.
             this._selectedIndex = number;
 
             // Going back to first option?
-            if (this._selectedIndex === 0) {
+            if (this._selectedIndex === 0 && prevValue === length - 1) {
               // Set the rotation to one flip before 0 deg without animating.
               this._cardElement.style.transition = 'none';
               this._cardElement.style.transform = 'rotateY(180deg)';
 
               this._update(true);
-            } else {
+            }
+            // Going back to last option?
+            else if (this._selectedIndex === length - 1 && prevValue === 0) {
+              // Set the rotation to one flip before 0 deg without animating.
+              this._cardElement.style.transition = 'none';
+              this._cardElement.style.transform = 'rotateY(' + (length * -180) + 'deg)';
+
+              this._update(true);
+            }
+            else {
               this._update(false);
             }
-          } else {
+          }
+          else {
             this._selectedIndex = -1;
 
             // Set the rotation to one flip before 0 deg without animating.
@@ -599,11 +622,25 @@
         }
 
         /**
-         * Called when this element is clicked.
+         * Called when this element is left clicked.
+         *
+         * @param {MouseEvent} event
          */
-        _onClick() {
+        _onLeftClick(event) {
           this._flip();
           this.blur();
+          event.preventDefault();
+        }
+
+        /**
+         * Called when this element is right clicked.
+         *
+         * @param {MouseEvent} event
+         */
+        _onRightClick(event) {
+          this._flip(false);
+          this.blur();
+          event.preventDefault();
         }
 
         /**
@@ -649,15 +686,19 @@
          * This method is only caused by a user action, so it will dispatch a change event.
          *
          * @fires change
+         *
+         * @param {boolean} [forwards=true]
+         *   If true, flip forward. If false, flip back.
          */
-        _flip() {
+        _flip(forwards = true) {
           // Don't do anything if disabled.
           if (this.disabled) {
             return;
           }
 
           // Update the selected index.
-          this.selectedIndex = (((this.selectedIndex + 1) % this.length) + this.length) % this.length;
+          let newIndex = forwards ? (this.selectedIndex + 1) : (this.selectedIndex - 1);
+          this.selectedIndex = (((newIndex) % this.length) + this.length) % this.length;
 
           /**
            * Fire a change event.

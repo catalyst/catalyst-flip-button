@@ -145,86 +145,100 @@
         suite('Mouse Interaction', () => {
 
           /**
-           * Test clicking the element.
+           * Left Click.
            */
-          test('Click Once', (done) => {
-            let testRunning = true;
+          suite('Left Click', () => {
 
-            // Change event needs to be fired.
-            element.addEventListener('change', () => {
-              if (testRunning) {
-                testRunning = false;
-                done();
-              }
+            /**
+             * Test clicking the element.
+             */
+            test('Click Once', (done) => {
+              let testRunning = true;
+
+              // Change event needs to be fired.
+              element.addEventListener('change', () => {
+                if (testRunning) {
+                  testRunning = false;
+                  done();
+                }
+              });
+
+              element.click();
+
+              expect(element).to.have.property('selectedIndex', 1);
+              expect(element.getAttribute('aria-activedescendant')).to.equal('id2');
+
+              // Timeout test.
+              setTimeout(function () {
+                if (testRunning) {
+                  assert(false, 'Change event was not fired within 10 ms.');
+                  testRunning = false;
+                  done();
+                }
+              }, 10);
             });
 
-            element.click();
+            /**
+             * Test clicking the element twice.
+             */
+            test('Click Twice', () => {
+              element.click();
+              element.click();
 
-            expect(element).to.have.property('selectedIndex', 1);
-            expect(element.getAttribute('aria-activedescendant')).to.equal('id2');
-
-            // Timeout test.
-            setTimeout(function () {
-              if (testRunning) {
-                assert(false, 'Change event was not fired within 10 ms.');
-                testRunning = false;
-                done();
-              }
-            }, 10);
-          });
-
-          /**
-           * Test clicking the element twice.
-           */
-          test('Click Twice', () => {
-            element.click();
-            element.click();
-
-            expect(element).to.have.property('selectedIndex', 2);
-            expect(element.getAttribute('aria-activedescendant')).to.equal('id3');
-          });
-
-          /**
-           * Test clicking through all the elements.
-           */
-          test('Click Through', () => {
-            element.click();
-            element.click();
-            element.click();
-            element.click();
-
-            expect(element).to.have.property('selectedIndex', 0);
-            expect(element.getAttribute('aria-activedescendant')).to.equal('id1');
-          });
-
-          /**
-           * Test clicking the element when disabled.
-           */
-          test('Click When Disabled', (done) => {
-            let testRunning = true;
-            element.disabled = true;
-
-            // Change event should not be fired.
-            element.addEventListener('change', () => {
-              if (testRunning) {
-                testRunning = false;
-                assert(false, 'Change event should not be fired.');
-                done();
-              }
+              expect(element).to.have.property('selectedIndex', 2);
+              expect(element.getAttribute('aria-activedescendant')).to.equal('id3');
             });
 
-            element.click();
+            /**
+             * Test clicking through all the elements.
+             */
+            test('Click Through', () => {
+              element.click();
+              element.click();
+              element.click();
+              element.click();
 
-            expect(element).to.have.property('selectedIndex', 0);
-            expect(element.getAttribute('aria-activedescendant')).to.equal('id1');
+              expect(element).to.have.property('selectedIndex', 0);
+              expect(element.getAttribute('aria-activedescendant')).to.equal('id1');
+            });
 
-            // Timeout test.
-            setTimeout(function () {
-              if (testRunning) {
-                testRunning = false;
-                done();
-              }
-            }, 10);
+            /**
+             * Test clicking the element when disabled.
+             */
+            test('Click When Disabled', (done) => {
+              let testRunning = true;
+              element.disabled = true;
+
+              // Change event should not be fired.
+              element.addEventListener('change', () => {
+                if (testRunning) {
+                  testRunning = false;
+                  assert(false, 'Change event should not be fired.');
+                  done();
+                }
+              });
+
+              element.click();
+
+              expect(element).to.have.property('selectedIndex', 0);
+              expect(element.getAttribute('aria-activedescendant')).to.equal('id1');
+
+              // Timeout test.
+              setTimeout(function () {
+                if (testRunning) {
+                  testRunning = false;
+                  done();
+                }
+              }, 10);
+            });
+          });
+
+          /**
+           * Right Click.
+           * TODO: write tests.
+           */
+           suite('Right Click', () => {
+
           });
         });
 
