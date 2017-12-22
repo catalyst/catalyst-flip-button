@@ -14,13 +14,16 @@
   version "1.5.2"
   resolved "https://codeload.github.com/caolan/async/tar.gz/9ab5c67b7cb3a4c3dad4a2d4552a2f6775545d6c"
 
-"@bower_components/chai@chaijs/chai#^3.2.0":
-  version "3.5.0"
-  resolved "https://codeload.github.com/chaijs/chai/tar.gz/57c85f624a7e19ffaf1a2c7d07d81180db17bec7"
+"@bower_components/chai@chaijs/chai#^4.1.2":
+  version "4.1.2"
+  resolved "https://codeload.github.com/chaijs/chai/tar.gz/529d395fa08091af2a02a8398b1144c51ed62178"
   dependencies:
     assertion-error "^1.0.1"
-    deep-eql "^0.1.3"
-    type-detect "^1.0.0"
+    check-error "^1.0.1"
+    deep-eql "^3.0.0"
+    get-func-name "^2.0.0"
+    pathval "^1.0.0"
+    type-detect "^4.0.0"
 
 "@bower_components/font-roboto@PolymerElements/font-roboto#^1.0.1":
   version "1.0.1"
@@ -110,19 +113,19 @@
   version "0.0.0"
   resolved "https://codeload.github.com/PolymerElements/iron-validatable-behavior/tar.gz/1e3dcc441a4f72b97248e64e59b6b6d309009992"
 
-"@bower_components/lodash@lodash/lodash#^3.7.0":
-  version "3.10.1"
-  resolved "https://codeload.github.com/lodash/lodash/tar.gz/dfbd78f71de0550068fc82ce6e013d443e5037d7"
+"@bower_components/lodash@lodash/lodash#^4.17.4":
+  version "4.17.4"
+  resolved "https://codeload.github.com/lodash/lodash/tar.gz/912d6b04a1f6b732508a6da72a95ec4f96bda154"
 
 "@bower_components/marked-element@PolymerElements/marked-element#1 - 2":
   version "0.0.0"
   resolved "https://codeload.github.com/PolymerElements/marked-element/tar.gz/cfc3a0c48502ee98bd7d6951dfecaf68b7be1c75"
 
-"@bower_components/marked@chjj/marked#~0.3.6":
+"@bower_components/marked@chjj/marked#^0.3.7":
   version "0.3.7"
   resolved "https://codeload.github.com/chjj/marked/tar.gz/39fbc8aedb3e17e0b098cf753492402614bd6b3e"
 
-"@bower_components/mocha@mochajs/mocha#^3.1.2":
+"@bower_components/mocha@mochajs/mocha#^3.5.3":
   version "3.5.3"
   resolved "https://codeload.github.com/mochajs/mocha/tar.gz/e838a774ac238c7e5556838dafb6163aad49cf9e"
   dependencies:
@@ -167,7 +170,7 @@
   version "0.0.0"
   resolved "https://codeload.github.com/PolymerElements/prism-element/tar.gz/9f716147477e2f27302e3252e4bd289fc840a4f8"
 
-"@bower_components/prism@LeaVerou/prism#*":
+"@bower_components/prism@LeaVerou/prism#^1.9.0":
   version "1.9.0"
   resolved "https://codeload.github.com/LeaVerou/prism/tar.gz/a2f60f07d169398da7d60338c0771bb58815fa84"
   optionalDependencies:
@@ -177,11 +180,11 @@
   version "1.1.0"
   resolved "https://codeload.github.com/webcomponents/shadycss/tar.gz/ccfa2ec9230d6b59adf2d352590d5273cd361436"
 
-"@bower_components/sinon-chai@domenic/sinon-chai#^2.7.0":
+"@bower_components/sinon-chai@domenic/sinon-chai#^2.14.0":
   version "2.14.0"
   resolved "https://codeload.github.com/domenic/sinon-chai/tar.gz/fca669fd676d3146d44c79faf1e96ca8a9af7a93"
 
-"@bower_components/sinonjs@blittle/sinon.js#^1.14.1":
+"@bower_components/sinonjs@blittle/sinon.js#^1.17.1":
   version "0.0.0"
   resolved "https://codeload.github.com/blittle/sinon.js/tar.gz/9b970e7b8ff7fcb95d2c4d9a41b33370af764fc9"
 
@@ -856,6 +859,10 @@ babel-core@^6.18.2, babel-core@^6.26.0:
     private "^0.1.7"
     slash "^1.0.0"
     source-map "^0.5.6"
+
+babel-core@^7.0.0-beta.35:
+  version "7.0.0-bridge.0"
+  resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-7.0.0-bridge.0.tgz#95a492ddd90f9b4e9a4a1da14eb335b87b634ece"
 
 babel-generator@^6.26.0:
   version "6.26.0"
@@ -2169,12 +2176,6 @@ decamelize@^1.1.1, decamelize@^1.1.2:
 decode-uri-component@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
-
-deep-eql@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/deep-eql/-/deep-eql-0.1.3.tgz#ef558acab8de25206cd713906d74e56930eb69f2"
-  dependencies:
-    type-detect "0.1.1"
 
 deep-eql@^3.0.0:
   version "3.0.1"
@@ -6738,14 +6739,6 @@ type-check@~0.3.2:
   resolved "https://registry.yarnpkg.com/type-check/-/type-check-0.3.2.tgz#5884cab512cf1d355e3fb784f30804b2b520db72"
   dependencies:
     prelude-ls "~1.1.2"
-
-type-detect@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-0.1.1.tgz#0ba5ec2a885640e470ea4e8505971900dac58822"
-
-type-detect@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-1.0.0.tgz#762217cc06db258ec48908a1298e8b95121e8ea2"
 
 type-detect@^4.0.0:
   version "4.0.5"
