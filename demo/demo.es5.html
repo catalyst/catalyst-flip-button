@@ -18,53 +18,53 @@
     </style>
   </head>
   <body>
-      <h3>Basic use:</h3>
-      <catalyst-flip-button>
-        <option slot="options" value="a">Apples</option>
-        <option slot="options" value="b">Banana</option>
-        <option slot="options" value="c">Carrot</option>
-        <option slot="options" value="d">Duck</option>
+    <h3>Basic use:</h3>
+    <catalyst-flip-button>
+      <div slot="options" value="a">Apples</div>
+      <div slot="options" value="b">Banana</div>
+      <div slot="options" value="c">Carrot</div>
+      <div slot="options" value="d">Duck</div>
+    </catalyst-flip-button>
+
+    <h3>Styled:</h3>
+    <style>
+      .demo2 [role="option"] {
+        font-size: 18px;
+        padding: 5px 25px;
+        color: white;
+        font-weight: bold;
+        border-radius: 8px;
+        -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+                appearance: none !important;
+      }
+
+      .demo2 [role="option"][value="off"] {
+        background: red !important;
+      }
+
+      .demo2 [role="option"][value="on"] {
+        background: green !important;
+      }
+
+      .demo2:focus [role="option"].active {
+        outline: none;
+        border: gold 2px dotted;
+        text-shadow: 2px 2px 1px darkorange;
+      }
+    </style>
+    <catalyst-flip-button class="demo2">
+      <div slot="options" value="off">Off</div>
+      <div slot="options" value="on">On</div>
+    </catalyst-flip-button>
+
+    <h3>In a form:</h3>
+    <form action="?" method="get">
+      <catalyst-flip-button name="foo">
+        <div slot="options" value="one">Option 1</div>
+        <div slot="options" value="two">Option 2</div>
+        <div slot="options" value="three">Option 3</div>
       </catalyst-flip-button>
-
-      <h3>Styled:</h3>
-      <style>
-        .demo2 option {
-          font-size: 18px;
-          padding: 5px 25px;
-          color: white;
-          font-weight: bold;
-          border-radius: 8px;
-          -webkit-appearance: none;
-              -moz-appearance: none;
-                  appearance: none;
-        }
-
-        .demo2 option[value="off"] {
-          background: red;
-        }
-
-        .demo2 option[value="on"] {
-          background: green;
-        }
-
-        .demo2:focus option.active {
-          outline: none;
-          border: gold 2px dotted;
-          text-shadow: 2px 2px 1px darkorange;
-        }
-      </style>
-      <catalyst-flip-button class="demo2">
-        <option slot="options" value="off">Off</option>
-        <option slot="options" value="on">On</option>
-      </catalyst-flip-button>
-
-      <h3>In a form:</h3>
-      <form action="?" method="get">
-        <catalyst-flip-button name="foo">
-          <option slot="options" value="one">Option 1</option>
-          <option slot="options" value="two">Option 2</option>
-          <option slot="options" value="three">Option 3</option>
-        </catalyst-flip-button>
-      </form>
+    </form>
   </body>
 </html>

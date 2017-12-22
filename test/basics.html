@@ -18,10 +18,10 @@
   <test-fixture id="basic">
     <template>
       <catalyst-flip-button>
-        <option slot="options" id="id1" value="a">Apples</option>
-        <option slot="options" id="id2" value="b">Banana</option>
-        <option slot="options" id="id3" value="c">Carrot</option>
-        <option slot="options" id="id4" value="d">Duck</option>
+        <div slot="options" id="id1" value="a">Apples</div>
+        <div slot="options" id="id2" value="b">Banana</div>
+        <div slot="options" id="id3" value="c">Carrot</div>
+        <div slot="options" id="id4" value="d">Duck</div>
       </catalyst-flip-button>
     </template>
   </test-fixture>
@@ -130,6 +130,17 @@
           test('aria-activedescendant', () => {
             expect(element.hasAttribute('aria-activedescendant')).to.be.true;
             expect(element.getAttribute('aria-activedescendant')).to.equal('id1');
+          });
+
+          /**
+           * Test options' role.
+           */
+           test('option\'s role', () => {
+            let options = element.options;
+            for (let i = 0; i < options.length; i++) {
+              expect(options[i].hasAttribute('role')).to.be.true;
+              expect(options[i].getAttribute('role')).to.equal('option');
+            }
           });
         });
       });

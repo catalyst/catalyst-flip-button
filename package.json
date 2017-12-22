@@ -9,7 +9,8 @@
     "build": "scripts/build.sh",
     "analyze": "scripts/analyze.sh",
     "build-docs": "scripts/build-docs.sh",
-    "tests": "scripts/tests.sh || :"
+    "tests": "scripts/tests.sh || :",
+    "postinstall": "scripts/postinstall.sh"
   },
   "devDependencies": {
     "@bower_components/accessibility-developer-tools": "GoogleChrome/accessibility-developer-tools#^2.10.0",
@@ -59,7 +60,7 @@
     "@bower_components/webcomponentsjs": "webcomponents/webcomponentsjs#^v1.0.19",
     "@webcomponents/shadycss": "^1.1.0",
     "@webcomponents/webcomponentsjs": "^1.0.20",
-    "babel-core": "^7.0.0-beta.35",
+    "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-minify": "^0.2.0",
     "eslint": "^4.13.1",

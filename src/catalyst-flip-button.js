@@ -44,23 +44,22 @@
        * In many ways it is much like a `<select>` element.
        *
        *     <catalyst-flip-button>
-       *       <option slot="options" value="a">Apples</option>
-       *       <option slot="options" value="b">Banana</option>
-       *       <option slot="options" value="c">Carrot</option>
-       *       <option slot="options" value="d">Duck</option>
+       *       <div slot="options" value="a">Apples</div>
+       *       <div slot="options" value="b">Banana</div>
+       *       <div slot="options" value="c">Carrot</div>
+       *       <div slot="options" value="d">Duck</div>
        *     </catalyst-flip-button>
        *
        * Any type of element can be used as an option for the `<catalyst-flip-button>`,
        * however it must have the attribute `slot="options"`.
-       * Use of the `<option>` tag is recommend but not required.
-       * If using an element besides the `<option>` element, it is highly recommended to assign the role attribute to option (`role="option"`).
+       * The recommend approach is to use `<div slot="options">`.
        *
        * This element may include optional form control attributes for use in a form.
        *
        *     <catalyst-flip-button name="foo">
-       *       <option slot="options" value="one">Option 1</option>
-       *       <option slot="options" value="two">Option 2</option>
-       *       <option slot="options" value="three">Option 3</option>
+       *       <div slot="options" value="one">Option 1</div>
+       *       <div slot="options" value="two">Option 2</div>
+       *       <div slot="options" value="three">Option 3</div>
        *     </catalyst-flip-button>
        *
        * ### Events
@@ -77,7 +76,7 @@
        *
        * There are no css custom properties or css mixins available for this element.
        *
-       * Style the `<option>` tags to create the effect you want.
+       * Style the options element to create the effect you want. Option elements will have the attribute `role="option"`.
        * The `no-option-selected` class is applied to this element if no option is selected.
        *
        * @class
@@ -169,9 +168,6 @@
             this.setAttribute('aria-disabled', this.disabled);
           }
 
-          // Set the size of the element.
-          this._setUpDimensions();
-
           // Add the element's event listeners.
           this.addEventListener('keydown', this._onKeyDown);
           this.addEventListener('click', this._onLeftClick);
@@ -184,9 +180,20 @@
            *   Watch for mutations in the lightDom.
            */
           this._childObserver = new MutationObserver(this._onChildrenMutation.bind(this));
-          this._childObserver.observe(this, {
+          this._childObserver.observe(
+            // If native ShadowDom, observe this element, else observe the card element.
+            (window.ShadyCSS === undefined || ShadyCSS.nativeShadow === true) ? this : this._cardElement, {
             childList: true
           });
+
+          // Give every option the role of option.
+          let options = this.options;
+          for (let i = 0; i < options.length; i++) {
+            options[i].setAttribute('role', 'option');
+          }
+
+          // Set the size of the element.
+          this._setUpDimensions();
 
           // Select the first option by default.
           this.selectedIndex = 0;
@@ -503,7 +510,10 @@
           let selected = this.options[this.selectedIndex];
           if (selected) {
             selected.value = value;
-            this._formElement.value = selected.value;
+            if (selected.value !== undefined) {
+              this._formElement.value = selected.value;
+            }
+            this._formElement.value = selected.getAttribute('value');
           }
         }
 
@@ -515,7 +525,10 @@
         get value() {
           let selected = this.options[this.selectedIndex];
           if (selected) {
-            return selected.value;
+            if (selected.value !== undefined) {
+              return selected.value;
+            }
+            return selected.getAttribute('value');
           }
           return '';
         }
@@ -649,15 +662,16 @@
          * @param {Array<MutationRecord} mutations
          */
         _onChildrenMutation(mutations) {
-          let recalulateSize = false;
+          let recalculateSize;
+          recalculateSize = false;
 
           // For each mutation.
           for (let i = 0; i < mutations.length; i++) {
             // Option added
             for (let j = 0; j < mutations[i].addedNodes.length; j++) {
               if (mutations[i].addedNodes[j].assignedSlot === this._optionsSlot) {
-                recalulateSize = true;
-                break;
+                recalculateSize = true;
+                mutations[i].addedNodes[j].setAttribute('role', 'option');
               }
             }
 
@@ -671,11 +685,11 @@
 
             // No options left?
             if (this.length === 0) {
-              recalulateSize = true;
+              recalculateSize = true;
             }
           }
 
-          if (recalulateSize) {
+          if (recalculateSize) {
             this._setUpDimensions();
           }
         }
@@ -739,7 +753,10 @@
               }
               this.setAttribute('aria-activedescendant', options[i].id);
 
-              this._formElement.value = options[i].value;
+              if (options[i].value !== undefined) {
+                this._formElement.value = options[i].value;
+              }
+              this._formElement.value = options[i].getAttribute('value');
             }
             // The previous active element.
             else if (options[i].classList.contains('active')) {

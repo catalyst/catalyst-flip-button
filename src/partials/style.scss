@@ -58,7 +58,7 @@
       background: #dddddd;
 
       -webkit-appearance: button;
-         -moz-appearance: button;
+        -moz-appearance: button;
               appearance: button;
     }
 
@@ -74,7 +74,7 @@
       display: none;
     }
 
-    slot > * {
+    > * {
       display: flex;
       align-items: center;
       justify-content: center;
