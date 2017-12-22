@@ -90,32 +90,6 @@ gulp.task('build', ['clean-dist', 'inject'], () => {
   return gulp;
 });
 
-// Fix dependency tree.
-//
-// Why is this needed?
-// Many dependencies being used are in the process of switching from
-// bower to npm. Thus some dependencies are trying to access other
-// dependencies in incorrect ways. This task makes it so both ways work.
-gulp.task('fix-dependency-tree', () => {
-  // Some dependencies want access to "node_modules/@webcomponents/" without going through "@webcomponents"
-  gulp.src('./node_modules/@webcomponents/**/*')
-    .pipe(gulp.dest('./node_modules/'));
-
-  // Some dependencies want access to "node_modules/@polymer/" without going through "@polymer"
-  gulp.src('./node_modules/@polymer/**/*')
-    .pipe(gulp.dest('./node_modules/'));
-
-  // Create sinonjs as the sinon lib folder.
-  gulp.src('./node_modules/sinon/lib/**/*')
-    .pipe(gulp.dest('./node_modules/sinonjs/'));
-
-  // Some dependencies want to access async/dist as async/lib.
-  gulp.src('./node_modules/async/dist/**/*')
-  .pipe(gulp.dest('./node_modules/async/lib/'));
-
-  return gulp;
-});
-
 // Fix issues with analysis.json
 gulp.task('analysis-fixer', () => {
   return gulp.src("./analysis.json")
