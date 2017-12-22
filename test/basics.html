@@ -17,10 +17,12 @@
 
   <test-fixture id="basic">
     <template>
-      <catalyst-flip-button
-        default-label="Foo"
-        flipped-label="Bar"
-        ></catalyst-flip-button>
+      <catalyst-flip-button>
+        <option slot="options" id="id1" value="a">Apples</option>
+        <option slot="options" id="id2" value="b">Banana</option>
+        <option slot="options" id="id3" value="c">Carrot</option>
+        <option slot="options" id="id4" value="d">Duck</option>
+      </catalyst-flip-button>
     </template>
   </test-fixture>
 
@@ -49,35 +51,46 @@
         suite('Attributes & Properties', () => {
 
           /**
-           * Test default-label.
+           * Test disabled.
            */
-          test('default-label', () => {
-            expect(element.hasAttribute('default-label')).to.be.true;
-            expect(element.getAttribute('default-label')).to.equal('Foo');
-            expect(element).to.have.property('defaultLabel', 'Foo');
+          test('disabled', () => {
+            expect(element.hasAttribute('disabled')).to.be.false;
+            expect(element).to.have.property('disabled', false);
           });
 
           /**
-           * Test flipped-label.
+           * Test length.
            */
-          test('flipped-label', () => {
-            expect(element.hasAttribute('flipped-label')).to.be.true;
-            expect(element.getAttribute('flipped-label')).to.equal('Bar');
-            expect(element).to.have.property('flippedLabel', 'Bar');
+           test('length', () => {
+            expect(element).to.have.property('length', 4);
           });
 
           /**
-           * Test flipped.
+           * Test multiple.
            */
-          test('flipped', () => {
-            expect(element.hasAttribute('flipped')).to.be.false;
+          test('multiple', () => {
+            expect(element).to.have.property('multiple', false);
           });
 
           /**
-           * Test textContent.
+           * Test selectedIndex.
            */
-          test('textContent', () => {
-            expect(element).to.have.property('textContent', 'Foo');
+          test('selectedIndex', () => {
+            expect(element).to.have.property('selectedIndex', 0);
+          });
+
+          /**
+           * Test size.
+           */
+          test('size', () => {
+            expect(element).to.have.property('size', 1);
+          });
+
+          /**
+           * Test type.
+           */
+          test('type', () => {
+            expect(element).to.have.property('type', 'select-one');
           });
         });
 
@@ -91,40 +104,32 @@
            */
           test('role', () => {
             // role
-            expect(element.hasAttribute('role'), '"role" missing').to.be.true;
-            expect(element.getAttribute('role')).to.equal('button', '"role" should be set to "button"');
+            expect(element.hasAttribute('role')).to.be.true;
+            expect(element.getAttribute('role')).to.equal('combobox');
           });
 
           /**
            * Test tabindex.
            */
           test('tabindex', () => {
-            expect(element.hasAttribute('tabindex'), '"tabindex" missing').to.be.true;
-            expect(Number.parseInt(element.getAttribute('tabindex'))).to.equal(0, '"tabindex" should be 0');
-          });
-
-          /**
-           * Test aria-label.
-           */
-          test('aria-label', () => {
-            expect(element.hasAttribute('aria-label'), '"aria-label" missing').to.be.true;
-            expect(element.getAttribute('aria-label')).to.equal('Foo');
-          });
-
-          /**
-           * Test aria-pressed.
-           */
-          test('aria-pressed', () => {
-            expect(element.hasAttribute('aria-pressed'), '"aria-pressed" missing').to.be.true;
-            expect(element.getAttribute('aria-pressed')).to.equal('false');
+            expect(element.hasAttribute('tabindex')).to.be.true;
+            expect(Number.parseInt(element.getAttribute('tabindex'))).to.equal(0);
           });
 
           /**
            * Test aria-disabled.
            */
           test('aria-disabled', () => {
-            expect(element.hasAttribute('aria-disabled'), '"aria-disabled" missing').to.be.true;
+            expect(element.hasAttribute('aria-disabled')).to.be.true;
             expect(element.getAttribute('aria-disabled')).to.equal('false');
+          });
+
+          /**
+           * Test aria-activedescendant.
+           */
+          test('aria-activedescendant', () => {
+            expect(element.hasAttribute('aria-activedescendant')).to.be.true;
+            expect(element.getAttribute('aria-activedescendant')).to.equal('id1');
           });
         });
       });
@@ -143,84 +148,83 @@
            * Test clicking the element.
            */
           test('Click Once', (done) => {
-            let defaultLabel = element.defaultLabel;
-            let flippedLabel = element.flippedLabel;
-            let role = element.getAttribute('role');
-            let tabindex = element.getAttribute('tabindex');
-            let ariaDisabled = element.getAttribute('aria-disabled');
+            let testRunning = true;
 
             // Change event needs to be fired.
             element.addEventListener('change', () => {
-              done();
+              if (testRunning) {
+                testRunning = false;
+                done();
+              }
             });
 
             element.click();
 
-            // Values that should not change.
-            expect(element).to.have.property('defaultLabel', defaultLabel);
-            expect(element).to.have.property('flippedLabel', flippedLabel);
-            expect(element.getAttribute('role')).to.equal(role);
-            expect(element.getAttribute('tabindex')).to.equal(tabindex);
-            expect(element.getAttribute('aria-disabled')).to.equal(ariaDisabled);
+            expect(element).to.have.property('selectedIndex', 1);
+            expect(element.getAttribute('aria-activedescendant')).to.equal('id2');
 
-            // Values that should change.
-            expect(element.hasAttribute('flipped')).to.be.true;
-            expect(element).to.have.property('textContent', flippedLabel);
-            expect(element.getAttribute('aria-label')).to.equal(flippedLabel);
-            expect(element.getAttribute('aria-pressed')).to.equal('true');
-
+            // Timeout test.
             setTimeout(function () {
-              assert(false, 'Change event was not fired within 100 ms.');
-              done();
-            }, 100);
+              if (testRunning) {
+                assert(false, 'Change event was not fired within 10 ms.');
+                testRunning = false;
+                done();
+              }
+            }, 10);
           });
 
           /**
            * Test clicking the element twice.
            */
           test('Click Twice', () => {
-            let defaultLabel = element.defaultLabel;
-            let flippedLabel = element.flippedLabel;
-            let role = element.getAttribute('role');
-            let tabindex = element.getAttribute('tabindex');
-            let ariaDisabled = element.getAttribute('aria-disabled');
-
             element.click();
             element.click();
 
-            // Values that should not change.
-            expect(element).to.have.property('defaultLabel', defaultLabel);
-            expect(element).to.have.property('flippedLabel', flippedLabel);
-            expect(element.getAttribute('role')).to.equal(role);
-            expect(element.getAttribute('tabindex')).to.equal(tabindex);
-            expect(element.getAttribute('aria-disabled')).to.equal(ariaDisabled);
-            expect(element).to.have.property('textContent', defaultLabel);
-            expect(element.getAttribute('aria-label')).to.equal(defaultLabel);
-            expect(element.getAttribute('aria-pressed')).to.equal('false');
+            expect(element).to.have.property('selectedIndex', 2);
+            expect(element.getAttribute('aria-activedescendant')).to.equal('id3');
+          });
+
+          /**
+           * Test clicking through all the elements.
+           */
+          test('Click Through', () => {
+            element.click();
+            element.click();
+            element.click();
+            element.click();
+
+            expect(element).to.have.property('selectedIndex', 0);
+            expect(element.getAttribute('aria-activedescendant')).to.equal('id1');
           });
 
           /**
            * Test clicking the element when disabled.
            */
-           test('Click When Disabled', () => {
+          test('Click When Disabled', (done) => {
+            let testRunning = true;
             element.disabled = true;
 
             // Change event should not be fired.
             element.addEventListener('change', () => {
-              assert(false, 'Change event should not be fired.');
-              done();
+              if (testRunning) {
+                testRunning = false;
+                assert(false, 'Change event should not be fired.');
+                done();
+              }
             });
 
             element.click();
 
-            expect(element.hasAttribute('flipped')).to.be.false;
-            expect(element).to.have.property('textContent', 'Foo');
-            expect(element.getAttribute('aria-label')).to.equal('Foo');
-            expect(element.getAttribute('aria-pressed')).to.equal('false');
+            expect(element).to.have.property('selectedIndex', 0);
+            expect(element.getAttribute('aria-activedescendant')).to.equal('id1');
 
+            // Timeout test.
             setTimeout(function () {
-              done();
-            }, 100);
+              if (testRunning) {
+                testRunning = false;
+                done();
+              }
+            }, 10);
           });
         });
 

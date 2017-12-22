@@ -10,36 +10,61 @@
 
     <!-- Custom Element Definition -->
     <script src="../dist/catalyst-flip-button.es5.min.js"></script>
+
+    <style>
+      body {
+        font-family: Arial;
+      }
+    </style>
   </head>
   <body>
-    <h3>Basic use:</h3>
-    <catalyst-flip-button default-label="Foo Button" flipped-label="Bar Button"></catalyst-flip-button>
+      <h3>Basic use:</h3>
+      <catalyst-flip-button>
+        <option slot="options" value="a">Apples</option>
+        <option slot="options" value="b">Banana</option>
+        <option slot="options" value="c">Carrot</option>
+        <option slot="options" value="d">Duck</option>
+      </catalyst-flip-button>
 
-    <h3>Styled:</h3>
-    <style>
-    catalyst-flip-button.demo2 {
-      font-size: 18px;
-      padding: 5px 25px;
-      color: white;
-      font-weight: bold;
+      <h3>Styled:</h3>
+      <style>
+        .demo2 option {
+          font-size: 18px;
+          padding: 5px 25px;
+          color: white;
+          font-weight: bold;
+          border-radius: 8px;
+          -webkit-appearance: none;
+              -moz-appearance: none;
+                  appearance: none;
+        }
 
-      --catalyst-flip-button-appearance: none;
-      --catalyst-flip-button-front-background: red;
-      --catalyst-flip-button-back-background: green;
-      --catalyst-flip-button-border-radius: 8px;
-    }
-    </style>
+        .demo2 option[value="off"] {
+          background: red;
+        }
 
-    <catalyst-flip-button default-label="Off" flipped-label="On" class="demo2"></catalyst-flip-button>
+        .demo2 option[value="on"] {
+          background: green;
+        }
 
-    <h3>In a form:</h3>
-    <form action="?" method="get">
-      <catalyst-flip-button
-        default-label="Value Not Submitted"
-        flipped-label="Value Submitted"
-        name="baz"
-        value="flip"
-      ></catalyst-flip-button>
-    </form>
+        .demo2:focus option.active {
+          outline: none;
+          border: gold 2px dotted;
+          text-shadow: 2px 2px 1px darkorange;
+        }
+      </style>
+      <catalyst-flip-button class="demo2">
+        <option slot="options" value="off">Off</option>
+        <option slot="options" value="on">On</option>
+      </catalyst-flip-button>
+
+      <h3>In a form:</h3>
+      <form action="?" method="get">
+        <catalyst-flip-button name="foo">
+          <option slot="options" value="one">Option 1</option>
+          <option slot="options" value="two">Option 2</option>
+          <option slot="options" value="three">Option 3</option>
+        </catalyst-flip-button>
+      </form>
   </body>
 </html>

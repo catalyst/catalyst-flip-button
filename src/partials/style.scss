@@ -1,17 +1,22 @@
 :host {
   display: inline-block;
+  contain: layout style;
+
   align-items: flex-start;
   cursor: default;
   margin: 0;
 
-  // border-color: #dddddd;
-  // border-width: 2px;
-  // border-style: outset;
-  // border-image: initial;
+  padding: 1px 6px;
+  box-sizing: content-box;
 
-  padding: 2px 7px;
+  font-family: inherit;
+  font-size: 100% * 5/6;
+  font-weight: 400;
+  font-style: normal;
+  font-variant: normal;
+  font-stretch: normal;
+  line-height: normal;
 
-  font: 400 13.3333px Arial;
   text-rendering: auto;
   text-transform: none;
   text-indent: 0;
@@ -26,11 +31,7 @@
           user-select: none;
 
   position: relative;
-  width: auto;
-  height: auto;
-
   color: #000000;
-
   perspective: 100px;
 
   #card {
@@ -42,7 +43,7 @@
     transform-style: preserve-3d;
     transition: transform .4s ease;
 
-    figure {
+    ::slotted(*) {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -53,55 +54,51 @@
       bottom: 0;
       left: 0;
       backface-visibility: hidden;
-      z-index: 2;
+      z-index: 1;
+      background: #dddddd;
 
-      border-radius: var(--catalyst-flip-button-border-radius);
-
-      -webkit-appearance: var(--catalyst-flip-button-appearance, button);
-        -moz-appearance: var(--catalyst-flip-button-appearance, button);
-              appearance: var(--catalyst-flip-button-appearance, button);
-
-      @apply --catalyst-flip-button;
-
-      &#front {
-        z-index: 1;
-        background: var(--catalyst-flip-button-front-background, #dddddd);
-        @apply --catalyst-flip-button-default;
-      }
-
-      &#back {
-        background: var(--catalyst-flip-button-back-background, #dddddd);
-        transform: rotateY(180deg);
-        @apply --catalyst-flip-button-flipped;
-      }
+      -webkit-appearance: button;
+         -moz-appearance: button;
+              appearance: button;
     }
-  }
-}
-:host([flipped]) {
-  #card {
-    transform: rotateY(180deg);
+
+    ::slotted(.last-active) {
+      z-index: 2;
+    }
+
+    ::slotted(.active) {
+      z-index: 3;
+    }
+
+    ::slotted([hidden]) {
+      display: none;
+    }
+
+    slot > * {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: #dddddd;
+    }
   }
 }
 :host(:focus) {
   outline: none;
 
-  #front {
+  ::slotted(.active) {
     outline: #000000 dotted 1px;
     outline: -webkit-focus-ring-color auto 5px;
-  }
-
-  #back {
-    outline: none;
   }
 }
-:host([flipped]:focus) {
-  #front {
-    outline: none;
-  }
-
-  #back {
-    outline: #000000 dotted 1px;
-    outline: -webkit-focus-ring-color auto 5px;
+:host(.no-option-selected) {
+  #card {
+    transform: none !important;
   }
 }
 :host([hidden]) {

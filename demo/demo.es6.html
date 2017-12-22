@@ -12,13 +12,24 @@
 
     <!-- Custom Element Definition -->
     <script src="../dist/catalyst-flip-button.js"></script>
+
+    <style>
+      body {
+        font-family: Arial;
+      }
+    </style>
   </head>
   <body>
 
     <h3>Basic use:</h3>
     <demo-snippet id="demo1">
       <template>
-        <catalyst-flip-button default-label="Foo Button" flipped-label="Bar Button"></catalyst-flip-button>
+        <catalyst-flip-button>
+          <option slot="options" value="a">Apples</option>
+          <option slot="options" value="b">Banana</option>
+          <option slot="options" value="c">Carrot</option>
+          <option slot="options" value="d">Duck</option>
+        </catalyst-flip-button>
       </template>
     </demo-snippet>
 
@@ -26,20 +37,36 @@
     <demo-snippet id="demo2">
       <template>
         <style>
-          catalyst-flip-button.demo2 {
+          .demo2 option {
             font-size: 18px;
             padding: 5px 25px;
             color: white;
             font-weight: bold;
+            border-radius: 8px;
+            -webkit-appearance: none;
+               -moz-appearance: none;
+                    appearance: none;
+          }
 
-            --catalyst-flip-button-appearance: none;
-            --catalyst-flip-button-front-background: red;
-            --catalyst-flip-button-back-background: green;
-            --catalyst-flip-button-border-radius: 8px;
+          .demo2 option[value="off"] {
+            background: red;
+          }
+
+          .demo2 option[value="on"] {
+            background: green;
+          }
+
+          .demo2:focus option.active {
+            outline: none;
+            border: gold 2px dotted;
+            text-shadow: 2px 2px 1px darkorange;
           }
         </style>
 
-        <catalyst-flip-button default-label="Off" flipped-label="On" class="demo2"></catalyst-flip-button>
+        <catalyst-flip-button class="demo2">
+          <option slot="options" value="off">Off</option>
+          <option slot="options" value="on">On</option>
+        </catalyst-flip-button>
       </template>
     </demo-snippet>
 
@@ -47,12 +74,11 @@
     <demo-snippet id="demo3">
       <template>
         <form action="?" method="get">
-          <catalyst-flip-button
-            default-label="Value Not Submitted"
-            flipped-label="Value Submitted"
-            name="baz"
-            value="flip"
-          ></catalyst-flip-button>
+          <catalyst-flip-button name="foo">
+            <option slot="options" value="one">Option 1</option>
+            <option slot="options" value="two">Option 2</option>
+            <option slot="options" value="three">Option 3</option>
+          </catalyst-flip-button>
         </form>
       </template>
     </demo-snippet>
