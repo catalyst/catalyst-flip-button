@@ -43,7 +43,8 @@
     transform-style: preserve-3d;
     transition: transform .4s ease;
 
-    ::slotted(*) {
+    #front,
+    #back {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -54,53 +55,33 @@
       bottom: 0;
       left: 0;
       backface-visibility: hidden;
-      z-index: 1;
-      background: #dddddd;
 
-      -webkit-appearance: button;
-        -moz-appearance: button;
-              appearance: button;
+      -webkit-appearance: var(--catalyst-flip-button-card-face-appearance, button);
+      -moz-appearance:    var(--catalyst-flip-button-card-face-appearance, button);
+      appearance:         var(--catalyst-flip-button-card-face-appearance, button);
+      background:         var(--catalyst-flip-button-card-face-background, #dddddd);
+      border:             var(--catalyst-flip-button-card-face-border);
+      border-radius:      var(--catalyst-flip-button-card-face-border-radius);
     }
 
-    ::slotted(.last-active) {
-      z-index: 2;
-    }
-
-    ::slotted(.active) {
-      z-index: 3;
-    }
-
-    ::slotted([hidden]) {
-      display: none;
-    }
-
-    > * {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0;
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background: #dddddd;
+    #back {
+      transform: rotateY(180deg);
     }
   }
 }
 :host(:focus) {
   outline: none;
 
-  ::slotted(.active) {
-    outline: #000000 dotted 1px;
-    outline: -webkit-focus-ring-color auto 5px;
-  }
-}
-:host(.no-option-selected) {
   #card {
-    transform: none !important;
+    #front,
+    #back {
+      outline: #000000 dotted 1px;
+      outline: -webkit-focus-ring-color auto 5px;
+      outline: var(--catalyst-flip-button-card-face-focused-outline);
+    }
   }
 }
-:host([hidden]) {
+:host([hidden]),
+:host [hidden] {
   display: none;
 }

@@ -18,10 +18,12 @@
   <test-fixture id="basic">
     <template>
       <catalyst-flip-button>
-        <div slot="options" id="id1" value="a">Apples</div>
-        <div slot="options" id="id2" value="b">Banana</div>
-        <div slot="options" id="id3" value="c">Carrot</div>
-        <div slot="options" id="id4" value="d">Duck</div>
+        <select>
+          <option>Apples</option>
+          <option>Banana</option>
+          <option>Carrot</option>
+          <option>Duck</option>
+        </select>
       </catalyst-flip-button>
     </template>
   </test-fixture>
@@ -32,12 +34,14 @@
      */
     suite('', () => {
       let element;
+      let select;
 
       /**
        * Called before each following test is run.
        */
       setup(() => {
         element = fixture('basic');
+        select = element.querySelector('select');
       });
 
       /**
@@ -56,41 +60,6 @@
           test('disabled', () => {
             expect(element.hasAttribute('disabled')).to.be.false;
             expect(element).to.have.property('disabled', false);
-          });
-
-          /**
-           * Test length.
-           */
-           test('length', () => {
-            expect(element).to.have.property('length', 4);
-          });
-
-          /**
-           * Test multiple.
-           */
-          test('multiple', () => {
-            expect(element).to.have.property('multiple', false);
-          });
-
-          /**
-           * Test selectedIndex.
-           */
-          test('selectedIndex', () => {
-            expect(element).to.have.property('selectedIndex', 0);
-          });
-
-          /**
-           * Test size.
-           */
-          test('size', () => {
-            expect(element).to.have.property('size', 1);
-          });
-
-          /**
-           * Test type.
-           */
-          test('type', () => {
-            expect(element).to.have.property('type', 'select-one');
           });
         });
 
@@ -122,25 +91,6 @@
           test('aria-disabled', () => {
             expect(element.hasAttribute('aria-disabled')).to.be.true;
             expect(element.getAttribute('aria-disabled')).to.equal('false');
-          });
-
-          /**
-           * Test aria-activedescendant.
-           */
-          test('aria-activedescendant', () => {
-            expect(element.hasAttribute('aria-activedescendant')).to.be.true;
-            expect(element.getAttribute('aria-activedescendant')).to.equal('id1');
-          });
-
-          /**
-           * Test options' role.
-           */
-           test('option\'s role', () => {
-            let options = element.options;
-            for (let i = 0; i < options.length; i++) {
-              expect(options[i].hasAttribute('role')).to.be.true;
-              expect(options[i].getAttribute('role')).to.equal('option');
-            }
           });
         });
       });
@@ -176,8 +126,7 @@
 
               element.click();
 
-              expect(element).to.have.property('selectedIndex', 1);
-              expect(element.getAttribute('aria-activedescendant')).to.equal('id2');
+              expect(select).to.have.property('selectedIndex', 1);
 
               // Timeout test.
               setTimeout(function () {
@@ -196,8 +145,7 @@
               element.click();
               element.click();
 
-              expect(element).to.have.property('selectedIndex', 2);
-              expect(element.getAttribute('aria-activedescendant')).to.equal('id3');
+              expect(select).to.have.property('selectedIndex', 2);
             });
 
             /**
@@ -209,38 +157,19 @@
               element.click();
               element.click();
 
-              expect(element).to.have.property('selectedIndex', 0);
-              expect(element.getAttribute('aria-activedescendant')).to.equal('id1');
+              expect(select).to.have.property('selectedIndex', 0);
             });
 
             /**
              * Test clicking the element when disabled.
              */
-            test('Click When Disabled', (done) => {
+            test('Click When Disabled', () => {
               let testRunning = true;
               element.disabled = true;
 
-              // Change event should not be fired.
-              element.addEventListener('change', () => {
-                if (testRunning) {
-                  testRunning = false;
-                  assert(false, 'Change event should not be fired.');
-                  done();
-                }
-              });
-
               element.click();
 
-              expect(element).to.have.property('selectedIndex', 0);
-              expect(element.getAttribute('aria-activedescendant')).to.equal('id1');
-
-              // Timeout test.
-              setTimeout(function () {
-                if (testRunning) {
-                  testRunning = false;
-                  done();
-                }
-              }, 10);
+              expect(select).to.have.property('selectedIndex', 0);
             });
           });
 

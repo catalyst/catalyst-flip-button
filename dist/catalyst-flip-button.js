@@ -30,8 +30,8 @@
        *   The template of the component.
        */
       const template = document.createElement('template');
-      template.innerHTML = `<style>:host{display:inline-block;contain:layout style;align-items:flex-start;cursor:default;margin:0;padding:1px 6px;box-sizing:content-box;font-family:inherit;font-size:83.33333%;font-weight:400;font-style:normal;font-variant:normal;font-stretch:normal;line-height:normal;text-rendering:auto;text-transform:none;text-indent:0;text-shadow:none;text-align:center;letter-spacing:normal;word-spacing:normal;vertical-align:bottom;-webkit-user-select:none;-moz-user-select:none;user-select:none;position:relative;color:#000000;perspective:100px}:host #card{position:absolute;top:0;right:0;bottom:0;left:0;transform-style:preserve-3d;transition:transform .4s ease}:host #card ::slotted(*){display:flex;align-items:center;justify-content:center;margin:0;position:absolute;top:0;right:0;bottom:0;left:0;backface-visibility:hidden;z-index:1;background:#dddddd;-webkit-appearance:button;-moz-appearance:button;appearance:button}:host #card ::slotted(.last-active){z-index:2}:host #card ::slotted(.active){z-index:3}:host #card ::slotted([hidden]){display:none}:host #card>*{display:flex;align-items:center;justify-content:center;margin:0;position:absolute;top:0;right:0;bottom:0;left:0;background:#dddddd}:host(:focus){outline:none}:host(:focus) ::slotted(.active){outline:#000000 dotted 1px;outline:-webkit-focus-ring-color auto 5px}:host(.no-option-selected) #card{transform:none !important}:host([hidden]){display:none}
-</style><div id="card"><slot name="options"><div>No options available for this button</div></slot></div><slot></slot>`;
+      template.innerHTML = `<style>:host{display:inline-block;contain:layout style;align-items:flex-start;cursor:default;margin:0;padding:1px 6px;box-sizing:content-box;font-family:inherit;font-size:83.33333%;font-weight:400;font-style:normal;font-variant:normal;font-stretch:normal;line-height:normal;text-rendering:auto;text-transform:none;text-indent:0;text-shadow:none;text-align:center;letter-spacing:normal;word-spacing:normal;vertical-align:bottom;-webkit-user-select:none;-moz-user-select:none;user-select:none;position:relative;color:#000000;perspective:100px}:host #card{position:absolute;top:0;right:0;bottom:0;left:0;transform-style:preserve-3d;transition:transform .4s ease}:host #card #front,:host #card #back{display:flex;align-items:center;justify-content:center;margin:0;position:absolute;top:0;right:0;bottom:0;left:0;backface-visibility:hidden;-webkit-appearance:var(--catalyst-flip-button-card-face-appearance, button);-moz-appearance:var(--catalyst-flip-button-card-face-appearance, button);appearance:var(--catalyst-flip-button-card-face-appearance, button);background:var(--catalyst-flip-button-card-face-background, #ddd);border:var(--catalyst-flip-button-card-face-border);border-radius:var(--catalyst-flip-button-card-face-border-radius)}:host #card #back{transform:rotateY(180deg)}:host(:focus){outline:none}:host(:focus) #card #front,:host(:focus) #card #back{outline:#000000 dotted 1px;outline:-webkit-focus-ring-color auto 5px;outline:var(--catalyst-flip-button-card-face-focused-outline)}:host([hidden]),:host [hidden]{display:none}
+</style><div id="card"><div id="front"></div><div id="back"></div></div><div hidden><slot></slot></div>`;
 
       // If using ShadyCSS.
       if (window.ShadyCSS !== undefined) {
@@ -40,34 +40,23 @@
       }
 
       /**
-       * `<catalyst-flip-button>` is a button that can flip between different states.
-       *
-       * In many ways it is much like a `<select>` element.
+       * `<catalyst-flip-button>` is a wrapper for a `<select>` element.
+       * It displays as a button and flips between different options.
        *
        *     <catalyst-flip-button>
-       *       <div slot="options" value="a">Apples</div>
-       *       <div slot="options" value="b">Banana</div>
-       *       <div slot="options" value="c">Carrot</div>
-       *       <div slot="options" value="d">Duck</div>
-       *     </catalyst-flip-button>
-       *
-       * Any type of element can be used as an option for the `<catalyst-flip-button>`,
-       * however it must have the attribute `slot="options"`.
-       * The recommend approach is to use `<div slot="options">`.
-       *
-       * This element may include optional form control attributes for use in a form.
-       *
-       *     <catalyst-flip-button name="foo">
-       *       <div slot="options" value="one">Option 1</div>
-       *       <div slot="options" value="two">Option 2</div>
-       *       <div slot="options" value="three">Option 3</div>
+       *       <select>
+       *         <option>Apples</option>
+       *         <option>Banana</option>
+       *         <option>Carrot</option>
+       *         <option>Duck</option>
+       *       </select>
        *     </catalyst-flip-button>
        *
        * ### Events
        *
        * Name     | Cause
        * -------- |-------------
-       * `change` | Fired when the component's selected index changes due to user interaction.
+       * `change` | Fired when the selected option changes due to user interaction.
        *
        * ### Focus
        * To focus a catalyst-flip-button, you can call the native `focus()` method as long as the
@@ -75,10 +64,15 @@
        *
        * ### Styling
        *
-       * There are no css custom properties or css mixins available for this element.
+       * The following css custom properties are available for this element:
        *
-       * Style the options element to create the effect you want. Option elements will have the attribute `role="option"`.
-       * The `no-option-selected` class is applied to this element if no option is selected.
+       * Property | Description | Default Value
+       * -------- |------------ | -------------
+       * --catalyst-flip-button-card-face-appearance | The appearance of the card face. | `button`
+       * --catalyst-flip-button-card-face-background | The background of the card face. | `#dddddd`
+       * --catalyst-flip-button-card-face-border | The border applied to the card face. |
+       * --catalyst-flip-button-card-face-border-radius | The border radius applied to the card face. |
+       * --catalyst-flip-button-card-face-focused-outline | The outline of the card face when focused. |
        *
        * @class
        * @extends HTMLElement
@@ -97,7 +91,7 @@
          *   The attributes this element is observing for changes.
          */
         static get observedAttributes() {
-          return ['disabled', 'name', 'value', 'form'];
+          return ['disabled'];
         }
 
         /**
@@ -117,26 +111,28 @@
           this._cardElement = this.shadowRoot.querySelector('#card');
 
           /**
-           * @property {HTMLSlotElement} _optionsSlot
-           *   The slot that contains the options.
+           * @property {HTMLElement} _cardFrontFace
+           *   The front face of the card.
            */
-          this._optionsSlot = this._cardElement.querySelector('slot[name="options"]');
+          this._cardFrontFace = this._cardElement.querySelector('#front');
 
           /**
-           * @property {HTMLElement} _noOptionsElement
-           *   The element that is displayed when there are no options present.
+           * @property {HTMLElement} _cardBackFace
+           *   The back face of the card.
            */
-          this._noOptionsElement = this._optionsSlot.querySelector('*');
+          this._cardBackFace = this._cardElement.querySelector('#back');
 
           /**
-           * The form element needs to be in the lightDom to work with form elements.
-           *
-           * @property {HTMLElement} _formElement
-           *   The element that will be submitting as part of a form to represent this component.
+           * @property {boolean} _flipped
+           *   True if the card has been flipped, otherwise false.
            */
-          this._formElement = document.createElement('input');
-          this._formElement.type = 'hidden';
-          this.appendChild(this._formElement);
+          this._flipped = false;
+
+          /**
+           * @property {number} _lastSelectedIndex
+           *   The last selected index.
+           */
+          this._lastSelectedIndex = -1;
         }
 
         /**
@@ -145,18 +141,12 @@
          * @protected
          */
         connectedCallback() {
-          // If using ShadyCSS.
-          if (window.ShadyCSS !== undefined) {
-            // Style the element.
-            ShadyCSS.styleElement(this);
-          }
+          // Set up the form element.
+          this._setUpFormElement();
 
           // Upgrade the element's properties.
           this._upgradeProperty('disabled');
-          this._upgradeProperty('form');
-          this._upgradeProperty('name');
-          this._upgradeProperty('selectedIndex');
-          this._upgradeProperty('value');
+          this._upgradeProperty('noAutoPerspective');
 
           // Set this element's role, tab index and aria attributes if they are not already set.
           if (!this.hasAttribute('role')) {
@@ -174,30 +164,19 @@
           this.addEventListener('click', this._onLeftClick);
           this.addEventListener('contextmenu', this._onRightClick);
 
-          /**
-           * Watch for changes in the lightDom.
-           *
-           * @property {MutationObserver} _childObserver
-           *   Watch for mutations in the lightDom.
-           */
-          this._childObserver = new MutationObserver(this._onChildrenMutation.bind(this));
-          this._childObserver.observe(
-            // If native ShadowDom, observe this element, else observe the card element.
-            (window.ShadyCSS === undefined || ShadyCSS.nativeShadow === true) ? this : this._cardElement, {
+          this._selectObserver = new MutationObserver(this._onLightDomMutation.bind(this));
+          this._selectObserver.observe(this, {
             childList: true
           });
-
-          // Give every option the role of option.
-          let options = this.options;
-          for (let i = 0; i < options.length; i++) {
-            options[i].setAttribute('role', 'option');
-          }
 
           // Set the size of the element.
           this._setUpDimensions();
 
-          // Select the first option by default.
-          this.selectedIndex = 0;
+          // If using ShadyCSS.
+          if (window.ShadyCSS !== undefined) {
+            // Style the element.
+            ShadyCSS.styleElement(this);
+          }
         }
 
         /**
@@ -222,6 +201,40 @@
           // Else if an attribute exists for the property, set the property using that.
           else if (this.hasAttribute(prop)) {
             this[prop] = this.getAttribute(prop);
+          }
+        }
+
+        /**
+         * Find the new form element and set it up.
+         */
+        _setUpFormElement() {
+          let newFormElement = this.querySelector('select');
+
+          if (newFormElement !== null) {
+            if (newFormElement !== this._formElement) {
+              // Clean up the old form element.
+              if (this._formElement !== null && this._formElement !== undefined) {
+                this._formElement.removeEventListener('change', this._selectedOptionChanged.bind(this));
+              }
+
+              // Remove the old observer if there is one.
+              if (this._optionsObserver !== undefined) {
+                this._optionsObserver.disconnect();
+                this._optionsObserver = undefined;
+              }
+
+              // Set up the new form element.
+              this._formElement = newFormElement;
+              this._formElement.addEventListener('change', this._selectedOptionChanged.bind(this));
+
+              // Create an observer to watch for changes in the form element's options.
+              this._optionsObserver = new MutationObserver(this._onOptionsMutation.bind(this));
+              this._optionsObserver.observe(this._formElement, {
+                childList: true
+              });
+
+              this._selectedOptionChanged();
+            }
           }
         }
 
@@ -258,36 +271,57 @@
             this._cardElement.style.position = 'relative';
 
             // Get the options.
-            let options = this._optionsSlot.assignedNodes();
+            let options = this._formElement.options;
             if (options.length > 0) {
+
+              // Set the styling to relative so the size can be measured.
+              this._cardFrontFace.style.position = 'relative';
+              this._cardBackFace.style.position = 'relative';
+
+              // Save the text content in the front face and then clear it.
+              let frontFaceText = this._cardFrontFace.textContent;
+              this._cardFrontFace.textContent = '';
+
+              // Save the text content in the back face and then clear it.
+              let backFaceText = this._cardBackFace.textContent;
+              this._cardBackFace.textContent = '';
+
               for (let i = 0; i < options.length; i++) {
-                // Set the styling to relative so the size can be measured.
-                options[i].style.position = 'relative';
+                this._cardFrontFace.textContent = options[i].textContent;
+                this._cardBackFace.textContent = options[i].textContent;
 
                 if (adjustWidth) {
                   // If new largest width, save it.
-                  let w = options[i].offsetWidth;
-                  if (w > maxOptionWidth) {
-                    maxOptionWidth = w;
+                  let fw =  this._cardFrontFace.offsetWidth;
+                  if (fw > maxOptionWidth) {
+                    maxOptionWidth = fw;
+                  }
+                  let bw =  this._cardBackFace.offsetWidth;
+                  if (bw > maxOptionWidth) {
+                    maxOptionWidth = bw;
                   }
                 }
 
                 if (adjustHeight) {
                   // If new largest height, save it.
-                  let h = options[i].offsetHeight;
-                  if (h > maxOptionHeight) {
-                    maxOptionHeight = h;
+                  let fh =  this._cardFrontFace.offsetHeight;
+                  if (fh > maxOptionHeight) {
+                    maxOptionHeight = fh;
+                  }
+                  let hw =  this._cardBackFace.offsetHeight;
+                  if (hw > maxOptionWidth) {
+                    maxOptionWidth = hw;
                   }
                 }
-
-                // Restore the original positioning.
-                options[i].style.position = '';
               }
-            } else {
-              this._noOptionsElement.style.position = 'relative';
-              maxOptionWidth = this._noOptionsElement.offsetWidth;
-              maxOptionHeight = this._noOptionsElement.offsetHeight;
-              this._noOptionsElement.style.position = '';
+
+              // Restore the text content to the front and back faces.
+              this._cardFrontFace.textContent = frontFaceText;
+              this._cardBackFace.textContent = backFaceText;
+
+              // Restore the original positioning.
+              this._cardFrontFace.style.position = '';
+              this._cardBackFace.style.position = '';
             }
 
             // Restore the card styles.
@@ -298,7 +332,9 @@
             if (adjustWidth) {
               let newWidth = maxOptionWidth + 2;
               this.style.minWidth = newWidth + 'px';
-              this.style.perspective = (2 * newWidth) + 'px';
+              if (!this.noAutoPerspective) {
+                this.style.perspective = (2 * (newWidth + Number.parseInt(style.paddingLeft, 10) + Number.parseInt(style.paddingRight, 10))) + 'px';
+              }
             }
             if (adjustHeight) {
               let newHeight = maxOptionHeight + 2;
@@ -316,7 +352,18 @@
           this.removeEventListener('keydown', this._onKeyDown);
           this.removeEventListener('click', this._onLeftClick);
           this.removeEventListener('contextmenu', this._onRightClick);
-          this._childObserver.disconnect();
+
+          if (this._selectObserver !== null) {
+            this._selectObserver.disconnect();
+            this._selectObserver = undefined;
+          }
+
+          this._formElement = undefined;
+
+          if (this._optionsObserver !== null) {
+            this._optionsObserver.disconnect();
+            this._optionsObserver = undefined;
+          }
         }
 
         /**
@@ -327,13 +374,13 @@
          */
         set disabled(value) {
           const isDisabled = Boolean(value);
+          this._formElement.disabled = isDisabled;
           if (isDisabled) {
             this.setAttribute('disabled', '');
           }
           else {
             this.removeAttribute('disabled');
           }
-          this._formElement.disabled = isDisabled;
         }
 
         /**
@@ -346,192 +393,28 @@
         }
 
         /**
-         * Setter for `form`.
+         * Setter for `noAutoPerspective`.
          *
          * @param {*} value
-         *   The value to set.
+         *   If truthy, `noAutoPerspective` will be set to true, otherwise `noAutoPerspective` will be set to false.
          */
-        set form(value) {
-          this._formElement.form = value
-          if (this._formElement.hasAttribute('form')) {
-            this.setAttribute('form', this._formElement.getAttribute('form'));
+        set noAutoPerspective(value) {
+          const isNoAutoPerspective = Boolean(value);
+          if (isNoAutoPerspective) {
+            this.setAttribute('no-auto-perspective', '');
+          }
+          else {
+            this.removeAttribute('no-auto-perspective');
           }
         }
 
         /**
-         * Getter for `form`.
-         *
-         * @returns {HTMLFormElement}
-         */
-        get form() {
-          return this._formElement.form;
-        }
-
-        /**
-         * Getter for `length`.
-         *
-         * @returns {number}
-         */
-        get length() {
-          return this._optionsSlot.assignedNodes().length;
-        }
-
-        /**
-         * Getter for `multiple`.
+         * Getter for `noAutoPerspective`
          *
          * @returns {boolean}
          */
-        get multiple() {
-          return false;
-        }
-
-        /**
-         * Setter for `name`.
-         *
-         * @param {*} value
-         *   The value to set.
-         */
-        set name(value) {
-          let newName = new String(value);
-          this.setAttribute('name', newName);
-          this._formElement.name = newName;
-        }
-
-        /**
-         * Getter for `name`.
-         *
-         * @returns {string}
-         */
-        get name() {
-          if (this.hasAttribute('name')) {
-            return this.getAttribute('name');
-          } else {
-            return '';
-          }
-        }
-
-        /**
-         * Getter for `options`.
-         *
-         * @returns {Array<HTMLElement>}
-         *   The options in this element.
-         */
-        get options() {
-          return this._optionsSlot.assignedNodes();
-        }
-
-        /**
-         * Setter for `selectedIndex`.
-         *
-         * @param {number} value
-         */
-        set selectedIndex(value) {
-          let number = Number(value);
-          let length = this.length;
-
-          if (number >= 0 && number < length) {
-            // Save the current value before changing it.
-            let prevValue = this._selectedIndex;
-
-            // Set the new value.
-            this._selectedIndex = number;
-
-            // Going back to first option?
-            if (this._selectedIndex === 0 && prevValue === length - 1) {
-              // Set the rotation to one flip before 0 deg without animating.
-              this._cardElement.style.transition = 'none';
-              this._cardElement.style.transform = 'rotateY(180deg)';
-
-              this._update(true);
-            }
-            // Going back to last option?
-            else if (this._selectedIndex === length - 1 && prevValue === 0) {
-              // Set the rotation to one flip before 0 deg without animating.
-              this._cardElement.style.transition = 'none';
-              this._cardElement.style.transform = 'rotateY(' + (length * -180) + 'deg)';
-
-              this._update(true);
-            }
-            else {
-              this._update(false);
-            }
-          }
-          else {
-            this._selectedIndex = -1;
-
-            // Set the rotation to one flip before 0 deg without animating.
-            this._cardElement.style.transition = 'none';
-            this._cardElement.style.transform = 'rotateY(180deg)';
-
-            // Wait for rotation to be updated, then update the appearance.
-            this._update(true);
-          }
-        }
-
-        /**
-         * Getter for `selectedIndex`.
-         *
-         * @returns {number}
-         */
-        get selectedIndex() {
-          if (this.length === 0) {
-            return -1;
-          }
-          if (this._selectedIndex >= this.length) {
-            return this.length - 1;
-          }
-          return this._selectedIndex;
-        }
-
-        /**
-         * Getter for `size`.
-         *
-         * @returns {number}
-         */
-        get size() {
-          return 1;
-        }
-
-        /**
-         * Getter for `type`.
-         *
-         * @returns {string}
-         */
-        get type() {
-          return 'select-one';
-        }
-
-        /**
-         * Setter for `value`.
-         *
-         * @param {*} value
-         *   The value to set.
-         */
-        set value(value) {
-          let selected = this.options[this.selectedIndex];
-          if (selected) {
-            selected.value = value;
-            if (selected.value !== undefined) {
-              this._formElement.value = selected.value;
-            }
-            this._formElement.value = selected.getAttribute('value');
-          }
-        }
-
-        /**
-         * Getter for `value`.
-         *
-         * @returns {string}
-         */
-        get value() {
-          let selected = this.options[this.selectedIndex];
-          if (selected) {
-            if (selected.value !== undefined) {
-              return selected.value;
-            }
-            return selected.getAttribute('value');
-          }
-          return '';
+        get noAutoPerspective() {
+          return this.hasAttribute('no-auto-perspective');
         }
 
         /**
@@ -548,6 +431,7 @@
          */
         attributeChangedCallback(name, oldValue, newValue) {
           const hasValue = newValue !== null;
+
           switch (name) {
             case 'disabled':
               // Set the aria value.
@@ -568,46 +452,7 @@
                 }
               }
               break;
-
-            case 'name':
-              if (this.name !== newValue) {
-                this.name = newValue;
-              }
-              break;
-
-            case 'value':
-              if (this.value !== newValue) {
-                this.value = newValue;
-              }
-              break;
-
-            case 'form':
-              if (this.form.id !== newValue) {
-                this.form = newValue;
-              }
-              break;
           }
-        }
-
-        /**
-         * Add an option to the button.
-         *
-         * @param {HTMLElement} option
-         *   The element to add.
-         */
-        add(option) {
-          option.slot = 'options';
-          this.appendChild(option);
-        }
-
-        /**
-         * Removes an option from the button.
-         *
-         * @param {number} index
-         *   The index of the element to remove.
-         */
-        remove(index) {
-          this.removeChild(this.options[index]);
         }
 
         /**
@@ -641,8 +486,8 @@
          * @param {MouseEvent} event
          */
         _onLeftClick(event) {
-          this._flip();
           this.blur();
+          this.flipForward();
           event.preventDefault();
         }
 
@@ -652,9 +497,29 @@
          * @param {MouseEvent} event
          */
         _onRightClick(event) {
-          this._flip(false);
           this.blur();
+          this.flipBackward();
           event.preventDefault();
+        }
+
+        /**
+         * Called when the selected option for the form element changes.
+         * Needs to be called manually when setting the form element's selected index.
+         */
+        _selectedOptionChanged() {
+          if (this._formElement === null || this._formElement.length === 0) {
+            return;
+          }
+
+          let option = this._formElement.selectedOptions[0];
+
+          if (this._flipped) {
+            this._cardBackFace.textContent = option.textContent;
+          } else {
+            this._cardFrontFace.textContent = option.textContent;
+          }
+
+          this._update();
         }
 
         /**
@@ -662,37 +527,102 @@
          *
          * @param {Array<MutationRecord} mutations
          */
-        _onChildrenMutation(mutations) {
+        _onLightDomMutation(mutations) {
+          let nodesAdded = false;
+          let nodesRemoved = false;
+
           let recalculateSize;
           recalculateSize = false;
 
           // For each mutation.
           for (let i = 0; i < mutations.length; i++) {
-            // Option added
-            for (let j = 0; j < mutations[i].addedNodes.length; j++) {
-              if (mutations[i].addedNodes[j].assignedSlot === this._optionsSlot) {
-                recalculateSize = true;
-                mutations[i].addedNodes[j].setAttribute('role', 'option');
-              }
+            // Nodes Added?
+            if (mutations[i].addedNodes.length > 0) {
+              nodesAdded = true;
             }
 
-            // For each removed node.
-            for (let j = 0; j < mutations[i].removedNodes.length; j++) {
-              // Active option removed?
-              if (mutations[i].removedNodes[j].classList.contains('active')) {
-                this.selectedIndex = (((this.selectedIndex) % this.length) + this.length) % this.length;
-              }
+            // Nodes Removed?
+            if (mutations[i].removedNodes.length > 0) {
+              nodesRemoved = true;
             }
+          }
 
-            // No options left?
-            if (this.length === 0) {
+          // If lightDom elements changed?
+          if (nodesAdded || nodesRemoved) {
+            let fe = this._formElement;
+            this._setUpFormElement();
+
+            // New form element?
+            if (this._formElement !== fe) {
               recalculateSize = true;
             }
           }
 
+          // Size of the element needs recalculate?
           if (recalculateSize) {
             this._setUpDimensions();
           }
+        }
+
+        /**
+         * Called when a top level lightDom mutation happens.
+         *
+         * @param {Array<MutationRecord} mutations
+         */
+        _onOptionsMutation(mutations) {
+          let optionsAdded = false;
+          let optionsRemoved = false;
+
+          let recalculateSize;
+          recalculateSize = false;
+
+          // For each mutation.
+          for (let i = 0; i < mutations.length; i++) {
+            // Option added?
+            for (let j = 0; j < mutations[i].addedNodes.length; j++) {
+              if (mutations[i].addedNodes[j].tagName === 'OPTION') {
+                optionsAdded = true;
+                break;
+              }
+            }
+
+             // Option removed?
+             for (let j = 0; j < mutations[i].addedNodes.length; j++) {
+              if (mutations[i].addedNodes[j].tagName === 'OPTION') {
+                optionsRemoved = true;
+                break;
+              }
+            }
+
+            // No options left?
+            if (this._formElement !== null && this._formElement.length === 0) {
+              recalculateSize = true;
+            }
+          }
+
+          // If lightDom elements changed?
+          if (optionsAdded || optionsRemoved) {
+            // TODO: options changed.
+          }
+
+          // Size of the element needs recalculate?
+          if (recalculateSize) {
+            this._setUpDimensions();
+          }
+        }
+
+        /**
+         * Flip the button forwards.
+         */
+        flipForward() {
+          this._flip(true);
+        }
+
+        /**
+         * Flip the button backwards.
+         */
+        flipBackward() {
+          this._flip(false);
         }
 
         /**
@@ -706,14 +636,15 @@
          *   If true, flip forward. If false, flip back.
          */
         _flip(forwards = true) {
-          // Don't do anything if disabled.
-          if (this.disabled) {
+          if (this._formElement === null || this.disabled) {
             return;
           }
 
           // Update the selected index.
-          let newIndex = forwards ? (this.selectedIndex + 1) : (this.selectedIndex - 1);
-          this.selectedIndex = (((newIndex) % this.length) + this.length) % this.length;
+          let newIndex = this._formElement.selectedIndex + (forwards ? 1 : -1);
+          let length = this._formElement.length;
+          this._lastSelectedIndex = this._formElement.selectedIndex;
+          this._formElement.selectedIndex = ((newIndex % length) + length) % length;
 
           /**
            * Fire a change event.
@@ -722,68 +653,49 @@
            */
           this.dispatchEvent(new CustomEvent('change', {
             detail: {
-              selectedIndex: this.selectedIndex,
-              option: this.options[this.selectedIndex]
+              selectedIndex: this._formElement.selectedIndex,
+              selectedOptions: this._formElement.selectedOptions
             },
             bubbles: true,
           }));
+
+          // `change` event on the form element is not emitted when setting selectedIndex manually.
+          this._selectedOptionChanged();
         }
 
         /**
          * Update the element
-         *
-         * @param {boolean} [delayTransition=false]
-         *   If true, delay the transition by one frame.
          */
-        _update(delayTransition = false) {
-          delayTransition = delayTransition;    // Fix for bug in minifier.
-
-          // Update the classes and hidden-ness of all the options.
-          let options = this._optionsSlot.assignedNodes();
-          for (let i = 0; i < options.length; i++) {
-            // The newly active element.
-            if (i === this.selectedIndex) {
-              options[i].classList.add('active');
-              options[i].classList.remove('last-active');
-              options[i].removeAttribute('hidden');
-
-              // Set `aria-activedescendant`.
-              // If the active descendant doesn't have an id, generate one for it.
-              if (options[i].id === '') {
-                options[i].id = this._generateGuid();
-              }
-              this.setAttribute('aria-activedescendant', options[i].id);
-
-              if (options[i].value !== undefined) {
-                this._formElement.value = options[i].value;
-              }
-              this._formElement.value = options[i].getAttribute('value');
-            }
-            // The previous active element.
-            else if (options[i].classList.contains('active')) {
-              options[i].classList.remove('active');
-              options[i].classList.add('last-active');
-              options[i].removeAttribute('hidden');
-            }
-            // The all the other element.
-            else {
-              options[i].classList.remove('active');
-              options[i].classList.remove('last-active');
-              options[i].setAttribute('hidden', '');
-            }
+        _update() {
+          if (this._formElement === null) {
+            return;
           }
 
-          // Nothing visible?
-          if (this.selectedIndex === -1) {
-            this.classList.add('no-option-selected');
-            this.removeAttribute('aria-activedescendant');
-            this._formElement.value = '';
-          } else {
-            this.classList.remove('no-option-selected');
-          }
+          this.setAttribute('value', this._formElement.value);
+
+          let flippingBackToStart = this._lastSelectedIndex + 1 === this._formElement.length && this._formElement.selectedIndex === 0;
+          let flippingBackToEnd = this._lastSelectedIndex === 0 && this._formElement.selectedIndex + 1 === this._formElement.length;
 
           // Play the transition.
-          if (delayTransition) {
+          if (flippingBackToStart || flippingBackToEnd) {
+            this._cardElement.style.transition = 'none';
+            let rotation = flippingBackToStart ? 180 : (this._formElement.selectedIndex + 1) * -180;
+            this._cardElement.style.transform = 'rotateY(' + rotation + 'deg)';
+
+            // Handle case of flipping around when there is an odd number of options.
+            if (this._formElement.length % 2 === 1) {
+              // Swap the front and back faces.
+              let cff = this._cardFrontFace;
+              this._cardFrontFace = this._cardBackFace;
+              this._cardBackFace = cff;
+
+              // Give the swapped faces their new ids.
+              this._cardFrontFace.id = 'front';
+              this._cardBackFace.id = 'back';
+
+              // The flipped status has now switched.
+              this._flipped = !this._flipped;
+            }
             setTimeout(this._playTransition.bind(this), 0);
           } else {
             this._playTransition();
@@ -800,29 +712,11 @@
           this._cardElement.style.transition = '';
 
           // Set the rotation of the card.
-          let rotation = this.selectedIndex * -180;
+          let rotation = this._formElement.selectedIndex * -180;
           this._cardElement.style.transform = 'rotateY(' + rotation + 'deg)';
 
-          // Update the classes and hidden-ness of all the options.
-          let options = this._optionsSlot.assignedNodes();
-          for (let i = 0; i < options.length; i++) {
-            // The newly active element.
-            if (i === this.selectedIndex) {
-              if (i % 2 === 0) {
-                options[i].style.transform = '';
-              } else {
-                options[i].style.transform = 'rotateY(180deg)';
-              }
-            }
-            // The last active element.
-            else if (options[i].classList.contains('last-active')) {
-              options[i].style.transform = 'rotateY(' + (rotation + 180) + 'deg)';
-            }
-            // The all the other element.
-            else {
-              options[i].style.transform = '';
-            }
-          }
+          // Card has now been flipped/unflipped.
+          this._flipped = !this._flipped;
         }
 
         /**

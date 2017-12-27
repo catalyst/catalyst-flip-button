@@ -18,10 +18,12 @@
   <test-fixture id="basic">
     <template>
       <catalyst-flip-button>
-        <div slot="options" id="id1" value="a">Apples</div>
-        <div slot="options" id="id2" value="b">Banana</div>
-        <div slot="options" id="id3" value="c">Carrot</div>
-        <div slot="options" id="id4" value="d">Duck</div>
+        <select>
+          <option id="id1" value="a">Apples</option>
+          <option id="id2" value="b">Banana</option>
+          <option id="id3" value="c">Carrot</option>
+          <option id="id4" value="d">Duck</option>
+        </select>
       </catalyst-flip-button>
     </template>
   </test-fixture>
@@ -32,12 +34,14 @@
      */
     suite('', () => {
       let element;
+      let select;
 
       /**
        * Called before each following test is run.
        */
       setup(() => {
         element = fixture('basic');
+        select = element.querySelector('select');
       });
 
       /**
@@ -46,23 +50,20 @@
       suite('Adding', () => {
 
         // Test the `add()` method.
-        test('add()', () => {
+        test('select.add()', () => {
           let newOption = document.createElement('option');
           newOption.id = 'id5';
           newOption.value = 'e';
           newOption.textContent = 'Egg';
 
-          element.add(newOption);
+          select.add(newOption);
 
-          expect(element.length).to.equal(5);
-          expect(element.options.length).to.equal(5);
-          expect(element.selectedIndex).to.equal(0);
+          expect(select.length).to.equal(5);
+          expect(select.options.length).to.equal(5);
+          expect(select.selectedIndex).to.equal(0);
 
-          element.selectedIndex = 4;
-
-          expect(element.selectedIndex).to.equal(4);
-          expect(element.options[element.selectedIndex].classList.contains('active')).to.be.true;
-          expect(element.options[element.selectedIndex].hasAttribute('hidden')).to.be.false;
+          select.selectedIndex = 4;
+          expect(select.selectedIndex).to.equal(4);
         });
 
         // Test the directly editiing the light dom.
@@ -73,17 +74,14 @@
           newOption.value = 'e';
           newOption.textContent = 'Egg';
 
-          element.appendChild(newOption);
+          select.appendChild(newOption);
 
-          expect(element.length).to.equal(5);
-          expect(element.options.length).to.equal(5);
-          expect(element.selectedIndex).to.equal(0);
+          expect(select.length).to.equal(5);
+          expect(select.options.length).to.equal(5);
+          expect(select.selectedIndex).to.equal(0);
 
-          element.selectedIndex = 4;
-
-          expect(element.selectedIndex).to.equal(4);
-          expect(element.options[element.selectedIndex].classList.contains('active')).to.be.true;
-          expect(element.options[element.selectedIndex].hasAttribute('hidden')).to.be.false;
+          select.selectedIndex = 4;
+          expect(select.selectedIndex).to.equal(4);
         });
       });
 
@@ -94,21 +92,21 @@
 
         suite('Remove Non-Active Element', () => {
           // Test the `remove()` method.
-          test('remove()', (done) => {
+          test('select.remove()', (done) => {
             let testRunning = true;
 
-            element.remove(1);
+            select.remove(1);
 
             setTimeout(() => {
               if (testRunning) {
-                expect(element.length).to.equal(3);
-                expect(element.options.length).to.equal(3);
-                expect(element.selectedIndex).to.equal(0);
+                expect(select.length).to.equal(3);
+                expect(select.options.length).to.equal(3);
+                expect(select.selectedIndex).to.equal(0);
 
-                element.selectedIndex = 1;
+                select.selectedIndex = 1;
 
-                expect(element.selectedIndex).to.equal(1);
-                expect(element.options[element.selectedIndex].id).to.equal('id3');
+                expect(select.selectedIndex).to.equal(1);
+                expect(select.options[select.selectedIndex].id).to.equal('id3');
 
                 testRunning = false;
                 done();
@@ -120,20 +118,20 @@
           test('Light Dom Manipulation', (done) => {
             let testRunning = true;
 
-            let option = element.querySelector('#id2');
+            let option = select.querySelector('#id2');
 
-            element.removeChild(option);
+            select.removeChild(option);
 
             setTimeout(() => {
               if (testRunning) {
-                expect(element.length).to.equal(3);
-                expect(element.options.length).to.equal(3);
-                expect(element.selectedIndex).to.equal(0);
+                expect(select.length).to.equal(3);
+                expect(select.options.length).to.equal(3);
+                expect(select.selectedIndex).to.equal(0);
 
-                element.selectedIndex = 1;
+                select.selectedIndex = 1;
 
-                expect(element.selectedIndex).to.equal(1);
-                expect(element.options[element.selectedIndex].id).to.equal('id3');
+                expect(select.selectedIndex).to.equal(1);
+                expect(select.options[select.selectedIndex].id).to.equal('id3');
 
                 testRunning = false;
                 done();
@@ -145,20 +143,17 @@
         suite('Remove Active Element', () => {
           suite('Non-Last Element', () => {
             // Test the `remove()` method.
-            test('remove()', (done) => {
+            test('select.remove()', (done) => {
               let testRunning = true;
 
-              element.remove(0);
+              select.remove(0);
 
               setTimeout(() => {
                 if (testRunning) {
-                  expect(element.length).to.equal(3);
-                  expect(element.options.length).to.equal(3);
-                  expect(element.selectedIndex).to.equal(0);
-                  expect(element.options[element.selectedIndex].id).to.equal('id2');
-                  expect(element.options[element.selectedIndex].classList.contains('active')).to.be.true;
-                  expect(element.options[element.selectedIndex].hasAttribute('hidden')).to.be.false;
-                  expect(element.getAttribute('aria-activedescendant')).to.equal('id2');
+                  expect(select.length).to.equal(3);
+                  expect(select.options.length).to.equal(3);
+                  expect(select.selectedIndex).to.equal(0);
+                  expect(select.options[select.selectedIndex].id).to.equal('id2');
 
                   testRunning = false;
                   done();
@@ -170,19 +165,16 @@
             test('Light Dom Manipulation', (done) => {
               let testRunning = true;
 
-              let option = element.querySelector('#id1');
+              let option = select.querySelector('#id1');
 
-              element.removeChild(option);
+              select.removeChild(option);
 
               setTimeout(() => {
                 if (testRunning) {
-                  expect(element.length).to.equal(3);
-                  expect(element.options.length).to.equal(3);
-                  expect(element.selectedIndex).to.equal(0);
-                  expect(element.options[element.selectedIndex].id).to.equal('id2');
-                  expect(element.options[element.selectedIndex].classList.contains('active')).to.be.true;
-                  expect(element.options[element.selectedIndex].hasAttribute('hidden')).to.be.false;
-                  expect(element.getAttribute('aria-activedescendant')).to.equal('id2');
+                  expect(select.length).to.equal(3);
+                  expect(select.options.length).to.equal(3);
+                  expect(select.selectedIndex).to.equal(0);
+                  expect(select.options[select.selectedIndex].id).to.equal('id2');
 
                   testRunning = false;
                   done();
@@ -193,20 +185,18 @@
 
           suite('Last Element', () => {
             // Test the `remove()` method.
-            test('remove()', (done) => {
+            test('select.remove()', (done) => {
               let testRunning = true;
 
-              element.selectedIndex = 3;
-              element.remove(3);
+              select.selectedIndex = 3;
+              select.remove(3);
 
               setTimeout(() => {
                 if (testRunning) {
-                  expect(element.length).to.equal(3);
-                  expect(element.options.length).to.equal(3);
-                  expect(element.selectedIndex).to.equal(2);
-                  expect(element.options[element.selectedIndex].id).to.equal('id3');
-                  expect(element.options[element.selectedIndex].classList.contains('active')).to.be.true;
-                  expect(element.options[element.selectedIndex].hasAttribute('hidden')).to.be.false;
+                  expect(select.length).to.equal(3);
+                  expect(select.options.length).to.equal(3);
+                  expect(select.selectedIndex).to.equal(0);
+                  expect(select.options[select.selectedIndex].id).to.equal('id1');
 
                   testRunning = false;
                   done();
@@ -218,19 +208,17 @@
             test('Light Dom Manipulation', (done) => {
               let testRunning = true;
 
-              let option = element.querySelector('#id4');
+              let option = select.querySelector('#id4');
 
-              element.selectedIndex = 3;
-              element.removeChild(option);
+              select.selectedIndex = 3;
+              select.removeChild(option);
 
               setTimeout(() => {
                 if (testRunning) {
-                  expect(element.length).to.equal(3);
-                  expect(element.options.length).to.equal(3);
-                  expect(element.selectedIndex).to.equal(2);
-                  expect(element.options[element.selectedIndex].id).to.equal('id3');
-                  expect(element.options[element.selectedIndex].classList.contains('active')).to.be.true;
-                  expect(element.options[element.selectedIndex].hasAttribute('hidden')).to.be.false;
+                  expect(select.length).to.equal(3);
+                  expect(select.options.length).to.equal(3);
+                  expect(select.selectedIndex).to.equal(0);
+                  expect(select.options[select.selectedIndex].id).to.equal('id1');
 
                   testRunning = false;
                   done();

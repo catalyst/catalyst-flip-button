@@ -19,9 +19,11 @@
     <template>
       <form>
         <catalyst-flip-button name="foo">
-          <div slot="options" value="one">Option 1</div>
-          <div slot="options" value="two">Option 2</div>
-          <div slot="options" value="three">Option 3</div>
+          <select>
+            <option value="one">Option 1</option>
+            <option value="two">Option 2</option>
+            <option value="three">Option 3</option>
+          </select>
         </catalyst-flip-button>
         <input type="submit" name="submit-btn">
       </form>
@@ -30,11 +32,12 @@
 
   <script>
     /**
-     * Form suite.
+     * TODO: Form suite.
      */
     suite('', () => {
       let form;
       let element;
+      let select;
 
       /**
        * Called before each following test is run.
@@ -42,85 +45,19 @@
       setup(() => {
         form = fixture('form');
         element = form.querySelector('catalyst-flip-button');
+        select = element.querySelector('select');
       });
 
       /**
        * Test the inital state of the element.
        */
       suite('Initial State', () => {
-
-        /**
-         * Test the attributes and properties of the element in it's inital state.
-         */
-        suite('Attributes & Properties', () => {
-
-          /**
-           * Test name.
-           */
-          test('name', () => {
-            expect(element.hasAttribute('name')).to.be.true;
-            expect(element.getAttribute('name')).to.equal('foo');
-            expect(element).to.have.property('name', 'foo');
-
-            expect(form.elements['foo']).to.exist;
-            expect(form.elements['foo']).to.have.property('name', 'foo');
-          });
-
-          /**
-           * Test value.
-           */
-          test('value', () => {
-            expect(element).to.have.property('value', 'one');
-
-            expect(form.elements['foo']).to.exist;
-            expect(form.elements['foo']).to.have.property('value', 'one');
-          });
-
-          /**
-           * Test form.
-           */
-          test('form', () => {
-            expect(element).to.have.property('form', form);
-          });
-        });
       });
 
       /**
        * Test the element when it's state changes.
        */
-       suite('Changing State', () => {
-
-        /**
-         * Test the attributes and properties of the element when not in the initial state.
-         */
-          suite('Attributes & Properties', () => {
-
-          /**
-           * Non-default option selected.
-           */
-          test('Non-default option selected', () => {
-            element.selectedIndex = 2;
-
-            expect(element).to.have.property('value', 'three');
-
-            expect(form.elements['foo']).to.exist;
-            expect(form.elements['foo']).to.have.property('name', 'foo');
-            expect(form.elements['foo']).to.have.property('value', 'three');
-          });
-
-          /**
-           * No option selected.
-           */
-          test('No option selected', () => {
-            element.selectedIndex = -1;
-
-            expect(element).to.have.property('value', '');
-
-            expect(form.elements['foo']).to.exist;
-            expect(form.elements['foo']).to.have.property('name', 'foo');
-            expect(form.elements['foo']).to.have.property('value', '');
-          });
-        });
+      suite('Changing State', () => {
       });
 
       /**
