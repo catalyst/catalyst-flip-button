@@ -22,7 +22,11 @@
        */
       const KEYCODE = {
         SPACE: 32,
-        ENTER: 13
+        ENTER: 13,
+        LEFT: 37,
+        UP: 38,
+        RIGHT: 39,
+        DOWN: 40
       };
 
       /**
@@ -473,6 +477,18 @@
               this._flip();
               break;
 
+            case KEYCODE.LEFT:
+            case KEYCODE.UP:
+              event.preventDefault();
+              this.previous();
+              break;
+
+            case KEYCODE.RIGHT:
+            case KEYCODE.DOWN:
+              event.preventDefault();
+              this.next();
+              break;
+
             // Any other key press is ignored and passed back to the browser.
             default:
               return;
@@ -485,9 +501,8 @@
          * @param {MouseEvent} event
          */
         _onLeftClick(event) {
-          this.blur();
-          this.flipForward();
           event.preventDefault();
+          this.next();
         }
 
         /**
@@ -496,9 +511,8 @@
          * @param {MouseEvent} event
          */
         _onRightClick(event) {
-          this.blur();
-          this.flipBackward();
           event.preventDefault();
+          this.previous();
         }
 
         /**
@@ -611,16 +625,16 @@
         }
 
         /**
-         * Flip the button forwards.
+         * Flip the button forwards to the next option.
          */
-        flipForward() {
+        next() {
           this._flip(true);
         }
 
         /**
-         * Flip the button backwards.
+         * Flip the button back to the previous option.
          */
-        flipBackward() {
+        previous() {
           this._flip(false);
         }
 
