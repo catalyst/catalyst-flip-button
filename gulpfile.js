@@ -6,8 +6,9 @@ const babel = require('gulp-babel');
 const clean = require('gulp-clean');
 const htmlmin = require('gulp-htmlmin');
 const inject = require('gulp-inject');
-const jeditor = require('gulp-json-editor');
+const jsonEditor = require('gulp-json-editor');
 const rename = require('gulp-rename');
+const replace = require('gulp-replace');
 const sass = require('gulp-sass');
 
 const elementName = 'catalyst-flip-button';
@@ -30,13 +31,15 @@ function transformGetFileContents(filePath, file) {
 gulp.task('html', () => {
   return gulp.src('src/**/*.html')
     .pipe(htmlmin({collapseWhitespace: true}))
+    .pipe(replace('\n', ''))
     .pipe(gulp.dest(tmpPath));
 });
 
 // Compile Sass.
 gulp.task('sass', () => {
-  return gulp.src(srcPath + '/**/*.scss')
+  gulp.src(srcPath + '/**/*.scss')
     .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+    .pipe(replace('\n', ''))
     .pipe(gulp.dest(tmpPath));
 });
 
@@ -93,7 +96,7 @@ gulp.task('build', ['clean-dist', 'inject'], () => {
 // Fix issues with analysis.json
 gulp.task('analysis-fixer', () => {
   return gulp.src("./analysis.json")
-    .pipe(jeditor(function(json) {
+    .pipe(jsonEditor(function(json) {
 
       // If `classes` is defined.
       if (json.classes) {
