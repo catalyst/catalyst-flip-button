@@ -75,9 +75,7 @@
   #card {
     #front,
     #back {
-      outline: #000000 dotted 1px;
-      outline: -webkit-focus-ring-color auto 5px;
-      outline: var(--catalyst-flip-button-card-face-focused-outline);
+      outline: var(--catalyst-flip-button-card-face-focused-outline, #000000 dotted 1px);
     }
   }
 }
