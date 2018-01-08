@@ -1,7 +1,6 @@
 # &lt;catalyst-flip-button&gt;
 
-`catalyst-flip-button` is a flip button web component. It has a flip animation that reveal the back face when clicked.
-The back face can be styled differently to the front face and contain different content.
+`catalyst-flip-button` is a wrapper for a `select` element. It displays as a button and flips between different options.
 
 Also see [catalyst-toggle-button](https://gitlab.wgtn.cat-it.co.nz/rebeccastevens/catalyst-toggle-button).
 
@@ -16,7 +15,14 @@ Import the script for the web component on each page it is to be used on:
 Then simply use it like any other tag:
 
 ```html
-<catalyst-flip-button default-label="Foo Button" flipped-label="Bar Button"></catalyst-flip-button>
+<catalyst-flip-button>
+  <select>
+    <option>Apples</option>
+    <option>Banana</option>
+    <option>Carrot</option>
+    <option>Duck</option>
+  </select>
+</catalyst-flip-button>
 ```
 
 ## Docs ans Demos
@@ -35,7 +41,7 @@ Install via npm:
 npm install --save @webcomponents/webcomponentsjs @webcomponents/shadycss
 ```
 
-Then include on each page (before importing the component's efinition):
+Then include on each page (before importing the component's definition):
 
 ```html
 <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
