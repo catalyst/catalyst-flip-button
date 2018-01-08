@@ -161,6 +161,9 @@
           if (!this.hasAttribute('aria-disabled')) {
             this.setAttribute('aria-disabled', this.disabled);
           }
+          if (!this.hasAttribute('aria-live')) {
+            this.setAttribute('aria-live', 'polite');
+          }
 
           // Add the element's event listeners.
           this.addEventListener('keydown', this._onKeyDown);

@@ -78,7 +78,8 @@
     <demo-snippet id="demo3">
       <template>
         <form action="?" method="get">
-          <catalyst-flip-button>
+          <label id="demo3-foo-label" for="demo3-foo">Select an option:</label>
+          <catalyst-flip-button id="demo3-foo" aria-labelledby="demo3-foo-label">
             <select name="foo">
               <option value="one">Option 1</option>
               <option value="two">Option 2</option>

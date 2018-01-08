@@ -92,6 +92,14 @@
             expect(element.hasAttribute('aria-disabled')).to.be.true;
             expect(element.getAttribute('aria-disabled')).to.equal('false');
           });
+
+          /**
+           * Test aria-live.
+           */
+          test('aria-live', () => {
+            expect(element.hasAttribute('aria-live')).to.be.true;
+            expect(element.getAttribute('aria-live')).to.equal('polite');
+          });
         });
       });
 
