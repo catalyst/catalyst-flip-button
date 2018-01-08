@@ -239,6 +239,21 @@
                 childList: true
               });
 
+              // Set up the label(s).
+              if (this._formElement.labels.length > 0) {
+                let labelledBy = [];
+                for (let i = 0; i < this._formElement.labels.length; i++) {
+                  let label = this._formElement.labels[i];
+                  if (label.id === '') {
+                    label.id = this._generateGuid();
+                  }
+                  labelledBy.push(label.id);
+                }
+                this.setAttribute('aria-labelledby', labelledBy.join(' '));
+              } else {
+                this.removeAttribute('aria-labelledby');
+              }
+
               this._selectedOptionChanged();
             }
           }
@@ -733,6 +748,18 @@
 
           // Card has now been flipped/unflipped.
           this._flipped = !this._flipped;
+        }
+
+        /**
+         * Generate a guid (or at least something that seems like one)
+         *
+         * @see https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+         */
+        _generateGuid() {
+          let s4 = () => {
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+          }
+          return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
         }
       }
 
