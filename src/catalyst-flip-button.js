@@ -220,7 +220,7 @@
             if (newFormElement !== this._formElement) {
               // Clean up the old form element.
               if (this._formElement !== null && this._formElement !== undefined) {
-                this._formElement.removeEventListener('change', this._selectedOptionChanged.bind(this));
+                this._formElement.removeEventListener('change', this.notifySelectedOptionChanged.bind(this));
               }
 
               // Remove the old observer if there is one.
@@ -231,7 +231,7 @@
 
               // Set up the new form element.
               this._formElement = newFormElement;
-              this._formElement.addEventListener('change', this._selectedOptionChanged.bind(this));
+              this._formElement.addEventListener('change', this.notifySelectedOptionChanged.bind(this));
 
               // Create an observer to watch for changes in the form element's options.
               this._optionsObserver = new MutationObserver(this._onOptionsMutation.bind(this));
@@ -254,7 +254,7 @@
                 this.removeAttribute('aria-labelledby');
               }
 
-              this._selectedOptionChanged();
+              this.notifySelectedOptionChanged();
             }
           }
         }
@@ -534,10 +534,11 @@
         }
 
         /**
-         * Called when the selected option for the form element changes.
-         * Needs to be called manually when setting the form element's selected index.
+         * Notify this component that the select element has changed.
+         *
+         * Must be called after manually setting the selected index.
          */
-        _selectedOptionChanged() {
+        notifySelectedOptionChanged() {
           if (this._formElement === null || this._formElement.length === 0) {
             return;
           }
@@ -691,7 +692,7 @@
           }));
 
           // `change` event on the form element is not emitted when setting selectedIndex manually.
-          this._selectedOptionChanged();
+          this.notifySelectedOptionChanged();
         }
 
         /**
