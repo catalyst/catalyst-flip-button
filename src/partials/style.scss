@@ -1,38 +1,32 @@
 :host {
-  display: inline-block;
-  contain: layout style;
+  position: relative;
 
+  display: inline-block;
   align-items: flex-start;
-  cursor: default;
+  padding: 1px 6px;
   margin: 0;
 
-  padding: 1px 6px;
-  box-sizing: content-box;
-
   font-family: inherit;
-  font-size: 100% * 5/6;
-  font-weight: 400;
+  font-size: 100% * 5 / 6;
   font-style: normal;
-  font-variant: normal;
-  font-stretch: normal;
+  font-weight: 400;
   line-height: normal;
-
-  text-rendering: auto;
-  text-transform: none;
-  text-indent: 0;
-  text-shadow: none;
-  text-align: center;
   letter-spacing: normal;
   word-spacing: normal;
+
+  color: #000;
+  text-align: center;
+  text-indent: 0;
+  text-rendering: auto;
+  text-shadow: none;
+  text-transform: none;
+
   vertical-align: bottom;
-
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
-
-  position: relative;
-  color: #000000;
+  cursor: default;
+  box-sizing: content-box;
+  user-select: none;
   perspective: 100px;
+  contain: layout style;
 
   #card {
     position: absolute;
@@ -40,28 +34,30 @@
     right: 0;
     bottom: 0;
     left: 0;
+    transition: transform 0.4s ease;
     transform-style: preserve-3d;
-    transition: transform .4s ease;
 
     #front,
     #back {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0;
       position: absolute;
       top: 0;
       right: 0;
       bottom: 0;
       left: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+
+      background:         var(--catalyst-flip-button-card-face-background, #ddd);
+      border:             var(--catalyst-flip-button-card-face-border);
+      border-radius:      var(--catalyst-flip-button-card-face-border-radius);
+
       backface-visibility: hidden;
 
       -webkit-appearance: var(--catalyst-flip-button-card-face-appearance, button);
       -moz-appearance:    var(--catalyst-flip-button-card-face-appearance, button);
-      appearance:         var(--catalyst-flip-button-card-face-appearance, button);
-      background:         var(--catalyst-flip-button-card-face-background, #dddddd);
-      border:             var(--catalyst-flip-button-card-face-border);
-      border-radius:      var(--catalyst-flip-button-card-face-border-radius);
     }
 
     #back {
@@ -69,16 +65,18 @@
     }
   }
 }
+
 :host(:focus) {
   outline: none;
 
   #card {
     #front,
     #back {
-      outline: var(--catalyst-flip-button-card-face-focused-outline, #000000 dotted 1px);
+      outline: var(--catalyst-flip-button-card-face-focused-outline, #000 dotted 1px);
     }
   }
 }
+
 :host([hidden]),
 :host [hidden] {
   display: none;

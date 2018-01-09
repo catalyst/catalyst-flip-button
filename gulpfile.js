@@ -2,14 +2,18 @@
 
 // Libraries.
 const gulp = require('gulp');
+const autoprefixer = require('gulp-autoprefixer');
 const babel = require('gulp-babel');
 const clean = require('gulp-clean');
+const eslint = require('gulp-eslint');
+const htmlExtract = require('gulp-html-extract');
 const htmlmin = require('gulp-htmlmin');
 const inject = require('gulp-inject');
 const jsonEditor = require('gulp-json-editor');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace');
 const sass = require('gulp-sass');
+const sassLint = require('gulp-sass-lint');
 
 const elementName = 'catalyst-flip-button';
 
@@ -27,24 +31,68 @@ function transformGetFileContents(filePath, file) {
   return file.contents.toString('utf8')
 }
 
+// Lint the project
+gulp.task('lint', ['lint:js', 'lint:js-html', 'lint:scss']);
+
+// Lint JS
+gulp.task('lint:js', function() {
+  return gulp.src([
+    '*.js',
+    'src/**/*.js',
+    'test/**/*.js',
+    'demo/**/*.js'
+  ])
+  .pipe(eslint())
+  .pipe(eslint.format())
+  .pipe(eslint.failOnError());
+});
+
+// Lint JS in HTML
+gulp.task('lint:js-html', function() {
+  return gulp.src([
+    '*.html',
+    'src/**/*.html',
+    'test/**/*.html',
+    'demo/**/*.html'
+  ])
+  .pipe(htmlExtract({
+    sel: 'script',
+    strip: true
+  }))
+  .pipe(eslint())
+  .pipe(eslint.format())
+  .pipe(eslint.failOnError());
+});
+
+// Lint SCSS
+gulp.task('lint:scss', function() {
+  return gulp.src([
+    'src/**/*.scss'
+  ])
+  .pipe(sassLint())
+  .pipe(sassLint.format())
+  .pipe(sassLint.failOnError())
+});
+
 // Minify HTML.
-gulp.task('html', () => {
-  return gulp.src('src/**/*.html')
+gulp.task('html-min', () => {
+  return gulp.src(srcPath + '/**/*.html')
     .pipe(htmlmin({collapseWhitespace: true}))
     .pipe(replace('\n', ''))
     .pipe(gulp.dest(tmpPath));
 });
 
 // Compile Sass.
-gulp.task('sass', () => {
-  gulp.src(srcPath + '/**/*.scss')
+gulp.task('sass-compile', () => {
+  return gulp.src(srcPath + '/**/*.scss')
     .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+    .pipe(autoprefixer())
     .pipe(replace('\n', ''))
     .pipe(gulp.dest(tmpPath));
 });
 
 // Inject the template html and css into custom element.
-gulp.task('inject', ['html', 'sass'], () => {
+gulp.task('inject', ['html-min', 'sass-compile'], () => {
   return gulp.src(srcPath + '/' + elementName + '.js')
     // Inject the template html.
     .pipe(inject(gulp.src(tmpPath + '/partials/template.html'), {
