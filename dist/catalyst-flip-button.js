@@ -135,6 +135,12 @@
          *   The last selected index.
          */
         this._lastSelectedIndex = -1;
+
+        /**
+         * @property {number} _rotation
+         *   The rotation of the card.
+         */
+        this._rotation = 0;
       }
 
       /**
@@ -677,6 +683,12 @@
         this._lastSelectedIndex = this._formElement.selectedIndex;
         this._formElement.selectedIndex = ((newIndex % length) + length) % length;
 
+        // Update the card's rotation.
+        this._rotation += 180 * (forwards ? -1 : 1);
+
+        // Card has now been flipped/unflipped.
+        this._flipped = !this._flipped;
+
         /**
          * Fire a change event.
          *
@@ -702,52 +714,11 @@
           return;
         }
 
+        // Update the value attribute.
         this.setAttribute('value', this._formElement.value);
 
-        let flippingBackToStart = this._lastSelectedIndex + 1 === this._formElement.length && this._formElement.selectedIndex === 0;
-        let flippingBackToEnd = this._lastSelectedIndex === 0 && this._formElement.selectedIndex + 1 === this._formElement.length;
-
         // Play the transition.
-        if (flippingBackToStart || flippingBackToEnd) {
-          this._cardElement.style.transition = 'none';
-          let rotation = flippingBackToStart ? 180 : (this._formElement.selectedIndex + 1) * -180;
-          this._cardElement.style.transform = 'rotateY(' + rotation + 'deg)';
-
-          // Handle case of flipping around when there is an odd number of options.
-          if (this._formElement.length % 2 === 1) {
-            // Swap the front and back faces.
-            let cff = this._cardFrontFace;
-            this._cardFrontFace = this._cardBackFace;
-            this._cardBackFace = cff;
-
-            // Give the swapped faces their new ids.
-            this._cardFrontFace.id = 'front';
-            this._cardBackFace.id = 'back';
-
-            // The flipped status has now switched.
-            this._flipped = !this._flipped;
-          }
-          setTimeout(this._playTransition.bind(this), 0);
-        } else {
-          this._playTransition();
-        }
-      }
-
-      /**
-       * Play the element's flip transition.
-       *
-       * Will animate form the last-active element's rotation to the active element's rotation.
-       */
-      _playTransition() {
-        // Restore the transition if it has been disabled.
-        this._cardElement.style.transition = '';
-
-        // Set the rotation of the card.
-        let rotation = this._formElement.selectedIndex * -180;
-        this._cardElement.style.transform = 'rotateY(' + rotation + 'deg)';
-
-        // Card has now been flipped/unflipped.
-        this._flipped = !this._flipped;
+        this._cardElement.style.transform = 'rotateY(' + this._rotation + 'deg)';
       }
 
       /**
