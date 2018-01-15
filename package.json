@@ -1,9 +1,10 @@
 {
   "name": "catalyst-flip-button",
-  "version": "0.2.1",
-  "description": "A wrapper for a select element. It displays as a button and flips between different options.",
+  "license": "BSD-3-Clause",
+  "version": "0.2.2",
+  "description": "A button that and flips between different options.",
   "private": true,
-  "repository": "git@gitlab.wgtn.cat-it.co.nz:rebeccastevens/catalyst-flip-button.git",
+  "repository": "git@gitlab.wgtn.cat-it.co.nz:CatalystElements/catalyst-flip-button.git",
   "main": "src/catalyst-flip-button.js",
   "scripts": {
     "build": "scripts/build.sh",
