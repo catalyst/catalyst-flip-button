@@ -65,8 +65,8 @@
         }
 
         this.addEventListener('keydown', this._onKeyDown);
-        this.addEventListener('click', this._onLeftClick);
-        this.addEventListener('contextmenu', this._onRightClick);
+        this.addEventListener('click', this._onClick);
+        this.addEventListener('contextmenu', this._onContextMenu);
 
         this._selectObserver = new MutationObserver(this._onLightDomMutation.bind(this));
         this._selectObserver.observe(this, {
@@ -214,8 +214,8 @@
 
       disconnectedCallback() {
         this.removeEventListener('keydown', this._onKeyDown);
-        this.removeEventListener('click', this._onLeftClick);
-        this.removeEventListener('contextmenu', this._onRightClick);
+        this.removeEventListener('click', this._onClick);
+        this.removeEventListener('contextmenu', this._onContextMenu);
 
         if (this._selectObserver !== null) {
           this._selectObserver.disconnect();
@@ -312,6 +312,20 @@
           default:
             return;
         }
+      }
+
+      _onClick(event) {
+        if (event.button === 0) {
+          this._onLeftClick(event);
+        }
+        console.log('xyz');
+      }
+
+      _onContextMenu(event) {
+        if (event.button === 2) {
+          this._onRightClick(event);
+        }
+        console.log('abc');
       }
 
       _onLeftClick(event) {

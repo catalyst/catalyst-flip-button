@@ -172,8 +172,8 @@
 
         // Add the element's event listeners.
         this.addEventListener('keydown', this._onKeyDown);
-        this.addEventListener('click', this._onLeftClick);
-        this.addEventListener('contextmenu', this._onRightClick);
+        this.addEventListener('click', this._onClick);
+        this.addEventListener('contextmenu', this._onContextMenu);
 
         this._selectObserver = new MutationObserver(this._onLightDomMutation.bind(this));
         this._selectObserver.observe(this, {
@@ -376,8 +376,8 @@
        */
       disconnectedCallback() {
         this.removeEventListener('keydown', this._onKeyDown);
-        this.removeEventListener('click', this._onLeftClick);
-        this.removeEventListener('contextmenu', this._onRightClick);
+        this.removeEventListener('click', this._onClick);
+        this.removeEventListener('contextmenu', this._onContextMenu);
 
         if (this._selectObserver !== null) {
           this._selectObserver.disconnect();
@@ -524,6 +524,28 @@
           // Any other key press is ignored and passed back to the browser.
           default:
             return;
+        }
+      }
+
+      /**
+       * Called when this element clicked.
+       *
+       * @param {MouseEvent} event
+       */
+      _onClick(event) {
+        if (event.button === 0) {
+          this._onLeftClick(event);
+        }
+      }
+
+      /**
+       * Called when the context menu would be opened.
+       *
+       * @param {MouseEvent} event
+       */
+      _onContextMenu(event) {
+        if (event.button === 2) {
+          this._onRightClick(event);
         }
       }
 
