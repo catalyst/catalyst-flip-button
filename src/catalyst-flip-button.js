@@ -36,7 +36,7 @@
     // If using ShadyCSS.
     if (window.ShadyCSS !== undefined) {
       // Rename classes as needed to ensure style scoping.
-      ShadyCSS.prepareTemplate(template, elementTagName);
+      window.ShadyCSS.prepareTemplate(template, elementTagName);
     }
 
     /**
@@ -186,7 +186,7 @@
         // If using ShadyCSS.
         if (window.ShadyCSS !== undefined) {
           // Style the element.
-          ShadyCSS.styleElement(this);
+          window.ShadyCSS.styleElement(this);
         }
       }
 
@@ -395,7 +395,7 @@
       /**
        * Setter for `disabled`.
        *
-       * @param {*} value
+       * @param {boolean} value
        *   If truthy, `disabled` will be set to true, otherwise `disabled` will be set to false.
        */
       set disabled(value) {
@@ -421,7 +421,7 @@
       /**
        * Setter for `noAutoPerspective`.
        *
-       * @param {*} value
+       * @param {boolean} value
        *   If truthy, `noAutoPerspective` will be set to true, otherwise `noAutoPerspective` will be set to false.
        */
       set noAutoPerspective(value) {
@@ -768,7 +768,7 @@
       });
     }
   } else {
-    /* eslint no-console: 0 */
+    // eslint-disable-next-line no-console
     console.warn('CatalystFlipButton has already been defined, cannot redefine.');
   }
 })();
