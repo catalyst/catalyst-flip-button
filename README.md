@@ -1,12 +1,12 @@
 # &lt;catalyst-flip-button&gt;
 
-[Live Demo ↗](http://rebeccastevens.pages.gitlab.wgtn.cat-it.co.nz/catalyst-flip-button/#/classes/CatalystFlipButton/demos/es6-component-demo)
+[Live Demo ↗](http://catalystelements.pages.gitlab.wgtn.cat-it.co.nz/catalyst-flip-button/#/classes/CatalystFlipButton/demos/es6-component-demo)
 |
-[API documentation ↗](http://rebeccastevens.pages.gitlab.wgtn.cat-it.co.nz/catalyst-flip-button/#/classes/CatalystFlipButton)
+[API documentation ↗](http://catalystelements.pages.gitlab.wgtn.cat-it.co.nz/catalyst-flip-button/#/classes/CatalystFlipButton)
 
 `<catalyst-flip-button>` is a wrapper for a `select` element. It displays as a button and flips between different options.
 
-Also see [catalyst-toggle-button](https://gitlab.wgtn.cat-it.co.nz/rebeccastevens/catalyst-toggle-button).
+Also see [catalyst-toggle-button](https://gitlab.wgtn.cat-it.co.nz/CatalystElements/catalyst-toggle-button).
 
 ## Getting Started
 
