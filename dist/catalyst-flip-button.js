@@ -150,7 +150,7 @@
        */
       connectedCallback() {
         // Set up the form element.
-        this._setUpFormElement();
+        this._setUpSelectElement();
 
         // Upgrade the element's properties.
         this._upgradeProperty('disabled');
@@ -218,14 +218,14 @@
       /**
        * Find the new form element and set it up.
        */
-      _setUpFormElement() {
-        let newFormElement = this.querySelector('select');
+      _setUpSelectElement() {
+        let newSelectElement = this.querySelector('select');
 
-        if (newFormElement !== null) {
-          if (newFormElement !== this._formElement) {
+        if (newSelectElement !== null) {
+          if (newSelectElement !== this._selectElement) {
             // Clean up the old form element.
-            if (this._formElement !== null && this._formElement !== undefined) {
-              this._formElement.removeEventListener('change', this.notifySelectedOptionChanged.bind(this));
+            if (this._selectElement !== null && this._selectElement !== undefined) {
+              this._selectElement.removeEventListener('change', this.notifySelectedOptionChanged.bind(this));
             }
 
             // Remove the old observer if there is one.
@@ -235,20 +235,20 @@
             }
 
             // Set up the new form element.
-            this._formElement = newFormElement;
-            this._formElement.addEventListener('change', this.notifySelectedOptionChanged.bind(this));
+            this._selectElement = newSelectElement;
+            this._selectElement.addEventListener('change', this.notifySelectedOptionChanged.bind(this));
 
             // Create an observer to watch for changes in the form element's options.
             this._optionsObserver = new MutationObserver(this._onOptionsMutation.bind(this));
-            this._optionsObserver.observe(this._formElement, {
+            this._optionsObserver.observe(this._selectElement, {
               childList: true
             });
 
             // Set up the label(s).
-            if (this._formElement.labels.length > 0) {
+            if (this._selectElement.labels.length > 0) {
               let labelledBy = [];
-              for (let i = 0; i < this._formElement.labels.length; i++) {
-                let label = this._formElement.labels[i];
+              for (let i = 0; i < this._selectElement.labels.length; i++) {
+                let label = this._selectElement.labels[i];
                 if (label.id === '') {
                   label.id = this._generateGuid();
                 }
@@ -297,7 +297,7 @@
           this._cardElement.style.position = 'relative';
 
           // Get the options.
-          let options = this._formElement.options;
+          let options = this._selectElement.options;
           if (options.length > 0) {
 
             // Set the styling to relative so the size can be measured.
@@ -384,7 +384,7 @@
           this._selectObserver = undefined;
         }
 
-        this._formElement = undefined;
+        this._selectElement = undefined;
 
         if (this._optionsObserver !== null) {
           this._optionsObserver.disconnect();
@@ -400,7 +400,7 @@
        */
       set disabled(value) {
         const isDisabled = Boolean(value);
-        this._formElement.disabled = isDisabled;
+        this._selectElement.disabled = isDisabled;
         if (isDisabled) {
           this.setAttribute('disabled', '');
         }
@@ -441,6 +441,15 @@
        */
       get noAutoPerspective() {
         return this.hasAttribute('no-auto-perspective');
+      }
+
+      /**
+       * Getter for `selectElement`
+       *
+       * @returns {HTMLSelectElement}
+       */
+      get selectElement() {
+        return this._selectElement;
       }
 
       /**
@@ -544,11 +553,11 @@
        * Must be called after manually setting the selected index.
        */
       notifySelectedOptionChanged() {
-        if (this._formElement === null || this._formElement.length === 0) {
+        if (this._selectElement === null || this._selectElement.length === 0) {
           return;
         }
 
-        let option = this._formElement.selectedOptions[0];
+        let option = this._selectElement.selectedOptions[0];
 
         if (this._flipped) {
           this._cardBackFace.textContent = option.textContent;
@@ -586,11 +595,11 @@
 
         // If lightDom elements changed?
         if (nodesAdded || nodesRemoved) {
-          let fe = this._formElement;
-          this._setUpFormElement();
+          let fe = this._selectElement;
+          this._setUpSelectElement();
 
           // New form element?
-          if (this._formElement !== fe) {
+          if (this._selectElement !== fe) {
             recalculateSize = true;
           }
         }
@@ -632,7 +641,7 @@
           }
 
           // No options left?
-          if (this._formElement !== null && this._formElement.length === 0) {
+          if (this._selectElement !== null && this._selectElement.length === 0) {
             recalculateSize = true;
           }
         }
@@ -673,15 +682,15 @@
        *   If true, flip forward. If false, flip back.
        */
       _flip(forwards = true) {
-        if (this._formElement === null || this.disabled) {
+        if (this._selectElement === null || this.disabled) {
           return;
         }
 
         // Update the selected index.
-        let newIndex = this._formElement.selectedIndex + (forwards ? 1 : -1);
-        let length = this._formElement.length;
-        this._lastSelectedIndex = this._formElement.selectedIndex;
-        this._formElement.selectedIndex = ((newIndex % length) + length) % length;
+        let newIndex = this._selectElement.selectedIndex + (forwards ? 1 : -1);
+        let length = this._selectElement.length;
+        this._lastSelectedIndex = this._selectElement.selectedIndex;
+        this._selectElement.selectedIndex = ((newIndex % length) + length) % length;
 
         // Update the card's rotation.
         this._rotation += 180 * (forwards ? -1 : 1);
@@ -696,8 +705,8 @@
          */
         this.dispatchEvent(new CustomEvent('change', {
           detail: {
-            selectedIndex: this._formElement.selectedIndex,
-            selectedOptions: this._formElement.selectedOptions
+            selectedIndex: this._selectElement.selectedIndex,
+            selectedOptions: this._selectElement.selectedOptions
           },
           bubbles: true,
         }));
@@ -710,12 +719,12 @@
        * Update the element
        */
       _update() {
-        if (this._formElement === null) {
+        if (this._selectElement === null) {
           return;
         }
 
         // Update the value attribute.
-        this.setAttribute('value', this._formElement.value);
+        this.setAttribute('value', this._selectElement.value);
 
         // Play the transition.
         this._cardElement.style.transform = 'rotateY(' + this._rotation + 'deg)';
@@ -734,21 +743,32 @@
       }
     }
 
-    // Make the class globally accessible.
-    window.CatalystFlipButton = CatalystFlipButton;
+    // Make the class globally accessible under the `CatalystElements` object.
+    window.CatalystElements.CatalystFlipButton = CatalystFlipButton;
 
     // Define the element.
     window.customElements.define(elementTagName, CatalystFlipButton);
   }
 
-  // If not using web component polyfills or if polyfills are ready, create the element.
-  if (window.WebComponents === undefined || window.WebComponents.ready) {
-    createElement();
+  // Define `CatalystElements` if it's not already defined.
+  if (window.CatalystElements === undefined) {
+    window.CatalystElements = {};
   }
-  // Otherwise wait until the polyfills is ready.
-  else {
-    window.addEventListener('WebComponentsReady', () => {
+
+  // If the `CatalystFlipButton` hasn't already been defined, define it.
+  if (window.CatalystElements.CatalystFlipButton === undefined) {
+    // If not using web component polyfills or if polyfills are ready, create the element.
+    if (window.WebComponents === undefined || window.WebComponents.ready) {
       createElement();
-    });
+    }
+    // Otherwise wait until the polyfills is ready.
+    else {
+      window.addEventListener('WebComponentsReady', () => {
+        createElement();
+      });
+    }
+  } else {
+    /* eslint no-console: 0 */
+    console.warn('CatalystFlipButton has already been defined, cannot redefine.');
   }
 })();
