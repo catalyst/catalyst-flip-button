@@ -130,7 +130,7 @@ Testing is done using the [web-component-tester](https://github.com/Polymer/web-
 ### Running Tests On The Command Line
 
 ```sh
-npm run tests
+npm test
 ```
 
 ### Running Tests In The Browser

@@ -1,5 +1,9 @@
 (function() {
 
+  if (window.CatalystElements === undefined) {
+    window.CatalystElements = {};
+  }
+
   function createElement() {
 
     const elementTagName = 'catalyst-flip-button';
@@ -472,10 +476,6 @@
     window.CatalystElements.CatalystFlipButton = CatalystFlipButton;
 
     window.customElements.define(elementTagName, CatalystFlipButton);
-  }
-
-  if (window.CatalystElements === undefined) {
-    window.CatalystElements = {};
   }
 
   if (window.CatalystElements.CatalystFlipButton === undefined) {

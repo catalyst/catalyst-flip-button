@@ -1,6 +1,13 @@
 (function() {
 
   /**
+   * Namespace for all the Catalyst Elements.
+   *
+   * @namespace CatalystElements
+   */
+  window.CatalystElements = window.CatalystElements || {};
+
+  /**
    * Create the custom element
    */
   function createElement() {
@@ -52,14 +59,6 @@
      *       </select>
      *     </catalyst-flip-button>
      *
-     * ### Events
-     *
-     * Name     | Cause
-     * -------- |-------------
-     * `change` | Fired when the selected option changes due to user interaction.
-     *
-     * Note: listen for the change event on this element, not its child select element.
-     *
      * ### Focus
      * To focus a catalyst-flip-button, you can call the native `focus()` method as long as the
      * element has a tab index. Similarly, `blur()` will blur the element.
@@ -80,6 +79,7 @@
      * @extends HTMLElement
      *
      * @customElement
+     * @memberof CatalystElements
      * @group Catalyst Elements
      * @element catalyst-flip-button
      * @demo demo/demo.es5.html ES5 Component Demo
@@ -108,38 +108,44 @@
         this.shadowRoot.appendChild(template.content.cloneNode(true));
 
         /**
-         * @property {HTMLElement} _cardElement
-         *   The element that is flipped.
+         * The element that flips.
+         *
+         * @type {HTMLElement}
          */
         this._cardElement = this.shadowRoot.querySelector('#card');
 
         /**
-         * @property {HTMLElement} _cardFrontFace
-         *   The front face of the card.
+         * The front face of the card.
+         *
+         * @type {HTMLElement}
          */
         this._cardFrontFace = this._cardElement.querySelector('#front');
 
         /**
-         * @property {HTMLElement} _cardBackFace
-         *   The back face of the card.
+         * The back face of the card.
+         *
+         * @type {HTMLElement}
          */
         this._cardBackFace = this._cardElement.querySelector('#back');
 
         /**
-         * @property {boolean} _flipped
-         *   True if the card has been flipped, otherwise false.
+         * True if the card has been flipped, otherwise false.
+         *
+         * @type {boolean}
          */
         this._flipped = false;
 
         /**
-         * @property {number} _lastSelectedIndex
-         *   The last selected index.
+         * The last selected index.
+         *
+         * @type {number}
          */
         this._lastSelectedIndex = -1;
 
         /**
-         * @property {number} _rotation
-         *   The rotation of the card.
+         * The rotation of the card.
+         *
+         * @type {number}
          */
         this._rotation = 0;
       }
@@ -411,8 +417,9 @@
       }
 
       /**
-       * Getter for `disabled`.
+       * States whether or not this element is disabled.
        *
+       * @default false
        * @returns {boolean}
        */
       get disabled() {
@@ -436,8 +443,9 @@
       }
 
       /**
-       * Getter for `noAutoPerspective`
+       * States whether or not this element should automatically calculate its own perspective value.
        *
+       * @default false
        * @returns {boolean}
        */
       get noAutoPerspective() {
@@ -445,7 +453,7 @@
       }
 
       /**
-       * Getter for `selectElement`
+       * The select element.
        *
        * @returns {HTMLSelectElement}
        */
@@ -725,6 +733,7 @@
          * Fire a change event.
          *
          * @event change
+         *   Fired when the selected option changes due to user interaction.
          */
         this.dispatchEvent(new CustomEvent('change', {
           detail: {
@@ -771,11 +780,6 @@
 
     // Define the element.
     window.customElements.define(elementTagName, CatalystFlipButton);
-  }
-
-  // Define `CatalystElements` if it's not already defined.
-  if (window.CatalystElements === undefined) {
-    window.CatalystElements = {};
   }
 
   // If the `CatalystFlipButton` hasn't already been defined, define it.
