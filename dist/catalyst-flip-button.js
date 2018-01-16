@@ -318,14 +318,12 @@
         if (event.button === 0) {
           this._onLeftClick(event);
         }
-        console.log('xyz');
       }
 
       _onContextMenu(event) {
         if (event.button === 2) {
           this._onRightClick(event);
         }
-        console.log('abc');
       }
 
       _onLeftClick(event) {

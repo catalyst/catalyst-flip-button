@@ -79,6 +79,7 @@
      * @class
      * @extends HTMLElement
      *
+     * @customElement
      * @group Catalyst Elements
      * @element catalyst-flip-button
      * @demo demo/demo.es5.html ES5 Component Demo
