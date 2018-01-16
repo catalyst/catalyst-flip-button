@@ -1,8 +1,6 @@
 (function() {
 
-  if (window.CatalystElements === undefined) {
-    window.CatalystElements = {};
-  }
+  window.CatalystElements = window.CatalystElements || {};
 
   function createElement() {
 
