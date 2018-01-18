@@ -75,7 +75,9 @@
           childList: true
         });
 
-        this._setUpDimensions();
+        setTimeout(() => {
+          this._setUpDimensions();
+        }, 0);
 
         if (window.ShadyCSS !== undefined) {
           window.ShadyCSS.styleElement(this);

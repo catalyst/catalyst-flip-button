@@ -188,7 +188,9 @@
         });
 
         // Set the size of the element.
-        this._setUpDimensions();
+        setTimeout(() => {
+          this._setUpDimensions();
+        }, 0);
 
         // If using ShadyCSS.
         if (window.ShadyCSS !== undefined) {
