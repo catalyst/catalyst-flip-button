@@ -15,10 +15,13 @@
   word-spacing: normal;
 
   color: #000;
+  color: ButtonText;
+
   text-align: center;
   text-indent: 0;
   text-rendering: auto;
   text-shadow: none;
+  text-shadow: var(--catalyst-flip-button-card-face-text-shadow, none);
   text-transform: none;
 
   vertical-align: bottom;
@@ -50,10 +53,12 @@
       justify-content: center;
       margin: 0;
 
-      background-color: #ddd;
-      background-color:   var(--catalyst-flip-button-card-face-background, #ddd);
-      border:             var(--catalyst-flip-button-card-face-border);
-      border-radius:      var(--catalyst-flip-button-card-face-border-radius);
+      background: #ddd;
+      background: ButtonFace;
+      background: var(--catalyst-flip-button-card-face-background, ButtonFace);
+      border: 2px outset ButtonFace;
+      border: var(--catalyst-flip-button-card-face-border, 2px outset ButtonFace);
+      border-radius: var(--catalyst-flip-button-card-face-border-radius, 0);
 
       backface-visibility: hidden;
 
