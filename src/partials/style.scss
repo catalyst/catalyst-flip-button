@@ -50,7 +50,8 @@
       justify-content: center;
       margin: 0;
 
-      background:         var(--catalyst-flip-button-card-face-background, #ddd);
+      background-color: #ddd;
+      background-color:   var(--catalyst-flip-button-card-face-background, #ddd);
       border:             var(--catalyst-flip-button-card-face-border);
       border-radius:      var(--catalyst-flip-button-card-face-border-radius);
 
