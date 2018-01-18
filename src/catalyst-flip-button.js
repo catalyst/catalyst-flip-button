@@ -252,7 +252,7 @@
             });
 
             // Set up the label(s).
-            if (this._selectElement.labels.length > 0) {
+            if (this._selectElement.labels && this._selectElement.labels.length > 0) {
               let labelledBy = [];
               for (let i = 0; i < this._selectElement.labels.length; i++) {
                 let label = this._selectElement.labels[i];
@@ -588,7 +588,7 @@
           return;
         }
 
-        let option = this._selectElement.selectedOptions[0];
+        let option = this._selectElement.options[this._selectElement.selectedIndex];
 
         if (this._flipped) {
           this._cardBackFace.textContent = option.textContent;
