@@ -46,7 +46,7 @@ Then include them on each page (before importing the component's definition):
 
 ```html
 <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-<script src="node_modules/@webcomponents/shadycss/custom-style-interface.min.js"></script>
+<script src="node_modules/@webcomponents/shadycss/scoping-shim.min.js"></script>
 ```
 
 ### ES5 Support
@@ -58,7 +58,7 @@ To use this version, include it's script instead of the ES6 version and make sur
 ```html
 <script src="node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-<script src="node_modules/@webcomponents/shadycss/custom-style-interface.min.js"></script>
+<script src="node_modules/@webcomponents/shadycss/scoping-shim.min.js"></script>
 ```
 
 ## Contributions
