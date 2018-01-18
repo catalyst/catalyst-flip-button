@@ -8,6 +8,11 @@
   window.CatalystElements = window.CatalystElements || {};
 
   /**
+   * True if the web browser is ie11.
+   */
+  const isIE11 = !!navigator.userAgent.match(/Trident\/7\./);
+
+  /**
    * Create the custom element
    */
   function createElement() {
@@ -596,6 +601,13 @@
           this._cardBackFace.textContent = option.textContent;
         } else {
           this._cardFrontFace.textContent = option.textContent;
+        }
+
+        // IE11 specific fixes.
+        if (isIE11) {
+          let backfaceVisibility = this._flipped ? 'visible' : 'hidden';
+          this._cardFrontFace.style.backfaceVisibility = backfaceVisibility;
+          this._cardBackFace.style.backfaceVisibility = backfaceVisibility;
         }
 
         this._update();

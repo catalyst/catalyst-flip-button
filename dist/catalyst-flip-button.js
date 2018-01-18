@@ -2,6 +2,8 @@
 
   window.CatalystElements = window.CatalystElements || {};
 
+  const isIE11 = !!navigator.userAgent.match(/Trident\/7\./);
+
   function createElement() {
 
     const elementTagName = 'catalyst-flip-button';
@@ -351,6 +353,12 @@
           this._cardBackFace.textContent = option.textContent;
         } else {
           this._cardFrontFace.textContent = option.textContent;
+        }
+
+        if (isIE11) {
+          let backfaceVisibility = this._flipped ? 'visible' : 'hidden';
+          this._cardFrontFace.style.backfaceVisibility = backfaceVisibility;
+          this._cardBackFace.style.backfaceVisibility = backfaceVisibility;
         }
 
         this._update();
