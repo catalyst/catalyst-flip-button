@@ -8,6 +8,11 @@
   window.CatalystElements = window.CatalystElements || {};
 
   /**
+   * True if the web browser is ie11.
+   */
+  const isIE11 = !!navigator.userAgent.match(/Trident\/7\./);
+
+  /**
    * Create the custom element
    */
   function createElement() {
@@ -188,7 +193,9 @@
         });
 
         // Set the size of the element.
-        this._setUpDimensions();
+        setTimeout(() => {
+          this._setUpDimensions();
+        }, 0);
 
         // If using ShadyCSS.
         if (window.ShadyCSS !== undefined) {
@@ -252,7 +259,7 @@
             });
 
             // Set up the label(s).
-            if (this._selectElement.labels.length > 0) {
+            if (this._selectElement.labels && this._selectElement.labels.length > 0) {
               let labelledBy = [];
               for (let i = 0; i < this._selectElement.labels.length; i++) {
                 let label = this._selectElement.labels[i];
@@ -588,12 +595,19 @@
           return;
         }
 
-        let option = this._selectElement.selectedOptions[0];
+        let option = this._selectElement.options[this._selectElement.selectedIndex];
 
         if (this._flipped) {
           this._cardBackFace.textContent = option.textContent;
         } else {
           this._cardFrontFace.textContent = option.textContent;
+        }
+
+        // IE11 specific fixes.
+        if (isIE11) {
+          let backfaceVisibility = this._flipped ? 'visible' : 'hidden';
+          this._cardFrontFace.style.backfaceVisibility = backfaceVisibility;
+          this._cardBackFace.style.backfaceVisibility = backfaceVisibility;
         }
 
         this._update();
