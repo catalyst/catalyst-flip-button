@@ -1,5 +1,6 @@
 stages:
   - pages
+  - test
 
 update_docs:
   stage: pages
@@ -14,5 +15,16 @@ update_docs:
       - public
   only:
     - master
+  tags:
+    - docker
+
+run_tests:
+  stage: test
+  image: node:8.9.3
+  script:
+    - yarn
+    - npm run test
+  only:
+    - branches
   tags:
     - docker
