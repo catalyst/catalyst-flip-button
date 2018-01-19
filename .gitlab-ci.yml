@@ -1,7 +1,7 @@
 stages:
   - pages
 
-pages:
+update_docs:
   stage: pages
   image: node:8.9.3
   script:
