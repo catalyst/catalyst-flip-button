@@ -1,5 +1,6 @@
 stages:
   - pages
+  - deploy
 
 update_docs:
   stage: pages
@@ -16,3 +17,10 @@ update_docs:
     - master
   tags:
     - docker
+
+trigger_build:
+  stage: deploy
+  script:
+    - "curl -X POST -F token=$CATALYST_ELEMENTS_PIPELINE_TOKEN -F ref=$CATALYST_ELEMENTS_PIPELINE_REF https://gitlab.wgtn.cat-it.co.nz/api/v4/projects/1077/trigger/pipeline"
+  only:
+    - tags
