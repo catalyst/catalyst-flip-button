@@ -121,7 +121,7 @@ npm run build-docs
 
 The docs will be located under `./build/docs/`.
 
-In order to view the docs in a web browser, the files need to be served from a web server (they cannot be open using file:///).
+In order to view the docs in a web browser, the files need to be served from a web server (they cannot be open using `file:///`).
 
 ## Testing
 
