@@ -84,16 +84,16 @@ Docs are build with [Polymer](https://www.polymer-project.org/), the [Polymer Bu
 
 Docs will automatically be update on GitLab pages whenever a change is pushed to the master branch.
 
-To build the docs manually, first run the analyzer which will update `./analysis.json`. The docs are then built from this file.
+To build the docs locally, first run the analyzer which will update `./analysis.json`. The docs are then built from this file.
 
 ```sh
 yarn run analyze
 yarn run build-docs
 ```
 
-The docs will be located under `./build/docs/`.
+The docs will be located under `./docs/`.
 
-In order to view the docs in a web browser, the files need to be served from a web server (they cannot be open using `file:///`).
+In order to view the docs in a web browser, the files need to be served from a web server (they cannot be open using the `file:///` protocall).
 
 ## Testing
 
