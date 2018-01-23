@@ -46,7 +46,7 @@ Project dependencies are managed through [Yarn](https://yarnpkg.com/lang/en/docs
 Install dependencies with:
 
 ```sh
-yarn
+yarn install
 ```
 
 ## Building
