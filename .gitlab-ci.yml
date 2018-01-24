@@ -7,8 +7,8 @@ update_docs:
   image: node:8.9.3
   script:
     - yarn
-    - npm run analyze
-    - npm run build-docs
+    - yarn run analyze
+    - yarn run build-docs
     - mv docs public
   artifacts:
     paths:
