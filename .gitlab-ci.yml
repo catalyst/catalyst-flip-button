@@ -23,7 +23,7 @@ run_tests:
   image: node:8.9.3
   script:
     - yarn
-    - npm run test
+    - yarn run test
   only:
     - branches
   tags:
