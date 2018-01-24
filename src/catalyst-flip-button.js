@@ -273,6 +273,9 @@
               this.removeAttribute('aria-labelledby');
             }
 
+            // Disable the select element if this element is disabled.
+            this._selectElement.disabled = this.disabled;
+
             this.notifySelectedOptionChanged();
           }
         }
@@ -413,13 +416,15 @@
        *   If truthy, `disabled` will be set to true, otherwise `disabled` will be set to false.
        */
       set disabled(value) {
-        const isDisabled = Boolean(value);
-        this._selectElement.disabled = isDisabled;
-        if (isDisabled) {
-          this.setAttribute('disabled', '');
-        }
-        else {
-          this.removeAttribute('disabled');
+        if (this._selectElement !== undefined) {
+          const isDisabled = Boolean(value);
+          this._selectElement.disabled = isDisabled;
+          if (isDisabled) {
+            this.setAttribute('disabled', '');
+          }
+          else {
+            this.removeAttribute('disabled');
+          }
         }
       }
 
