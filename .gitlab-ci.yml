@@ -21,8 +21,28 @@ update_docs:
 run_tests:
   stage: test
   image: node:8.9.3
+  before_script:
+    # Install dependencies.
+    - echo deb http://http.debian.net/debian jessie-backports main >> /etc/apt/sources.list
+    - apt-get update
+    - apt-get -y install -t jessie-backports openjdk-8-jre-headless ca-certificates-java
+    - apt-get -y install xvfb
+
+    # Install Chrome.
+    - apt-get install -y curl
+    - curl -sL https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+    - echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/sources.list.d/google.list
+    - apt-get update
+    - apt-get install -y google-chrome-stable
+
+    # Install Firefox.
+    # - apt-get install -y wget tar
+    # - wget -O /usr/local/firefox-latest.tar.bz2 "https://download.mozilla.org/?product=firefox-latest&os=linux&lang=en-US"
+    # - tar xvjf /usr/local/firefox-latest.tar.bz2 -C /usr/local
+    # - rm /usr/local/firefox-latest.tar.bz2
+    # - ln -s /usr/local/firefox/firefox /usr/bin/firefox
   script:
-    - yarn
+    - yarn install
     - yarn run test
   only:
     - branches
