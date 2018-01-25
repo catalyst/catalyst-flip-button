@@ -133,6 +133,8 @@
               this.removeAttribute('aria-labelledby');
             }
 
+            this._selectElement.disabled = this.disabled;
+
             this.notifySelectedOptionChanged();
           }
         }
@@ -237,13 +239,15 @@
       }
 
       set disabled(value) {
-        const isDisabled = Boolean(value);
-        this._selectElement.disabled = isDisabled;
-        if (isDisabled) {
-          this.setAttribute('disabled', '');
-        }
-        else {
-          this.removeAttribute('disabled');
+        if (this._selectElement !== undefined) {
+          const isDisabled = Boolean(value);
+          this._selectElement.disabled = isDisabled;
+          if (isDisabled) {
+            this.setAttribute('disabled', '');
+          }
+          else {
+            this.removeAttribute('disabled');
+          }
         }
       }
 
