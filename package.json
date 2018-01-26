@@ -1,5 +1,5 @@
 {
-  "name": "catalyst-flip-button",
+  "name": "@catalyst-elements/catalyst-flip-button",
   "license": "BSD-3-Clause",
   "version": "0.2.4",
   "description": "A button that and flips between different options.",
