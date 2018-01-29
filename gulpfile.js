@@ -37,17 +37,6 @@ const sass = require('gulp-sass');
 const sassLint = require('gulp-sass-lint');
 
 /**
- * Convert a class name to an element name.
- *
- * Eg: Foo.BarBaz --> bar-baz
- *
- * @param {string} className
- */
-function classNameToElementName(className) {
-  return className.substring(className.lastIndexOf('.') + 1).split(/(?=[A-Z])/).join('-').toLowerCase();
-}
-
-/**
  * Fix issues with the automatically generated analysis.
  *
  * * @param {object} analysis
@@ -64,13 +53,10 @@ function fixAnalysis(analysis) {
           // For each element.
           for (let j = 0; j < analysis.namespaces[i].elements.length; j++) {
 
-            // If the element's tag name is not set, set it.
-            if (analysis.namespaces[i].elements[j].tagname === undefined) {
-              analysis.namespaces[i].elements[j].tagname = classNameToElementName(analysis.namespaces[i].elements[j].name);
+            // If the element's tag name is not set for this element, set it.
+            if (analysis.namespaces[i].elements[j].tagname === undefined && analysis.namespaces[i].elements[j].name.endsWith(className)) {
+              analysis.namespaces[i].elements[j].tagname = tagName;
             }
-
-            // Change the path.
-            analysis.namespaces[i].elements[j].path = `dist/${tagName}.js`;
 
             // If `events` is defined
             if (analysis.namespaces[i].elements[j].events) {
@@ -306,7 +292,7 @@ gulp.task('build-es5-min', () => {
 });
 // Analyze the elements file.
 gulp.task('create-analysis', () => {
-  return analyzer.analyze([`${tmpPath}/${tagName}.js`]).then((analysis) => {
+  return analyzer.analyze([`${distPath}/${tagName}.js`]).then((analysis) => {
     let analysisFileContents = JSON.stringify(fixAnalysis(generateAnalysis(analysis, analyzer.urlResolver)));
     return file(`${analysisFilename}.json`, analysisFileContents, { src: true })
       .pipe(gulp.dest('./'));
@@ -323,7 +309,7 @@ gulp.task('build-docs', () => {
 });
 
 // Analyze all the components.
-gulp.task('analyze', gulp.series('build-es6-module', 'create-analysis', 'clean-tmp'));
+gulp.task('analyze', gulp.series('build-es6', 'create-analysis', 'clean-tmp'));
 
 // Default task.
 gulp.task('default', gulp.series('build', 'clean-tmp'));
