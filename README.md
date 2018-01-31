@@ -49,7 +49,7 @@ Contributions are most welcome.
 
 Please read our [contribution guidelines](./CONTRIBUTING.md).
 
-## Dependencies
+### Dependencies
 
 Project dependencies are managed through [Yarn](https://yarnpkg.com/lang/en/docs/install/) (not npm directly).
 
@@ -59,7 +59,7 @@ Install dependencies with:
 yarn install
 ```
 
-## Building
+### Building
 
 The build process will create the following versions of the component in the distribution folder (`./dist`):
 
@@ -77,7 +77,7 @@ Build with:
 yarn run build
 ```
 
-## Coding Style
+### Coding Style
 
 This project uses [ESLint](http://eslint.org/) to lint JavaScript and [Sass Lint](https://github.com/sasstools/sass-lint) to lint Sass.
 
@@ -87,11 +87,11 @@ To test if your code is compliant, run:
 yarn run lint
 ```
 
-## Docs
+### Docs
 
 Docs are build with [Polymer](https://www.polymer-project.org/), the [Polymer Build Tool](https://github.com/Polymer/polymer-build) and the [Polymer Analyzer](https://github.com/Polymer/polymer-analyzer).
 
-Docs will automatically be update on GitLab pages whenever a change is pushed to the master branch.
+Docs will automatically be update on GitLab pages whenever a new release tag is created.
 
 To build the docs locally, first run the analyzer which will update `./analysis.json`. The docs are then built from this file.
 
@@ -104,17 +104,17 @@ The docs will be located under `./docs/`.
 
 In order to view the docs in a web browser, the files need to be served from a web server (they cannot be open using the `file:///` protocall).
 
-## Testing
+### Testing
 
 Testing is done using the [web-component-tester](https://github.com/Polymer/web-component-tester).
 
-### Running Tests On The Command Line
+#### Running Tests On The Command Line
 
 ```sh
 yarn run test
 ```
 
-### Running Tests In The Browser
+#### Running Tests In The Browser
 
 First start up a local server:
 
