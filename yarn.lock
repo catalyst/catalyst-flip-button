@@ -199,7 +199,7 @@
   version "3.0.0-rc.1"
   resolved "https://codeload.github.com/PolymerElements/test-fixture/tar.gz/05caebd9ecbb464024455923bd351d2ba640932e"
 
-"@bower_components/web-component-tester@Polymer/web-component-tester#^6.4.1":
+"@bower_components/web-component-tester@Polymer/web-component-tester#^6.5.0":
   version "6.5.0"
   resolved "https://codeload.github.com/Polymer/web-component-tester/tar.gz/8b979f3475a7040242f7255872156f080cf373a8"
   dependencies:
@@ -6858,8 +6858,8 @@ raw-body@2.3.2:
     unpipe "1.0.0"
 
 rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.4.tgz#a0f606caae2a3b862bbd0ef85482c0125b315fa3"
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.5.tgz#275cd687f6e3b36cc756baa26dfee80a790301fd"
   dependencies:
     deep-extend "~0.4.0"
     ini "~1.3.0"
@@ -8750,7 +8750,7 @@ wd@^1.2.0:
     underscore.string "3.3.4"
     vargs "0.1.0"
 
-web-component-tester@^6.4.1:
+web-component-tester@^6.5.0:
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/web-component-tester/-/web-component-tester-6.5.0.tgz#3dbad2695f703b9325687f859582f57b59128ea2"
   dependencies:
