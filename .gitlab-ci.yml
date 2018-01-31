@@ -11,3 +11,14 @@ run_tests:
     - branches
   tags:
     - docker
+
+lint:
+  stage: test
+  image: node:8.9.3
+  script:
+    - yarn install
+    - yarn run lint
+  only:
+    - branches
+  tags:
+    - docker
