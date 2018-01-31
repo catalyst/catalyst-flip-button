@@ -1,3 +1,5 @@
+[![pipeline status](https://gitlab.wgtn.cat-it.co.nz/CatalystElements/catalyst-flip-button/badges/master/pipeline.svg)](https://gitlab.wgtn.cat-it.co.nz/CatalystElements/catalyst-flip-button/commits/master)
+
 # &lt;catalyst-flip-button&gt;
 
 [Live Demo ↗](http://catalystelements.pages.gitlab.wgtn.cat-it.co.nz/CatalystElements/#/elements/catalyst-flip-button/demos/es6-component-demo)
