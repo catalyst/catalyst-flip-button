@@ -12,7 +12,13 @@
 
 Also see [catalyst-toggle-button](https://gitlab.wgtn.cat-it.co.nz/CatalystElements/catalyst-toggle-button).
 
-## Getting Started
+## Installation
+
+```sh
+npm install --save "git+https://git@gitlab.wgtn.cat-it.co.nz/CatalystElements/catalyst-flip-button.git"
+```
+
+## Usage
 
 Import the component's definition on each page it is to be used on:
 
