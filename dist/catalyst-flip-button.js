@@ -778,7 +778,7 @@
         this.dispatchEvent(new CustomEvent('change', {
           detail: {
             selectedIndex: this._selectElement.selectedIndex,
-            selectedOptions: this._selectElement.selectedOptions
+            selectedOption: this._selectElement.options[this._selectElement.selectedIndex]
           },
           bubbles: true,
         }));
