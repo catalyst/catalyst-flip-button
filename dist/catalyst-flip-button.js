@@ -771,10 +771,9 @@
         this._flipped = !this._flipped;
 
         /**
-         * Fire a change event.
+         * Fired when the selected option changes due to user interaction.
          *
          * @event change
-         *   Fired when the selected option changes due to user interaction.
          */
         this.dispatchEvent(new CustomEvent('change', {
           detail: {
