@@ -1,41 +1,4 @@
-/**
- * @constant {string}
- *   The name of the element tag.
- */
-const elementTagName = 'catalyst-flip-button';
-
-/**
- * Key codes.
- *
- * @readonly
- * @enum {number}
- */
-const KEYCODE = {
-  SPACE: 32,
-  ENTER: 13,
-  LEFT: 37,
-  UP: 38,
-  RIGHT: 39,
-  DOWN: 40
-};
-
-/**
- * True if the web browser is ie11.
- */
-const isIE11 = !!navigator.userAgent.match(/Trident\/7\./);
-
-/**
- * @constant {HTMLTemplateElement}
- *   The template of the component.
- */
-const template = document.createElement('template');
-template.innerHTML = `<style>:host{position:relative;display:inline-block;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;padding:1px 6px;margin:0;font-family:inherit;font-size:83.33333%;font-style:normal;font-weight:400;line-height:normal;letter-spacing:normal;word-spacing:normal;color:#000;color:ButtonText;text-align:center;text-indent:0;text-rendering:auto;text-shadow:none;text-transform:none;vertical-align:bottom;cursor:default;-webkit-box-sizing:content-box;box-sizing:content-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-perspective:100px;perspective:100px;contain:layout style}:host #card{position:absolute;top:0;right:0;bottom:0;left:0;-webkit-transition:-webkit-transform .4s ease;transition:-webkit-transform .4s ease;transition:transform .4s ease;transition:transform .4s ease,-webkit-transform .4s ease;-webkit-transform-style:preserve-3d;transform-style:preserve-3d}:host #card #back,:host #card #front{position:absolute;top:0;right:0;bottom:0;left:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin:0;background:#ddd;background:ButtonFace;background:var(--catalyst-flip-button-card-face-background,ButtonFace);border:2px outset ButtonFace;border:var(--catalyst-flip-button-card-face-border,2px outset ButtonFace);border-radius:var(--catalyst-flip-button-card-face-border-radius,0);-webkit-backface-visibility:hidden;backface-visibility:hidden;-webkit-appearance:var(--catalyst-flip-button-card-face-appearance,button);-moz-appearance:var(--catalyst-flip-button-card-face-appearance,button)}:host #card #back{-webkit-transform:rotateY(180deg);transform:rotateY(180deg)}:host(:focus){outline:none}:host(:focus) #card #back,:host(:focus) #card #front{outline:var(--catalyst-flip-button-card-face-focused-outline,#000 dotted 1px)}:host([hidden]),:host [hidden]{display:none}</style><div id="card"><div id="front"></div><div id="back"></div></div><div hidden><slot></slot></div>`;  // eslint-disable-line quotes
-
-// If using ShadyCSS.
-if (window.ShadyCSS !== undefined) {
-  // Rename css classes as needed to ensure style scoping.
-  window.ShadyCSS.prepareTemplate(template, elementTagName);
-}
+/* exported CatalystFlipButton */
 
 /**
  * `<catalyst-flip-button>` is a wrapper for a `<select>` element.
@@ -79,6 +42,60 @@ if (window.ShadyCSS !== undefined) {
 class CatalystFlipButton extends HTMLElement {
 
   /**
+   * @constant {String}
+   *   The element's tag name.
+   */
+  static get is() {
+    return 'catalyst-flip-button';
+  }
+
+  /**
+   * @constant {HTMLTemplateElement}
+   *   The template of the component.
+   */
+  static get _template() {
+    if (this.__template === undefined) {
+      this.__template = document.createElement('template');
+      this.__template.innerHTML = `<style>:host{position:relative;display:inline-block;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;padding:1px 6px;margin:0;font-family:inherit;font-size:83.33333%;font-style:normal;font-weight:400;line-height:normal;letter-spacing:normal;word-spacing:normal;color:#000;color:ButtonText;text-align:center;text-indent:0;text-rendering:auto;text-shadow:none;text-transform:none;vertical-align:bottom;cursor:default;-webkit-box-sizing:content-box;box-sizing:content-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-perspective:100px;perspective:100px;contain:layout style}:host #card{position:absolute;top:0;right:0;bottom:0;left:0;-webkit-transition:-webkit-transform .4s ease;transition:-webkit-transform .4s ease;transition:transform .4s ease;transition:transform .4s ease,-webkit-transform .4s ease;-webkit-transform-style:preserve-3d;transform-style:preserve-3d}:host #card #back,:host #card #front{position:absolute;top:0;right:0;bottom:0;left:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin:0;background:#ddd;background:ButtonFace;background:var(--catalyst-flip-button-card-face-background,ButtonFace);border:2px outset ButtonFace;border:var(--catalyst-flip-button-card-face-border,2px outset ButtonFace);border-radius:var(--catalyst-flip-button-card-face-border-radius,0);-webkit-backface-visibility:hidden;backface-visibility:hidden;-webkit-appearance:var(--catalyst-flip-button-card-face-appearance,button);-moz-appearance:var(--catalyst-flip-button-card-face-appearance,button)}:host #card #back{-webkit-transform:rotateY(180deg);transform:rotateY(180deg)}:host(:focus){outline:none}:host(:focus) #card #back,:host(:focus) #card #front{outline:var(--catalyst-flip-button-card-face-focused-outline,#000 dotted 1px)}:host([hidden]),:host [hidden]{display:none}</style><div id="card"><div id="front"></div><div id="back"></div></div><div hidden><slot></slot></div>`;  // eslint-disable-line quotes
+
+      // If using ShadyCSS.
+      if (window.ShadyCSS !== undefined) {
+        // Rename classes as needed to ensure style scoping.
+        window.ShadyCSS.prepareTemplate(this.__template, CatalystFlipButton.is);
+      }
+    }
+
+    return this.__template;
+  }
+
+  /**
+   * Key codes.
+   *
+   * @enum {number}
+   */
+  static get _KEYCODE() {
+    if (this.__keycode === undefined) {
+      this.__keycode = {
+        SPACE: 32,
+        ENTER: 13,
+        LEFT: 37,
+        UP: 38,
+        RIGHT: 39,
+        DOWN: 40
+      }
+    }
+
+    return this.__keycode;
+  }
+
+  /**
+   * True if the web browser is ie11.
+   */
+  static get isIE11() {
+    return !!navigator.userAgent.match(/Trident\/7\./);
+  }
+
+  /**
    * The attributes on this element to observe.
    *
    * @returns {Array.<string>}
@@ -89,6 +106,13 @@ class CatalystFlipButton extends HTMLElement {
   }
 
   /**
+   * Register this class as an element.
+   */
+  static register() {
+    window.customElements.define(CatalystFlipButton.is, CatalystFlipButton);
+  }
+
+  /**
    * Construct the element.
    */
   constructor() {
@@ -96,7 +120,7 @@ class CatalystFlipButton extends HTMLElement {
 
     // Create a shadow root and stamp out the template's content inside.
     this.attachShadow({mode: 'open'});
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.shadowRoot.appendChild(CatalystFlipButton._template.content.cloneNode(true));
 
     /**
      * The element that flips.
@@ -510,20 +534,20 @@ class CatalystFlipButton extends HTMLElement {
 
     // What key was pressed?
     switch (event.keyCode) {
-      case KEYCODE.SPACE:
-      case KEYCODE.ENTER:
+      case CatalystFlipButton._KEYCODE.SPACE:
+      case CatalystFlipButton._KEYCODE.ENTER:
         event.preventDefault();
         this._flip();
         break;
 
-      case KEYCODE.LEFT:
-      case KEYCODE.UP:
+      case CatalystFlipButton._KEYCODE.LEFT:
+      case CatalystFlipButton._KEYCODE.UP:
         event.preventDefault();
         this.previous();
         break;
 
-      case KEYCODE.RIGHT:
-      case KEYCODE.DOWN:
+      case CatalystFlipButton._KEYCODE.RIGHT:
+      case CatalystFlipButton._KEYCODE.DOWN:
         event.preventDefault();
         this.next();
         break;
@@ -595,7 +619,7 @@ class CatalystFlipButton extends HTMLElement {
     }
 
     // IE11 specific fixes.
-    if (isIE11) {
+    if (CatalystFlipButton.isIE11) {
       let backfaceVisibility = this._flipped ? 'visible' : 'hidden';
       this._cardFrontFace.style.backfaceVisibility = backfaceVisibility;
       this._cardBackFace.style.backfaceVisibility = backfaceVisibility;
@@ -779,9 +803,6 @@ class CatalystFlipButton extends HTMLElement {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
   }
 }
-
-// Define the element.
-window.customElements.define(elementTagName, CatalystFlipButton);
 
 // Export the element.
 export { CatalystFlipButton };
