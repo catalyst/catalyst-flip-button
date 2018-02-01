@@ -163,13 +163,6 @@
         this._flipped = false;
 
         /**
-         * The last selected index.
-         *
-         * @type {number}
-         */
-        this._lastSelectedIndex = -1;
-
-        /**
          * The rotation of the card.
          *
          * @type {number}
@@ -761,7 +754,6 @@
         // Update the selected index.
         let newIndex = this._selectElement.selectedIndex + (forwards ? 1 : -1);
         let length = this._selectElement.length;
-        this._lastSelectedIndex = this._selectElement.selectedIndex;
         this._selectElement.selectedIndex = ((newIndex % length) + length) % length;
 
         // Update the card's rotation.
