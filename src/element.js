@@ -1,41 +1,4 @@
-/**
- * @constant {string}
- *   The name of the element tag.
- */
-const elementTagName = 'catalyst-flip-button';
-
-/**
- * Key codes.
- *
- * @readonly
- * @enum {number}
- */
-const KEYCODE = {
-  SPACE: 32,
-  ENTER: 13,
-  LEFT: 37,
-  UP: 38,
-  RIGHT: 39,
-  DOWN: 40
-};
-
-/**
- * True if the web browser is ie11.
- */
-const isIE11 = !!navigator.userAgent.match(/Trident\/7\./);
-
-/**
- * @constant {HTMLTemplateElement}
- *   The template of the component.
- */
-const template = document.createElement('template');
-template.innerHTML = `<style>[[inject:style]][[endinject]]</style>[[inject:template]][[endinject]]`;  // eslint-disable-line quotes
-
-// If using ShadyCSS.
-if (window.ShadyCSS !== undefined) {
-  // Rename css classes as needed to ensure style scoping.
-  window.ShadyCSS.prepareTemplate(template, elementTagName);
-}
+/* exported CatalystFlipButton */
 
 /**
  * `<catalyst-flip-button>` is a wrapper for a `<select>` element.
@@ -79,6 +42,60 @@ if (window.ShadyCSS !== undefined) {
 class CatalystFlipButton extends HTMLElement {
 
   /**
+   * @constant {String}
+   *   The element's tag name.
+   */
+  static get is() {
+    return 'catalyst-flip-button';
+  }
+
+  /**
+   * @constant {HTMLTemplateElement}
+   *   The template of the component.
+   */
+  static get _template() {
+    if (this.__template === undefined) {
+      this.__template = document.createElement('template');
+      this.__template.innerHTML = `<style>[[inject:style]][[endinject]]</style>[[inject:template]][[endinject]]`;  // eslint-disable-line quotes
+
+      // If using ShadyCSS.
+      if (window.ShadyCSS !== undefined) {
+        // Rename classes as needed to ensure style scoping.
+        window.ShadyCSS.prepareTemplate(this.__template, CatalystFlipButton.is);
+      }
+    }
+
+    return this.__template;
+  }
+
+  /**
+   * Key codes.
+   *
+   * @enum {number}
+   */
+  static get _KEYCODE() {
+    if (this.__keycode === undefined) {
+      this.__keycode = {
+        SPACE: 32,
+        ENTER: 13,
+        LEFT: 37,
+        UP: 38,
+        RIGHT: 39,
+        DOWN: 40
+      }
+    }
+
+    return this.__keycode;
+  }
+
+  /**
+   * True if the web browser is ie11.
+   */
+  static get isIE11() {
+    return !!navigator.userAgent.match(/Trident\/7\./);
+  }
+
+  /**
    * The attributes on this element to observe.
    *
    * @returns {Array.<string>}
@@ -89,6 +106,13 @@ class CatalystFlipButton extends HTMLElement {
   }
 
   /**
+   * Register this class as an element.
+   */
+  static register() {
+    window.customElements.define(CatalystFlipButton.is, CatalystFlipButton);
+  }
+
+  /**
    * Construct the element.
    */
   constructor() {
@@ -96,7 +120,7 @@ class CatalystFlipButton extends HTMLElement {
 
     // Create a shadow root and stamp out the template's content inside.
     this.attachShadow({mode: 'open'});
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.shadowRoot.appendChild(CatalystFlipButton._template.content.cloneNode(true));
 
     /**
      * The element that flips.
@@ -510,20 +534,20 @@ class CatalystFlipButton extends HTMLElement {
 
     // What key was pressed?
     switch (event.keyCode) {
-      case KEYCODE.SPACE:
-      case KEYCODE.ENTER:
+      case CatalystFlipButton._KEYCODE.SPACE:
+      case CatalystFlipButton._KEYCODE.ENTER:
         event.preventDefault();
         this._flip();
         break;
 
-      case KEYCODE.LEFT:
-      case KEYCODE.UP:
+      case CatalystFlipButton._KEYCODE.LEFT:
+      case CatalystFlipButton._KEYCODE.UP:
         event.preventDefault();
         this.previous();
         break;
 
-      case KEYCODE.RIGHT:
-      case KEYCODE.DOWN:
+      case CatalystFlipButton._KEYCODE.RIGHT:
+      case CatalystFlipButton._KEYCODE.DOWN:
         event.preventDefault();
         this.next();
         break;
@@ -595,7 +619,7 @@ class CatalystFlipButton extends HTMLElement {
     }
 
     // IE11 specific fixes.
-    if (isIE11) {
+    if (CatalystFlipButton.isIE11) {
       let backfaceVisibility = this._flipped ? 'visible' : 'hidden';
       this._cardFrontFace.style.backfaceVisibility = backfaceVisibility;
       this._cardBackFace.style.backfaceVisibility = backfaceVisibility;
@@ -735,15 +759,14 @@ class CatalystFlipButton extends HTMLElement {
     this._flipped = !this._flipped;
 
     /**
-     * Fire a change event.
+     * Fired when the selected option changes due to user interaction.
      *
      * @event change
-     *   Fired when the selected option changes due to user interaction.
      */
     this.dispatchEvent(new CustomEvent('change', {
       detail: {
         selectedIndex: this._selectElement.selectedIndex,
-        selectedOptions: this._selectElement.selectedOptions
+        selectedOption: this._selectElement.options[this._selectElement.selectedIndex]
       },
       bubbles: true,
     }));
@@ -779,6 +802,3 @@ class CatalystFlipButton extends HTMLElement {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
   }
 }
-
-// Define the element.
-window.customElements.define(elementTagName, CatalystFlipButton);
