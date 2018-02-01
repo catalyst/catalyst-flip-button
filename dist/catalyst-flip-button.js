@@ -199,7 +199,7 @@
 
         // Add the element's event listeners.
         this.addEventListener('keydown', this._onKeyDown);
-        this.addEventListener('click', this._onClick);
+        this.addEventListener('mousedown', this._onMouseDown);
         this.addEventListener('contextmenu', this._onContextMenu);
 
         this._selectObserver = new MutationObserver(this._onLightDomMutation.bind(this));
@@ -408,7 +408,7 @@
        */
       disconnectedCallback() {
         this.removeEventListener('keydown', this._onKeyDown);
-        this.removeEventListener('click', this._onClick);
+        this.removeEventListener('click', this._onMouseDown);
         this.removeEventListener('contextmenu', this._onContextMenu);
 
         if (this._selectObserver !== null) {
@@ -568,9 +568,14 @@
        *
        * @param {MouseEvent} event
        */
-      _onClick(event) {
-        if (event.button === 0) {
-          this._onLeftClick(event);
+      _onMouseDown(event) {
+        switch (event.button) {
+          case 0:
+            this._onLeftClick(event);
+            break;
+          case 2:
+            this._onRightClick(event);
+            break;
         }
       }
 
@@ -581,7 +586,7 @@
        */
       _onContextMenu(event) {
         if (event.button === 2) {
-          this._onRightClick(event);
+          event.preventDefault();
         }
       }
 
@@ -592,6 +597,7 @@
        */
       _onLeftClick(event) {
         event.preventDefault();
+        this.focus();
         this.next();
       }
 
@@ -602,6 +608,7 @@
        */
       _onRightClick(event) {
         event.preventDefault();
+        this.focus();
         this.previous();
       }
 
