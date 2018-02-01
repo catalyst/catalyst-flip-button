@@ -187,6 +187,7 @@ class CatalystFlipButton extends HTMLElement {
 
     // Add the element's event listeners.
     this.addEventListener('keydown', this._onKeyDown);
+    this.addEventListener('click', this._onClick);
     this.addEventListener('mouseup', this._onMouseUp);
     this.addEventListener('contextmenu', this._onContextMenu);
 
@@ -396,6 +397,7 @@ class CatalystFlipButton extends HTMLElement {
    */
   disconnectedCallback() {
     this.removeEventListener('keydown', this._onKeyDown);
+    this.removeEventListener('click', this._onClick);
     this.removeEventListener('mouseUp', this._onMouseUp);
     this.removeEventListener('contextmenu', this._onContextMenu);
 
@@ -552,18 +554,24 @@ class CatalystFlipButton extends HTMLElement {
   }
 
   /**
-   * Called when this element clicked.
+   * Called when this element is clicked.
+   *
+   * @param {MouseEvent} event
+   */
+  _onClick(event) {
+    if (event.button === 0) {
+      this._onLeftClick();
+    }
+  }
+
+  /**
+   * Called on the mouse up event.
    *
    * @param {MouseEvent} event
    */
   _onMouseUp(event) {
-    switch (event.button) {
-      case 0:
-        this._onLeftClick(event);
-        break;
-      case 2:
-        this._onRightClick(event);
-        break;
+    if (event.button === 2) {
+      this._onRightClick();
     }
   }
 
@@ -580,22 +588,16 @@ class CatalystFlipButton extends HTMLElement {
 
   /**
    * Called when this element is left clicked.
-   *
-   * @param {MouseEvent} event
    */
-  _onLeftClick(event) {
-    event.preventDefault();
+  _onLeftClick() {
     this.focus();
     this.next();
   }
 
   /**
    * Called when this element is right clicked.
-   *
-   * @param {MouseEvent} event
    */
-  _onRightClick(event) {
-    event.preventDefault();
+  _onRightClick() {
     this.focus();
     this.previous();
   }
