@@ -187,7 +187,7 @@ class CatalystFlipButton extends HTMLElement {
 
     // Add the element's event listeners.
     this.addEventListener('keydown', this._onKeyDown);
-    this.addEventListener('mousedown', this._onMouseDown);
+    this.addEventListener('mouseup', this._onMouseUp);
     this.addEventListener('contextmenu', this._onContextMenu);
 
     this._selectObserver = new MutationObserver(this._onLightDomMutation.bind(this));
@@ -396,7 +396,7 @@ class CatalystFlipButton extends HTMLElement {
    */
   disconnectedCallback() {
     this.removeEventListener('keydown', this._onKeyDown);
-    this.removeEventListener('click', this._onMouseDown);
+    this.removeEventListener('mouseUp', this._onMouseUp);
     this.removeEventListener('contextmenu', this._onContextMenu);
 
     if (this._selectObserver !== null) {
@@ -556,7 +556,7 @@ class CatalystFlipButton extends HTMLElement {
    *
    * @param {MouseEvent} event
    */
-  _onMouseDown(event) {
+  _onMouseUp(event) {
     switch (event.button) {
       case 0:
         this._onLeftClick(event);

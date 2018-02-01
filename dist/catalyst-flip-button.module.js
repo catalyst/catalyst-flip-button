@@ -187,7 +187,7 @@ class CatalystFlipButton extends HTMLElement {
 
     // Add the element's event listeners.
     this.addEventListener('keydown', this._onKeyDown);
-    this.addEventListener('mousedown', this._onMouseDown);
+    this.addEventListener('mouseup', this._onMouseDown);
     this.addEventListener('contextmenu', this._onContextMenu);
 
     this._selectObserver = new MutationObserver(this._onLightDomMutation.bind(this));
