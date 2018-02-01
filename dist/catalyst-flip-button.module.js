@@ -189,7 +189,9 @@ class CatalystFlipButton extends HTMLElement {
     this.addEventListener('keydown', this._onKeyDown);
     this.addEventListener('click', this._onClick);
     this.addEventListener('mouseup', this._onMouseUp);
-    this.addEventListener('contextmenu', this._onContextMenu);
+
+    // Disable context menu on right click.
+    this.setAttribute('oncontextmenu', 'if (event.button === 2) { event.preventDefault(); }');
 
     this._selectObserver = new MutationObserver(this._onLightDomMutation.bind(this));
     this._selectObserver.observe(this, {
@@ -399,7 +401,6 @@ class CatalystFlipButton extends HTMLElement {
     this.removeEventListener('keydown', this._onKeyDown);
     this.removeEventListener('click', this._onClick);
     this.removeEventListener('mouseUp', this._onMouseUp);
-    this.removeEventListener('contextmenu', this._onContextMenu);
 
     if (this._selectObserver !== null) {
       this._selectObserver.disconnect();
@@ -572,17 +573,6 @@ class CatalystFlipButton extends HTMLElement {
   _onMouseUp(event) {
     if (event.button === 2) {
       this._onRightClick();
-    }
-  }
-
-  /**
-   * Called when the context menu would be opened.
-   *
-   * @param {MouseEvent} event
-   */
-  _onContextMenu(event) {
-    if (event.button === 2) {
-      event.preventDefault();
     }
   }
 
