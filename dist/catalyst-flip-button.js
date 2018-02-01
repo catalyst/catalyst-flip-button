@@ -200,7 +200,10 @@
         // Add the element's event listeners.
         this.addEventListener('keydown', this._onKeyDown);
         this.addEventListener('click', this._onClick);
-        this.addEventListener('contextmenu', this._onContextMenu);
+        this.addEventListener('mouseup', this._onMouseUp);
+
+        // Disable context menu on right click.
+        this.setAttribute('oncontextmenu', 'if (event.button === 2) { event.preventDefault(); }');
 
         this._selectObserver = new MutationObserver(this._onLightDomMutation.bind(this));
         this._selectObserver.observe(this, {
@@ -409,7 +412,7 @@
       disconnectedCallback() {
         this.removeEventListener('keydown', this._onKeyDown);
         this.removeEventListener('click', this._onClick);
-        this.removeEventListener('contextmenu', this._onContextMenu);
+        this.removeEventListener('mouseUp', this._onMouseUp);
 
         if (this._selectObserver !== null) {
           this._selectObserver.disconnect();
@@ -564,44 +567,40 @@
       }
 
       /**
-       * Called when this element clicked.
+       * Called when this element is clicked.
        *
        * @param {MouseEvent} event
        */
       _onClick(event) {
         if (event.button === 0) {
-          this._onLeftClick(event);
+          this._onLeftClick();
         }
       }
 
       /**
-       * Called when the context menu would be opened.
+       * Called on the mouse up event.
        *
        * @param {MouseEvent} event
        */
-      _onContextMenu(event) {
+      _onMouseUp(event) {
         if (event.button === 2) {
-          this._onRightClick(event);
+          this._onRightClick();
         }
       }
 
       /**
        * Called when this element is left clicked.
-       *
-       * @param {MouseEvent} event
        */
-      _onLeftClick(event) {
-        event.preventDefault();
+      _onLeftClick() {
+        this.focus();
         this.next();
       }
 
       /**
        * Called when this element is right clicked.
-       *
-       * @param {MouseEvent} event
        */
-      _onRightClick(event) {
-        event.preventDefault();
+      _onRightClick() {
+        this.focus();
         this.previous();
       }
 
