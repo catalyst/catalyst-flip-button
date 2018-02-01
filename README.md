@@ -39,6 +39,28 @@ Then simply use it like any other tag:
 </catalyst-flip-button>
 ```
 
+### Usage as a Module
+
+Import the module on each page that uses the component, then register the element:
+
+```html
+<script type="module">
+  // Import the component.
+  import { CatalystFlipButton } from 'dist/catalyst-flip-button.module.js';
+
+  // If not using web component polyfills or if polyfills are ready, register the elements.
+  if (window.WebComponents === undefined || window.WebComponents.ready) {
+    CatalystFlipButton.register();
+  }
+  // Otherwise wait until the polyfills are ready.
+  else {
+    window.addEventListener('WebComponentsReady', () => {
+      CatalystFlipButton.register();
+    });
+  }
+</script>
+```
+
 ## Browser Compatibility
 
 See details on the wiki: [Catalyst Elements - Browser Compatibility](https://wiki.wgtn.cat-it.co.nz/wiki/Catalyst_Elements#Browser_Compatibility)
