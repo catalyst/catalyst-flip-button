@@ -183,18 +183,18 @@
         this._upgradeProperty('disabled');
         this._upgradeProperty('noAutoPerspective');
 
-        // Set this element's role, tab index and aria attributes if they are not already set.
+        // Set the aria attributes.
+        this.setAttribute('aria-disabled', this.disabled);
+        if (!this.hasAttribute('aria-live')) {
+          this.setAttribute('aria-live', 'polite');
+        }
+
+        // Set this element's role and tab index if they are not already set.
         if (!this.hasAttribute('role')) {
           this.setAttribute('role', 'combobox');
         }
         if (!this.hasAttribute('tabindex')) {
           this.setAttribute('tabindex', 0);
-        }
-        if (!this.hasAttribute('aria-disabled')) {
-          this.setAttribute('aria-disabled', this.disabled);
-        }
-        if (!this.hasAttribute('aria-live')) {
-          this.setAttribute('aria-live', 'polite');
         }
 
         // Add the element's event listeners.
@@ -436,7 +436,6 @@
       set disabled(value) {
         if (this._selectElement !== undefined) {
           const isDisabled = Boolean(value);
-          this._selectElement.disabled = isDisabled;
           if (isDisabled) {
             this.setAttribute('disabled', '');
           }
@@ -504,15 +503,16 @@
        *   The new value of the attribute that changed.
        */
       attributeChangedCallback(name, oldValue, newValue) {
-        const hasValue = newValue !== null;
+        let boolVal = Boolean(newValue);
 
         switch (name) {
           case 'disabled':
             // Set the aria value.
-            this.setAttribute('aria-disabled', hasValue);
+            this.setAttribute('aria-disabled', boolVal);
 
-            // Add/Remove the tabindex attribute based `hasValue`.
-            if (hasValue) {
+            if (boolVal) {
+              this.selectElement.setAttribute('disabled', '');
+
               // If the tab index is set.
               if (this.hasAttribute('tabindex')) {
                 this._tabindexBeforeDisabled = this.getAttribute('tabindex');
@@ -520,6 +520,8 @@
                 this.blur();
               }
             } else {
+              this.selectElement.removeAttribute('disabled');
+
               // If the tab index isn't already set and the previous value is known.
               if (!this.hasAttribute('tabindex') && this._tabindexBeforeDisabled !== undefined && this._tabindexBeforeDisabled !== null) {
                 this.setAttribute('tabindex', this._tabindexBeforeDisabled);
