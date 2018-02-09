@@ -1,7 +1,7 @@
 {
   "name": "@catalyst-elements/catalyst-flip-button",
   "license": "BSD-3-Clause",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "A button that and flips between different options.",
   "private": true,
   "repository": "git@gitlab.wgtn.cat-it.co.nz:CatalystElements/catalyst-flip-button.git",
