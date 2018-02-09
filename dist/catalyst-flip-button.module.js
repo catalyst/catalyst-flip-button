@@ -1,4 +1,18 @@
-/* exported CatalystFlipButton */
+/**
+ * Get the template for this element.
+ */
+function getTemplate() {
+  let template = document.createElement('template');
+  template.innerHTML = `<style>:host{position:relative;display:inline-block;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;padding:1px 6px;margin:0;font-family:inherit;font-size:83.33333%;font-style:normal;font-weight:400;line-height:normal;letter-spacing:normal;word-spacing:normal;color:#000;color:ButtonText;text-align:center;text-indent:0;text-rendering:auto;text-shadow:none;text-transform:none;vertical-align:bottom;cursor:default;-webkit-box-sizing:content-box;box-sizing:content-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-perspective:100px;perspective:100px;contain:layout style}:host #card{position:absolute;top:0;right:0;bottom:0;left:0;-webkit-transition:-webkit-transform .4s ease;transition:-webkit-transform .4s ease;transition:transform .4s ease;transition:transform .4s ease,-webkit-transform .4s ease;-webkit-transform-style:preserve-3d;transform-style:preserve-3d}:host #card #back,:host #card #front{position:absolute;top:0;right:0;bottom:0;left:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin:0;background:#ddd;background:ButtonFace;background:var(--catalyst-flip-button-card-face-background,ButtonFace);border:2px outset ButtonFace;border:var(--catalyst-flip-button-card-face-border,2px outset ButtonFace);border-radius:var(--catalyst-flip-button-card-face-border-radius,0);-webkit-backface-visibility:hidden;backface-visibility:hidden;-webkit-appearance:var(--catalyst-flip-button-card-face-appearance,button);-moz-appearance:var(--catalyst-flip-button-card-face-appearance,button)}:host #card #back{-webkit-transform:rotateY(180deg);transform:rotateY(180deg)}:host(:focus){outline:none}:host(:focus) #card #back,:host(:focus) #card #front{outline:var(--catalyst-flip-button-card-face-focused-outline,#000 dotted 1px)}:host([hidden]),:host [hidden]{display:none}</style><div id="card"><div id="front"></div><div id="back"></div></div><div hidden><slot></slot></div>`;  // eslint-disable-line quotes
+
+  // If using ShadyCSS.
+  if (window.ShadyCSS !== undefined) {
+    // Rename classes as needed to ensure style scoping.
+    window.ShadyCSS.prepareTemplate(template, CatalystFlipButton.is);
+  }
+
+  return template;
+}
 
 /**
  * `<catalyst-flip-button>` is a wrapper for a `<select>` element.
@@ -50,25 +64,6 @@ class CatalystFlipButton extends HTMLElement {
   }
 
   /**
-   * @constant {HTMLTemplateElement}
-   *   The template of the component.
-   */
-  static get _template() {
-    if (this.__template === undefined) {
-      this.__template = document.createElement('template');
-      this.__template.innerHTML = `<style>:host{position:relative;display:inline-block;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;padding:1px 6px;margin:0;font-family:inherit;font-size:83.33333%;font-style:normal;font-weight:400;line-height:normal;letter-spacing:normal;word-spacing:normal;color:#000;color:ButtonText;text-align:center;text-indent:0;text-rendering:auto;text-shadow:none;text-transform:none;vertical-align:bottom;cursor:default;-webkit-box-sizing:content-box;box-sizing:content-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-perspective:100px;perspective:100px;contain:layout style}:host #card{position:absolute;top:0;right:0;bottom:0;left:0;-webkit-transition:-webkit-transform .4s ease;transition:-webkit-transform .4s ease;transition:transform .4s ease;transition:transform .4s ease,-webkit-transform .4s ease;-webkit-transform-style:preserve-3d;transform-style:preserve-3d}:host #card #back,:host #card #front{position:absolute;top:0;right:0;bottom:0;left:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin:0;background:#ddd;background:ButtonFace;background:var(--catalyst-flip-button-card-face-background,ButtonFace);border:2px outset ButtonFace;border:var(--catalyst-flip-button-card-face-border,2px outset ButtonFace);border-radius:var(--catalyst-flip-button-card-face-border-radius,0);-webkit-backface-visibility:hidden;backface-visibility:hidden;-webkit-appearance:var(--catalyst-flip-button-card-face-appearance,button);-moz-appearance:var(--catalyst-flip-button-card-face-appearance,button)}:host #card #back{-webkit-transform:rotateY(180deg);transform:rotateY(180deg)}:host(:focus){outline:none}:host(:focus) #card #back,:host(:focus) #card #front{outline:var(--catalyst-flip-button-card-face-focused-outline,#000 dotted 1px)}:host([hidden]),:host [hidden]{display:none}</style><div id="card"><div id="front"></div><div id="back"></div></div><div hidden><slot></slot></div>`;  // eslint-disable-line quotes
-
-      // If using ShadyCSS.
-      if (window.ShadyCSS !== undefined) {
-        // Rename classes as needed to ensure style scoping.
-        window.ShadyCSS.prepareTemplate(this.__template, CatalystFlipButton.is);
-      }
-    }
-
-    return this.__template;
-  }
-
-  /**
    * Key codes.
    *
    * @enum {number}
@@ -114,13 +109,16 @@ class CatalystFlipButton extends HTMLElement {
 
   /**
    * Construct the element.
+   *
+   * @param {HTMLTemplate} [template]
+   *   The template to use.
    */
-  constructor() {
+  constructor(template = getTemplate()) {
     super();
 
     // Create a shadow root and stamp out the template's content inside.
     this.attachShadow({mode: 'open'});
-    this.shadowRoot.appendChild(CatalystFlipButton._template.content.cloneNode(true));
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     /**
      * The element that flips.
@@ -491,14 +489,14 @@ class CatalystFlipButton extends HTMLElement {
    *   The new value of the attribute that changed.
    */
   attributeChangedCallback(name, oldValue, newValue) {
-    let boolVal = Boolean(newValue);
+    let hasValue = newValue !== null;
 
     switch (name) {
       case 'disabled':
         // Set the aria value.
-        this.setAttribute('aria-disabled', boolVal);
+        this.setAttribute('aria-disabled', hasValue);
 
-        if (boolVal) {
+        if (hasValue) {
           this.selectElement.setAttribute('disabled', '');
 
           // If the tab index is set.

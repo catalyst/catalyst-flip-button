@@ -1,4 +1,18 @@
-/* exported CatalystFlipButton */
+/**
+ * Get the template for this element.
+ */
+function getTemplate() {
+  let template = document.createElement('template');
+  template.innerHTML = `<style>[[inject:style]][[endinject]]</style>[[inject:template]][[endinject]]`;  // eslint-disable-line quotes
+
+  // If using ShadyCSS.
+  if (window.ShadyCSS !== undefined) {
+    // Rename classes as needed to ensure style scoping.
+    window.ShadyCSS.prepareTemplate(template, CatalystFlipButton.is);
+  }
+
+  return template;
+}
 
 /**
  * `<catalyst-flip-button>` is a wrapper for a `<select>` element.
@@ -50,25 +64,6 @@ class CatalystFlipButton extends HTMLElement {
   }
 
   /**
-   * @constant {HTMLTemplateElement}
-   *   The template of the component.
-   */
-  static get _template() {
-    if (this.__template === undefined) {
-      this.__template = document.createElement('template');
-      this.__template.innerHTML = `<style>[[inject:style]][[endinject]]</style>[[inject:template]][[endinject]]`;  // eslint-disable-line quotes
-
-      // If using ShadyCSS.
-      if (window.ShadyCSS !== undefined) {
-        // Rename classes as needed to ensure style scoping.
-        window.ShadyCSS.prepareTemplate(this.__template, CatalystFlipButton.is);
-      }
-    }
-
-    return this.__template;
-  }
-
-  /**
    * Key codes.
    *
    * @enum {number}
@@ -114,13 +109,16 @@ class CatalystFlipButton extends HTMLElement {
 
   /**
    * Construct the element.
+   *
+   * @param {HTMLTemplate} [template]
+   *   The template to use.
    */
-  constructor() {
+  constructor(template = getTemplate()) {
     super();
 
     // Create a shadow root and stamp out the template's content inside.
     this.attachShadow({mode: 'open'});
-    this.shadowRoot.appendChild(CatalystFlipButton._template.content.cloneNode(true));
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     /**
      * The element that flips.
@@ -491,14 +489,14 @@ class CatalystFlipButton extends HTMLElement {
    *   The new value of the attribute that changed.
    */
   attributeChangedCallback(name, oldValue, newValue) {
-    let boolVal = Boolean(newValue);
+    let hasValue = newValue !== null;
 
     switch (name) {
       case 'disabled':
         // Set the aria value.
-        this.setAttribute('aria-disabled', boolVal);
+        this.setAttribute('aria-disabled', hasValue);
 
-        if (boolVal) {
+        if (hasValue) {
           this.selectElement.setAttribute('disabled', '');
 
           // If the tab index is set.
@@ -795,3 +793,6 @@ class CatalystFlipButton extends HTMLElement {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
   }
 }
+
+// Export the element.
+export { CatalystFlipButton };

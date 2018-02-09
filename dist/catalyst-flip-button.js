@@ -10,8 +10,20 @@
    * Create the custom element
    */
   function createElement() {
-    /* exported CatalystFlipButton */
-
+/**
+     * Get the template for this element.
+     */
+        function getTemplate() {
+      let template = document.createElement('template');
+      template.innerHTML = `<style>:host{position:relative;display:inline-block;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;padding:1px 6px;margin:0;font-family:inherit;font-size:83.33333%;font-style:normal;font-weight:400;line-height:normal;letter-spacing:normal;word-spacing:normal;color:#000;color:ButtonText;text-align:center;text-indent:0;text-rendering:auto;text-shadow:none;text-transform:none;vertical-align:bottom;cursor:default;-webkit-box-sizing:content-box;box-sizing:content-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-perspective:100px;perspective:100px;contain:layout style}:host #card{position:absolute;top:0;right:0;bottom:0;left:0;-webkit-transition:-webkit-transform .4s ease;transition:-webkit-transform .4s ease;transition:transform .4s ease;transition:transform .4s ease,-webkit-transform .4s ease;-webkit-transform-style:preserve-3d;transform-style:preserve-3d}:host #card #back,:host #card #front{position:absolute;top:0;right:0;bottom:0;left:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin:0;background:#ddd;background:ButtonFace;background:var(--catalyst-flip-button-card-face-background,ButtonFace);border:2px outset ButtonFace;border:var(--catalyst-flip-button-card-face-border,2px outset ButtonFace);border-radius:var(--catalyst-flip-button-card-face-border-radius,0);-webkit-backface-visibility:hidden;backface-visibility:hidden;-webkit-appearance:var(--catalyst-flip-button-card-face-appearance,button);-moz-appearance:var(--catalyst-flip-button-card-face-appearance,button)}:host #card #back{-webkit-transform:rotateY(180deg);transform:rotateY(180deg)}:host(:focus){outline:none}:host(:focus) #card #back,:host(:focus) #card #front{outline:var(--catalyst-flip-button-card-face-focused-outline,#000 dotted 1px)}:host([hidden]),:host [hidden]{display:none}</style><div id="card"><div id="front"></div><div id="back"></div></div><div hidden><slot></slot></div>`;
+      // eslint-disable-line quotes
+      // If using ShadyCSS.
+      if (window.ShadyCSS !== undefined) {
+        // Rename classes as needed to ensure style scoping.
+        window.ShadyCSS.prepareTemplate(template, CatalystFlipButton.is);
+      }
+      return template;
+    }
     /**
      * `<catalyst-flip-button>` is a wrapper for a `<select>` element.
      * It displays as a button and flips between different options.
@@ -52,7 +64,6 @@
      * @demo demo/demo.es6.html ES6 Component Demo
      */
     class CatalystFlipButton extends HTMLElement {
-
       /**
        * @constant {String}
        *   The element's tag name.
@@ -60,26 +71,6 @@
       static get is() {
         return 'catalyst-flip-button';
       }
-
-      /**
-       * @constant {HTMLTemplateElement}
-       *   The template of the component.
-       */
-      static get _template() {
-        if (this.__template === undefined) {
-          this.__template = document.createElement('template');
-          this.__template.innerHTML = `<style>:host{position:relative;display:inline-block;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;padding:1px 6px;margin:0;font-family:inherit;font-size:83.33333%;font-style:normal;font-weight:400;line-height:normal;letter-spacing:normal;word-spacing:normal;color:#000;color:ButtonText;text-align:center;text-indent:0;text-rendering:auto;text-shadow:none;text-transform:none;vertical-align:bottom;cursor:default;-webkit-box-sizing:content-box;box-sizing:content-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-perspective:100px;perspective:100px;contain:layout style}:host #card{position:absolute;top:0;right:0;bottom:0;left:0;-webkit-transition:-webkit-transform .4s ease;transition:-webkit-transform .4s ease;transition:transform .4s ease;transition:transform .4s ease,-webkit-transform .4s ease;-webkit-transform-style:preserve-3d;transform-style:preserve-3d}:host #card #back,:host #card #front{position:absolute;top:0;right:0;bottom:0;left:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin:0;background:#ddd;background:ButtonFace;background:var(--catalyst-flip-button-card-face-background,ButtonFace);border:2px outset ButtonFace;border:var(--catalyst-flip-button-card-face-border,2px outset ButtonFace);border-radius:var(--catalyst-flip-button-card-face-border-radius,0);-webkit-backface-visibility:hidden;backface-visibility:hidden;-webkit-appearance:var(--catalyst-flip-button-card-face-appearance,button);-moz-appearance:var(--catalyst-flip-button-card-face-appearance,button)}:host #card #back{-webkit-transform:rotateY(180deg);transform:rotateY(180deg)}:host(:focus){outline:none}:host(:focus) #card #back,:host(:focus) #card #front{outline:var(--catalyst-flip-button-card-face-focused-outline,#000 dotted 1px)}:host([hidden]),:host [hidden]{display:none}</style><div id="card"><div id="front"></div><div id="back"></div></div><div hidden><slot></slot></div>`;  // eslint-disable-line quotes
-
-          // If using ShadyCSS.
-          if (window.ShadyCSS !== undefined) {
-            // Rename classes as needed to ensure style scoping.
-            window.ShadyCSS.prepareTemplate(this.__template, CatalystFlipButton.is);
-          }
-        }
-
-        return this.__template;
-      }
-
       /**
        * Key codes.
        *
@@ -94,19 +85,16 @@
             UP: 38,
             RIGHT: 39,
             DOWN: 40
-          }
+          };
         }
-
         return this.__keycode;
       }
-
       /**
        * True if the web browser is ie11.
        */
       static get isIE11() {
         return !!navigator.userAgent.match(/Trident\/7\./);
       }
-
       /**
        * The attributes on this element to observe.
        *
@@ -116,52 +104,47 @@
       static get observedAttributes() {
         return ['disabled'];
       }
-
       /**
        * Register this class as an element.
        */
       static register() {
         window.customElements.define(CatalystFlipButton.is, CatalystFlipButton);
       }
-
       /**
        * Construct the element.
+       *
+       * @param {HTMLTemplate} [template]
+       *   The template to use.
        */
-      constructor() {
+      constructor(template = getTemplate()) {
         super();
-
         // Create a shadow root and stamp out the template's content inside.
-        this.attachShadow({mode: 'open'});
-        this.shadowRoot.appendChild(CatalystFlipButton._template.content.cloneNode(true));
-
+        this.attachShadow({ mode: 'open' });
+        this.shadowRoot.appendChild(template.content.cloneNode(true));
         /**
          * The element that flips.
          *
          * @type {HTMLElement}
          */
         this._cardElement = this.shadowRoot.querySelector('#card');
-
         /**
          * The front face of the card.
          *
          * @type {HTMLElement}
          */
         this._cardFrontFace = this._cardElement.querySelector('#front');
-
         /**
          * The back face of the card.
          *
          * @type {HTMLElement}
          */
         this._cardBackFace = this._cardElement.querySelector('#back');
-
         /**
          * True if the card has been flipped, otherwise false.
          *
          * @type {boolean}
          */
         this._flipped = false;
-
         /**
          * The rotation of the card.
          *
@@ -169,7 +152,6 @@
          */
         this._rotation = 0;
       }
-
       /**
        * Fires when the element is inserted into the DOM.
        *
@@ -178,17 +160,14 @@
       connectedCallback() {
         // Set up the form element.
         this._setUpSelectElement();
-
         // Upgrade the element's properties.
         this._upgradeProperty('disabled');
         this._upgradeProperty('noAutoPerspective');
-
         // Set the aria attributes.
         this.setAttribute('aria-disabled', this.disabled);
         if (!this.hasAttribute('aria-live')) {
           this.setAttribute('aria-live', 'polite');
         }
-
         // Set this element's role and tab index if they are not already set.
         if (!this.hasAttribute('role')) {
           this.setAttribute('role', 'combobox');
@@ -196,32 +175,24 @@
         if (!this.hasAttribute('tabindex')) {
           this.setAttribute('tabindex', 0);
         }
-
         // Add the element's event listeners.
         this.addEventListener('keydown', this._onKeyDown);
         this.addEventListener('click', this._onClick);
         this.addEventListener('mouseup', this._onMouseUp);
-
         // Disable context menu on right click.
         this.setAttribute('oncontextmenu', 'if (event.button === 2) { event.preventDefault(); }');
-
         this._selectObserver = new MutationObserver(this._onLightDomMutation.bind(this));
-        this._selectObserver.observe(this, {
-          childList: true
-        });
-
+        this._selectObserver.observe(this, { childList: true });
         // Set the size of the element.
         setTimeout(() => {
           this._setUpDimensions();
         }, 0);
-
         // If using ShadyCSS.
         if (window.ShadyCSS !== undefined) {
           // Style the element.
           window.ShadyCSS.styleElement(this);
         }
       }
-
       /**
        * Upgrade the property on this element with the given name.
        *
@@ -240,42 +211,33 @@
           let value = this[prop];
           delete this[prop];
           this[prop] = value;
-        }
-        // Else if an attribute exists for the property, set the property using that.
+        }  // Else if an attribute exists for the property, set the property using that.
         else if (this.hasAttribute(prop)) {
           this[prop] = this.getAttribute(prop);
         }
       }
-
       /**
        * Find the new form element and set it up.
        */
       _setUpSelectElement() {
         let newSelectElement = this.querySelector('select');
-
         if (newSelectElement !== null) {
           if (newSelectElement !== this._selectElement) {
             // Clean up the old form element.
             if (this._selectElement !== null && this._selectElement !== undefined) {
               this._selectElement.removeEventListener('change', this.notifySelectedOptionChanged.bind(this));
             }
-
             // Remove the old observer if there is one.
             if (this._optionsObserver !== undefined) {
               this._optionsObserver.disconnect();
               this._optionsObserver = undefined;
             }
-
             // Set up the new form element.
             this._selectElement = newSelectElement;
             this._selectElement.addEventListener('change', this.notifySelectedOptionChanged.bind(this));
-
             // Create an observer to watch for changes in the form element's options.
             this._optionsObserver = new MutationObserver(this._onOptionsMutation.bind(this));
-            this._optionsObserver.observe(this._selectElement, {
-              childList: true
-            });
-
+            this._optionsObserver.observe(this._selectElement, { childList: true });
             // Set up the label(s).
             if (this._selectElement.labels && this._selectElement.labels.length > 0) {
               let labelledBy = [];
@@ -290,15 +252,12 @@
             } else {
               this.removeAttribute('aria-labelledby');
             }
-
             // Disable the select element if this element is disabled.
             this._selectElement.disabled = this.disabled;
-
             this.notifySelectedOptionChanged();
           }
         }
       }
-
       /**
        * Set the dimensions of this element.
        *
@@ -310,91 +269,75 @@
         // Remove any previous settings.
         this.style.minWidth = '';
         this.style.minHeight = '';
-
         // Get the size of this element as is.
         let style = getComputedStyle(this);
         let width = Number.parseInt(style.width, 10);
         let height = Number.parseInt(style.height, 10);
-
         // If the element now has no size (i.e. a user has not manually set a size),
         // mark it as needing to be sized.
         let adjustWidth = width === 0;
         let adjustHeight = height === 0;
-
         // If the element needs to be sized.
         if (adjustWidth || adjustHeight) {
-
           // The width and height of the largest children
           let maxOptionWidth = 0;
           let maxOptionHeight = 0;
-
           // Position the card relatively so sizes can be calculated.
           this._cardElement.style.position = 'relative';
-
           // Get the options.
           let options = this._selectElement.options;
           if (options.length > 0) {
-
             // Set the styling to relative so the size can be measured.
             this._cardFrontFace.style.position = 'relative';
             this._cardBackFace.style.position = 'relative';
-
             // Save the text content in the front face and then clear it.
             let frontFaceText = this._cardFrontFace.textContent;
             this._cardFrontFace.textContent = '';
-
             // Save the text content in the back face and then clear it.
             let backFaceText = this._cardBackFace.textContent;
             this._cardBackFace.textContent = '';
-
             for (let i = 0; i < options.length; i++) {
               this._cardFrontFace.textContent = options[i].textContent;
               this._cardBackFace.textContent = options[i].textContent;
-
               if (adjustWidth) {
                 // If new largest width, save it.
-                let fw =  this._cardFrontFace.offsetWidth;
+                let fw = this._cardFrontFace.offsetWidth;
                 if (fw > maxOptionWidth) {
                   maxOptionWidth = fw;
                 }
-                let bw =  this._cardBackFace.offsetWidth;
+                let bw = this._cardBackFace.offsetWidth;
                 if (bw > maxOptionWidth) {
                   maxOptionWidth = bw;
                 }
               }
-
               if (adjustHeight) {
                 // If new largest height, save it.
-                let fh =  this._cardFrontFace.offsetHeight;
+                let fh = this._cardFrontFace.offsetHeight;
                 if (fh > maxOptionHeight) {
                   maxOptionHeight = fh;
                 }
-                let hw =  this._cardBackFace.offsetHeight;
+                let hw = this._cardBackFace.offsetHeight;
                 if (hw > maxOptionWidth) {
                   maxOptionWidth = hw;
                 }
               }
             }
-
             // Restore the text content to the front and back faces.
             this._cardFrontFace.textContent = frontFaceText;
             this._cardBackFace.textContent = backFaceText;
-
             // Restore the original positioning.
             this._cardFrontFace.style.position = '';
             this._cardBackFace.style.position = '';
           }
-
           // Restore the card styles.
           this._cardElement.style.position = '';
-
           // For each dimension that needs to be adjusted, set it to the largest
           // dimension an options way (with a little extra room for safety).
           if (adjustWidth) {
             let newWidth = maxOptionWidth + 2;
             this.style.minWidth = newWidth + 'px';
             if (!this.noAutoPerspective) {
-              this.style.perspective = (2 * (newWidth + Number.parseInt(style.paddingLeft, 10) + Number.parseInt(style.paddingRight, 10))) + 'px';
+              this.style.perspective = 2 * (newWidth + Number.parseInt(style.paddingLeft, 10) + Number.parseInt(style.paddingRight, 10)) + 'px';
             }
           }
           if (adjustHeight) {
@@ -403,7 +346,6 @@
           }
         }
       }
-
       /**
        * Fires when the element is removed from the DOM.
        *
@@ -413,20 +355,16 @@
         this.removeEventListener('keydown', this._onKeyDown);
         this.removeEventListener('click', this._onClick);
         this.removeEventListener('mouseUp', this._onMouseUp);
-
         if (this._selectObserver !== null) {
           this._selectObserver.disconnect();
           this._selectObserver = undefined;
         }
-
         this._selectElement = undefined;
-
         if (this._optionsObserver !== null) {
           this._optionsObserver.disconnect();
           this._optionsObserver = undefined;
         }
       }
-
       /**
        * Setter for `disabled`.
        *
@@ -438,13 +376,11 @@
           const isDisabled = Boolean(value);
           if (isDisabled) {
             this.setAttribute('disabled', '');
-          }
-          else {
+          } else {
             this.removeAttribute('disabled');
           }
         }
       }
-
       /**
        * States whether or not this element is disabled.
        *
@@ -454,7 +390,6 @@
       get disabled() {
         return this.hasAttribute('disabled');
       }
-
       /**
        * Setter for `noAutoPerspective`.
        *
@@ -465,12 +400,10 @@
         const isNoAutoPerspective = Boolean(value);
         if (isNoAutoPerspective) {
           this.setAttribute('no-auto-perspective', '');
-        }
-        else {
+        } else {
           this.removeAttribute('no-auto-perspective');
         }
       }
-
       /**
        * States whether or not this element should automatically calculate its own perspective value.
        *
@@ -480,7 +413,6 @@
       get noAutoPerspective() {
         return this.hasAttribute('no-auto-perspective');
       }
-
       /**
        * The select element.
        *
@@ -489,7 +421,6 @@
       get selectElement() {
         return this._selectElement;
       }
-
       /**
        * Fired when any of the attributes in the `observedAttributes` array change.
        *
@@ -503,34 +434,29 @@
        *   The new value of the attribute that changed.
        */
       attributeChangedCallback(name, oldValue, newValue) {
-        let boolVal = Boolean(newValue);
-
+        let hasValue = newValue !== null;
         switch (name) {
-          case 'disabled':
-            // Set the aria value.
-            this.setAttribute('aria-disabled', boolVal);
-
-            if (boolVal) {
-              this.selectElement.setAttribute('disabled', '');
-
-              // If the tab index is set.
-              if (this.hasAttribute('tabindex')) {
-                this._tabindexBeforeDisabled = this.getAttribute('tabindex');
-                this.removeAttribute('tabindex');
-                this.blur();
-              }
-            } else {
-              this.selectElement.removeAttribute('disabled');
-
-              // If the tab index isn't already set and the previous value is known.
-              if (!this.hasAttribute('tabindex') && this._tabindexBeforeDisabled !== undefined && this._tabindexBeforeDisabled !== null) {
-                this.setAttribute('tabindex', this._tabindexBeforeDisabled);
-              }
+        case 'disabled':
+          // Set the aria value.
+          this.setAttribute('aria-disabled', hasValue);
+          if (hasValue) {
+            this.selectElement.setAttribute('disabled', '');
+            // If the tab index is set.
+            if (this.hasAttribute('tabindex')) {
+              this._tabindexBeforeDisabled = this.getAttribute('tabindex');
+              this.removeAttribute('tabindex');
+              this.blur();
             }
-            break;
+          } else {
+            this.selectElement.removeAttribute('disabled');
+            // If the tab index isn't already set and the previous value is known.
+            if (!this.hasAttribute('tabindex') && this._tabindexBeforeDisabled !== undefined && this._tabindexBeforeDisabled !== null) {
+              this.setAttribute('tabindex', this._tabindexBeforeDisabled);
+            }
+          }
+          break;
         }
       }
-
       /**
        * Called when a key is pressed on this element.
        *
@@ -541,33 +467,28 @@
         if (event.altKey) {
           return;
         }
-
         // What key was pressed?
         switch (event.keyCode) {
-          case CatalystFlipButton._KEYCODE.SPACE:
-          case CatalystFlipButton._KEYCODE.ENTER:
-            event.preventDefault();
-            this._flip();
-            break;
-
-          case CatalystFlipButton._KEYCODE.LEFT:
-          case CatalystFlipButton._KEYCODE.UP:
-            event.preventDefault();
-            this.previous();
-            break;
-
-          case CatalystFlipButton._KEYCODE.RIGHT:
-          case CatalystFlipButton._KEYCODE.DOWN:
-            event.preventDefault();
-            this.next();
-            break;
-
-          // Any other key press is ignored and passed back to the browser.
-          default:
-            return;
+        case CatalystFlipButton._KEYCODE.SPACE:
+        case CatalystFlipButton._KEYCODE.ENTER:
+          event.preventDefault();
+          this._flip();
+          break;
+        case CatalystFlipButton._KEYCODE.LEFT:
+        case CatalystFlipButton._KEYCODE.UP:
+          event.preventDefault();
+          this.previous();
+          break;
+        case CatalystFlipButton._KEYCODE.RIGHT:
+        case CatalystFlipButton._KEYCODE.DOWN:
+          event.preventDefault();
+          this.next();
+          break;
+        // Any other key press is ignored and passed back to the browser.
+        default:
+          return;
         }
       }
-
       /**
        * Called when this element is clicked.
        *
@@ -578,7 +499,6 @@
           this._onLeftClick();
         }
       }
-
       /**
        * Called on the mouse up event.
        *
@@ -589,7 +509,6 @@
           this._onRightClick();
         }
       }
-
       /**
        * Called when this element is left clicked.
        */
@@ -597,7 +516,6 @@
         this.focus();
         this.next();
       }
-
       /**
        * Called when this element is right clicked.
        */
@@ -605,7 +523,6 @@
         this.focus();
         this.previous();
       }
-
       /**
        * Notify this component that the select element has changed.
        *
@@ -615,25 +532,20 @@
         if (this._selectElement === null || this._selectElement.length === 0) {
           return;
         }
-
         let option = this._selectElement.options[this._selectElement.selectedIndex];
-
         if (this._flipped) {
           this._cardBackFace.textContent = option.textContent;
         } else {
           this._cardFrontFace.textContent = option.textContent;
         }
-
         // IE11 specific fixes.
         if (CatalystFlipButton.isIE11) {
           let backfaceVisibility = this._flipped ? 'visible' : 'hidden';
           this._cardFrontFace.style.backfaceVisibility = backfaceVisibility;
           this._cardBackFace.style.backfaceVisibility = backfaceVisibility;
         }
-
         this._update();
       }
-
       /**
        * Called when a top level lightDom mutation happens.
        *
@@ -642,40 +554,33 @@
       _onLightDomMutation(mutations) {
         let nodesAdded = false;
         let nodesRemoved = false;
-
         let recalculateSize;
         recalculateSize = false;
-
         // For each mutation.
         for (let i = 0; i < mutations.length; i++) {
           // Nodes Added?
           if (mutations[i].addedNodes.length > 0) {
             nodesAdded = true;
           }
-
           // Nodes Removed?
           if (mutations[i].removedNodes.length > 0) {
             nodesRemoved = true;
           }
         }
-
         // If lightDom elements changed?
         if (nodesAdded || nodesRemoved) {
           let fe = this._selectElement;
           this._setUpSelectElement();
-
           // New form element?
           if (this._selectElement !== fe) {
             recalculateSize = true;
           }
         }
-
         // Size of the element needs recalculate?
         if (recalculateSize) {
           this._setUpDimensions();
         }
       }
-
       /**
        * Called when a top level lightDom mutation happens.
        *
@@ -684,10 +589,8 @@
       _onOptionsMutation(mutations) {
         let optionsAdded = false;
         let optionsRemoved = false;
-
         let recalculateSize;
         recalculateSize = false;
-
         // For each mutation.
         for (let i = 0; i < mutations.length; i++) {
           // Option added?
@@ -697,46 +600,38 @@
               break;
             }
           }
-
-            // Option removed?
-            for (let j = 0; j < mutations[i].addedNodes.length; j++) {
+          // Option removed?
+          for (let j = 0; j < mutations[i].addedNodes.length; j++) {
             if (mutations[i].addedNodes[j].tagName === 'OPTION') {
               optionsRemoved = true;
               break;
             }
           }
-
           // No options left?
           if (this._selectElement !== null && this._selectElement.length === 0) {
             recalculateSize = true;
           }
         }
-
         // If lightDom elements changed?
         if (optionsAdded || optionsRemoved) {
-          // TODO: options changed.
         }
-
         // Size of the element needs recalculate?
         if (recalculateSize) {
           this._setUpDimensions();
         }
       }
-
       /**
        * Flip the button forwards to the next option.
        */
       next() {
         this._flip(true);
       }
-
       /**
        * Flip the button back to the previous option.
        */
       previous() {
         this._flip(false);
       }
-
       /**
        * Flip the button.
        *
@@ -751,18 +646,14 @@
         if (this._selectElement === null || this.disabled) {
           return;
         }
-
         // Update the selected index.
         let newIndex = this._selectElement.selectedIndex + (forwards ? 1 : -1);
         let length = this._selectElement.length;
-        this._selectElement.selectedIndex = ((newIndex % length) + length) % length;
-
+        this._selectElement.selectedIndex = (newIndex % length + length) % length;
         // Update the card's rotation.
         this._rotation += 180 * (forwards ? -1 : 1);
-
         // Card has now been flipped/unflipped.
         this._flipped = !this._flipped;
-
         /**
          * Fired when the selected option changes due to user interaction.
          *
@@ -773,13 +664,11 @@
             selectedIndex: this._selectElement.selectedIndex,
             selectedOption: this._selectElement.options[this._selectElement.selectedIndex]
           },
-          bubbles: true,
+          bubbles: true
         }));
-
         // `change` event on the form element is not emitted when setting selectedIndex manually.
         this.notifySelectedOptionChanged();
       }
-
       /**
        * Update the element
        */
@@ -787,14 +676,11 @@
         if (this._selectElement === null) {
           return;
         }
-
         // Update the value attribute.
         this.setAttribute('value', this._selectElement.value);
-
         // Play the transition.
         this._cardElement.style.transform = 'rotateY(' + this._rotation + 'deg)';
       }
-
       /**
        * Generate a guid (or at least something that seems like one)
        *
@@ -802,12 +688,11 @@
        */
       _generateGuid() {
         let s4 = () => {
-          return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-        }
+          return Math.floor((1 + Math.random()) * 65536).toString(16).substring(1);
+        };
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
       }
     }
-
     // Make the class globally accessible under the `CatalystElements` object.
     window.CatalystElements.CatalystFlipButton = CatalystFlipButton;
 
