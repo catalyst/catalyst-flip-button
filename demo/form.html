@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+  <head>
+    <title>&lt;catalyst-flip-button&gt; ES6 Demo</title>
+
+    <!-- Web Component Pollyfills -->
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/@webcomponents/shadycss/scoping-shim.min.js"></script>
+
+    <!-- Helper for the demo -->
+    <script src="../node_modules/@polymer/iron-demo-helpers/demo-snippet.js" type="module"></script>
+
+    <!-- Import the element -->
+    <script type="module">
+      import { CatalystFlipButton } from '../node_modules/@catalyst-elements/catalyst-flip-button/dist/catalyst-flip-button.module.js';
+
+      if (window.WebComponents === undefined || window.WebComponents.ready) {
+        CatalystFlipButton.register();
+      } else {
+        window.addEventListener('WebComponentsReady', () => {
+          CatalystFlipButton.register();
+        });
+      }
+    </script>
+
+    <style>
+      body {
+        font-family: Arial;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Use in a form:</h3>
+    <demo-snippet>
+      <template>
+        <form action="?" method="get">
+          <label for="foo">Select an option:</label>
+          <catalyst-flip-button>
+            <select id="foo" name="foo">
+              <option value="one">Option 1</option>
+              <option value="two">Option 2</option>
+              <option value="three">Option 3</option>
+            </select>
+          </catalyst-flip-button>
+        </form>
+      </template>
+    </demo-snippet>
+  </body>
+</html>

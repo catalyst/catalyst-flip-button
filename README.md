@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](LICENSE)
 [![Not published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-unpublished-red.svg)](https://gitlab.wgtn.cat-it.co.nz/CatalystElements/catalyst-flip-button)
 
-[Live Demo ↗](http://catalystelements.pages.gitlab.wgtn.cat-it.co.nz/CatalystElements/#/elements/catalyst-flip-button/demos/es6-component-demo)
+[Live Demo ↗](http://catalystelements.pages.gitlab.wgtn.cat-it.co.nz/CatalystElements/#/elements/catalyst-flip-button/demos/basic)
 |
 [API documentation ↗](http://catalystelements.pages.gitlab.wgtn.cat-it.co.nz/CatalystElements/#/elements/catalyst-flip-button)
 
@@ -17,36 +17,16 @@ Also see [catalyst-toggle-button](https://gitlab.wgtn.cat-it.co.nz/CatalystEleme
 ```sh
 npm install --save "git+https://git@gitlab.wgtn.cat-it.co.nz/CatalystElements/catalyst-flip-button.git"
 ```
-
 ## Usage
 
-Import the component's definition on each page it is to be used on:
+### As a Module (Recommend)
 
-```html
-<script src="node_modules/@catalyst-elements/catalyst-flip-button/dist/catalyst-flip-button.js"></script>
-```
-
-Then simply use it like any other tag:
-
-```html
-<catalyst-flip-button>
-  <select>
-    <option>Apples</option>
-    <option>Banana</option>
-    <option>Carrot</option>
-    <option>Duck</option>
-  </select>
-</catalyst-flip-button>
-```
-
-### Usage as a Module
-
-Import the module on each page that uses the component, then register the element:
+Import the module on each page that uses the component, then register the element.
 
 ```html
 <script type="module">
   // Import the component.
-  import { CatalystFlipButton } from 'node_modules/@catalyst-elements/catalyst-flip-button/dist/catalyst-flip-button.module.js';
+  import { CatalystFlipButton } from './node_modules/@catalyst-elements/catalyst-flip-button/dist/catalyst-flip-button.module.js';
 
   // If not using web component polyfills or if polyfills are ready, register the elements.
   if (window.WebComponents === undefined || window.WebComponents.ready) {
@@ -59,6 +39,21 @@ Import the module on each page that uses the component, then register the elemen
     });
   }
 </script>
+```
+
+Then simply use it like any other tag:
+
+```html
+<catalyst-flip-button>My Button</catalyst-flip-button>
+```
+
+### As a script
+
+Import the script for the component on each page that it is uses on.
+
+```html
+<!-- Import the element -->
+<script src="node_modules/@catalyst-elements/catalyst-flip-button/dist/catalyst-flip-button.js"></script>
 ```
 
 ## Browser Compatibility

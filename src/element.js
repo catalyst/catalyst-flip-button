@@ -50,8 +50,9 @@ function getTemplate() {
  * @memberof CatalystElements
  * @group Catalyst Elements
  * @element catalyst-flip-button
- * @demo demo/demo.es5.html ES5 Component Demo
- * @demo demo/demo.es6.html ES6 Component Demo
+ * @demo demo/basic.html Basic
+ * @demo demo/styled.html Styled
+ * @demo demo/form.html Form
  */
 class CatalystFlipButton extends HTMLElement {
 
