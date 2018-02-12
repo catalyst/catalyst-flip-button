@@ -1,20 +1,4 @@
 /**
- * Get the template for this element.
- */
-function getTemplate() {
-  let template = document.createElement('template');
-  template.innerHTML = `<style>[[inject:style]][[endinject]]</style>[[inject:template]][[endinject]]`;  // eslint-disable-line quotes
-
-  // If using ShadyCSS.
-  if (window.ShadyCSS !== undefined) {
-    // Rename classes as needed to ensure style scoping.
-    window.ShadyCSS.prepareTemplate(template, CatalystFlipButton.is);
-  }
-
-  return template;
-}
-
-/**
  * `<catalyst-flip-button>` is a wrapper for a `<select>` element.
  * It displays as a button and flips between different options.
  *
@@ -62,6 +46,22 @@ class CatalystFlipButton extends HTMLElement {
    */
   static get is() {
     return 'catalyst-flip-button';
+  }
+
+  /**
+   * Get the default template used by this element.
+   */
+  static get template() {
+    let template = document.createElement('template');
+    template.innerHTML = `<style>[[inject:style]][[endinject]]</style>[[inject:template]][[endinject]]`;  // eslint-disable-line quotes
+
+    // If using ShadyCSS.
+    if (window.ShadyCSS !== undefined) {
+      // Rename classes as needed to ensure style scoping.
+      window.ShadyCSS.prepareTemplate(template, CatalystFlipButton.is);
+    }
+
+    return template;
   }
 
   /**
@@ -114,7 +114,7 @@ class CatalystFlipButton extends HTMLElement {
    * @param {HTMLTemplate} [template]
    *   The template to use.
    */
-  constructor(template = getTemplate()) {
+  constructor(template = CatalystFlipButton.template) {
     super();
 
     // Create a shadow root and stamp out the template's content inside.
