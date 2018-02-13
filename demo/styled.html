@@ -7,21 +7,8 @@
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../node_modules/@webcomponents/shadycss/scoping-shim.min.js"></script>
 
-    <!-- Helper for the demo -->
-    <script src="../node_modules/@polymer/iron-demo-helpers/demo-snippet.js" type="module"></script>
-
-    <!-- Import the element -->
-    <script type="module">
-      import { CatalystFlipButton } from '../node_modules/@catalyst-elements/catalyst-flip-button/dist/catalyst-flip-button.module.js';
-
-      if (window.WebComponents === undefined || window.WebComponents.ready) {
-        CatalystFlipButton.register();
-      } else {
-        window.addEventListener('WebComponentsReady', () => {
-          CatalystFlipButton.register();
-        });
-      }
-    </script>
+    <!-- Import the things we need -->
+    <script src="import.js" type="module"></script>
 
     <style>
       body {
