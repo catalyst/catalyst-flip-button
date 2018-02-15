@@ -1,0 +1,16 @@
+{
+  "name": "@catalyst-elements/catalyst-flip-button",
+  "description": "A button that and flips between different options.",
+  "main": "dist/catalyst-flip-button.js",
+  "authors": [
+    "Rebecca Stevens <rebeccastevens@catalyst.net.nz>"
+  ],
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "web-components",
+    "button",
+    "flip",
+    "select"
+  ],
+  "homepage": "https://github.com/catalyst/catalyst-flip-button"
+}
