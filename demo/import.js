@@ -1,11 +1,11 @@
 // Import the element.
-import { CatalystFlipButton } from '../node_modules/@catalyst-elements/catalyst-flip-button/dist/catalyst-flip-button.module.js';
+import { CatalystFlipButton } from '../../catalyst-flip-button/dist/catalyst-flip-button.module.js';
 
 /**
  * Load the polymer elements.
  */
 function loadPolymerElements() {
-  import('../node_modules/@polymer/iron-demo-helpers/demo-snippet.js');
+  import('../../../@polymer/iron-demo-helpers/demo-snippet.js');
 }
 
 // Register the element.
