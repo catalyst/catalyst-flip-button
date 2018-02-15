@@ -1,7 +1,7 @@
 # &lt;catalyst-flip-button&gt;
 
 [![License](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](LICENSE)
-[![Not published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-unpublished-red.svg)](https://github.com/catalyst/catalyst-flip-button)
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/catalyst/catalyst-flip-button)
 
 [Live Demo ↗](https://catalyst.github.io/CatalystElements/#/elements/catalyst-flip-button/demos/basic)
 |
