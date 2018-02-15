@@ -3,9 +3,29 @@
   "license": "BSD-3-Clause",
   "version": "0.4.2",
   "description": "A button that and flips between different options.",
-  "private": true,
-  "repository": "git@gitlab.wgtn.cat-it.co.nz:CatalystElements/catalyst-flip-button.git",
   "main": "dist/catalyst-flip-button.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/catalyst/catalyst-flip-button.git"
+  },
+  "author": {
+    "name" : "Rebecca Stevens",
+    "email" : "rebeccastevens@catalyst.net.nz"
+  },
+  "keywords": [
+    "web-components",
+    "button",
+    "flip",
+    "select"
+  ],
+  "bugs": {
+    "url": "https://github.com/catalyst/catalyst-flip-button/issues"
+  },
+  "homepage": "https://github.com/catalyst/catalyst-flip-button#readme",
   "scripts": {
     "build": "scripts/build.sh",
     "analyze": "scripts/analyze.sh",
