@@ -1,5 +1,9 @@
 # &lt;catalyst-flip-button&gt;
 
+[![Travis](https://img.shields.io/travis/catalyst/catalyst-flip-button.svg?style=flat-square)](https://travis-ci.org/catalyst/catalyst-flip-button)
+[![GitHub release](https://img.shields.io/github/release/catalyst/catalyst-flip-button.svg?style=flat-square)](https://github.com/catalyst/catalyst-flip-button/releases)
+[![David](https://img.shields.io/david/catalyst/catalyst-flip-button.svg?style=flat-square)](https://david-dm.org/catalyst/catalyst-flip-button)
+[![David](https://img.shields.io/david/dev/catalyst/catalyst-flip-button.svg?style=flat-square)](https://david-dm.org/catalyst/catalyst-flip-button?type=dev)
 [![License](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](LICENSE)
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/catalyst/catalyst-flip-button)
 
