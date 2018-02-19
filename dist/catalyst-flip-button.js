@@ -6,10 +6,6 @@
    */
   window.CatalystElements = window.CatalystElements || {};
 
-  /**
-   * Create the custom element
-   */
-  function createElement() {
 /**
      * `<catalyst-flip-button>` is a wrapper for a `<select>` element.
      * It displays as a button and flips between different options.
@@ -52,11 +48,20 @@
      */
         class CatalystFlipButton extends HTMLElement {
       /**
-       * @constant {String}
-       *   The element's tag name.
+       * The element's tag name.
+       *
+       * @returns {string}
        */
       static get is() {
         return 'catalyst-flip-button';
+      }
+      /**
+       * Return's true if this element has been registered, otherwise false.
+       *
+       * @returns {boolean}
+       */
+      static get _isRegistered() {
+        return !!CatalystFlipButton.__isRegistered;
       }
       /**
        * Get the default template used by this element.
@@ -108,8 +113,20 @@
       /**
        * Register this class as an element.
        */
-      static register() {
-        window.customElements.define(CatalystFlipButton.is, CatalystFlipButton);
+      static _register() {
+        const doRegister = () => {
+          window.customElements.define(CatalystFlipButton.is, CatalystFlipButton);
+          CatalystFlipButton.__isRegistered = true;
+        };
+        // If not using web component polyfills or if polyfills are ready, register the element.
+        if (window.WebComponents === undefined || window.WebComponents.ready) {
+          doRegister();
+        }  // Otherwise wait until the polyfills are ready, then register the element.
+        else {
+          window.addEventListener('WebComponentsReady', () => {
+            doRegister();
+          });
+        }
       }
       /**
        * Construct the element.
@@ -694,26 +711,10 @@
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
       }
     }
-    // Make the class globally accessible under the `CatalystElements` object.
-    window.CatalystElements.CatalystFlipButton = CatalystFlipButton;
-
-    // Register the element.
-    CatalystFlipButton.register();
-  }
-
-  // If the `CatalystFlipButton` hasn't already been defined, define it.
-  if (window.CatalystElements.CatalystFlipButton === undefined) {
-    // If not using web component polyfills or if polyfills are ready, create the element.
-    if (window.WebComponents === undefined || window.WebComponents.ready) {
-      createElement();
+    // Register the element if it is not already registered.
+    if (!CatalystFlipButton._isRegistered) {
+      CatalystFlipButton._register();
     }
-    // Otherwise wait until the polyfills is ready.
-    else {
-      window.addEventListener('WebComponentsReady', () => {
-        createElement();
-      });
-    }
-  } else {
-    console.warn('CatalystFlipButton has already been defined, cannot redefine.');
-  }
+  // Make the class globally accessible under the `CatalystElements` object.
+  window.CatalystElements.CatalystFlipButton = CatalystFlipButton;
 })();
