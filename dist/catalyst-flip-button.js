@@ -5,7 +5,6 @@
    * @namespace CatalystElements
    */
   window.CatalystElements = window.CatalystElements || {};
-
 /**
      * `<catalyst-flip-button>` is a wrapper for a `<select>` element.
      * It displays as a button and flips between different options.
@@ -714,6 +713,6 @@
     if (!CatalystFlipButton._isRegistered) {
       CatalystFlipButton._register();
     }
-  // Make the class globally accessible under the `CatalystElements` object.
-  window.CatalystElements.CatalystFlipButton = CatalystFlipButton;
+    // Make the class globally accessible under the `CatalystElements` object.
+    window.CatalystElements.CatalystFlipButton = CatalystFlipButton;
 })();
