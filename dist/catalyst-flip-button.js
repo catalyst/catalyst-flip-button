@@ -61,7 +61,7 @@
        * @returns {boolean}
        */
       static get _isRegistered() {
-        return window.customElements !== undefined && window.customElements.get(CatalystFlipButton.is);
+        return window.customElements !== undefined && window.customElements.get(CatalystFlipButton.is) !== undefined;
       }
       /**
        * Get the default template used by this element.

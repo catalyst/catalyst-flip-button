@@ -55,7 +55,7 @@ class CatalystFlipButton extends HTMLElement {
    * @returns {boolean}
    */
   static get _isRegistered() {
-    return window.customElements !== undefined && window.customElements.get(CatalystFlipButton.is);
+    return window.customElements !== undefined && window.customElements.get(CatalystFlipButton.is) !== undefined;
   }
 
   /**
