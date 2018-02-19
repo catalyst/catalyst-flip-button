@@ -36,7 +36,7 @@ yarn add @catalyst-elements/catalyst-flip-button
 Import the module on each page that uses the component.
 
 ```html
-<script type="module" src="node_modules/@catalyst-elements/catalyst-toggle-switch/dist/catalyst-toggle-switch.module.js"></script>
+<script type="module" src="node_modules/@catalyst-elements/catalyst-flip-button/dist/catalyst-flip-button.module.js"></script>
 ```
 
 Then simply use it like any other tag:
