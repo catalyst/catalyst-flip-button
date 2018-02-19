@@ -55,7 +55,7 @@ class CatalystFlipButton extends HTMLElement {
    * @returns {boolean}
    */
   static get _isRegistered() {
-    return !!CatalystFlipButton.__isRegistered;
+    return window.customElements !== undefined && window.customElements.get(CatalystFlipButton.is);
   }
 
   /**
@@ -117,7 +117,6 @@ class CatalystFlipButton extends HTMLElement {
   static _register() {
     const doRegister = () => {
       window.customElements.define(CatalystFlipButton.is, CatalystFlipButton);
-      CatalystFlipButton.__isRegistered = true;
     };
 
     // If not using web component polyfills or if polyfills are ready, register the element.
