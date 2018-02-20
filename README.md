@@ -15,6 +15,27 @@
 
 Also see [catalyst-toggle-button](https://github.com/catalyst/catalyst-toggle-button).
 
+<!---
+```
+<custom-element-demo>
+  <template>
+    <script type="module" src="dist/catalyst-flip-button.module.js"></script>
+    <next-code-block></next-code-block>
+  </template>
+</custom-element-demo>
+```
+-->
+```html
+<catalyst-flip-button>
+  <select>
+    <option>Apples</option>
+    <option>Banana</option>
+    <option>Carrot</option>
+    <option>Duck</option>
+  </select>
+</catalyst-flip-button>
+```
+
 ## Installation
 
 Install with npm:
@@ -39,18 +60,7 @@ Import the module on each page that uses the component.
 <script type="module" src="node_modules/@catalyst-elements/catalyst-flip-button/dist/catalyst-flip-button.module.js"></script>
 ```
 
-Then simply use it like any other tag:
-
-```html
-<catalyst-flip-button>
-  <select>
-    <option>Apples</option>
-    <option>Banana</option>
-    <option>Carrot</option>
-    <option>Duck</option>
-  </select>
-</catalyst-flip-button>
-```
+Then simply use it like any other tag.
 
 ### As a script
 
@@ -61,18 +71,7 @@ Import the script for the component on each page that it is uses on.
 <script src="node_modules/@catalyst-elements/catalyst-flip-button/dist/catalyst-flip-button.js"></script>
 ```
 
-The element can then be use it like any other tag:
-
-```html
-<catalyst-flip-button>
-  <select>
-    <option>Apples</option>
-    <option>Banana</option>
-    <option>Carrot</option>
-    <option>Duck</option>
-  </select>
-</catalyst-flip-button>
-```
+The element can then be use it like any other tag.
 
 ## Browser Compatibility
 
