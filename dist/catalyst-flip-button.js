@@ -21,11 +21,11 @@
  *
  * Property | Description | Default Value
  * -------- |------------ | -------------
- * --catalyst-flip-button-card-face-appearance | The appearance of the card face. | `button`
- * --catalyst-flip-button-card-face-background | The background of the card face. | `#dddddd`
- * --catalyst-flip-button-card-face-border | The border applied to the card face. |
- * --catalyst-flip-button-card-face-border-radius | The border radius applied to the card face. |
- * --catalyst-flip-button-card-face-focused-outline | The outline of the card face when focused. |
+ * `--catalyst-flip-button-card-face-appearance`      | The appearance of the card face.            | `button`
+ * `--catalyst-flip-button-card-face-background`      | The background of the card face.            | `#dddddd`
+ * `--catalyst-flip-button-card-face-border`          | The border applied to the card face.        |
+ * `--catalyst-flip-button-card-face-border-radius`   | The border radius applied to the card face. |
+ * `--catalyst-flip-button-card-face-focused-outline` | The outline of the card face when focused.  |
  *
  * @class
  * @extends HTMLElement
