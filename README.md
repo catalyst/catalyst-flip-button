@@ -23,7 +23,7 @@ Also see [catalyst-toggle-button](https://github.com/catalyst/catalyst-toggle-bu
 ```
 <custom-element-demo>
   <template>
-    <script type="module" src="dist/catalyst-flip-button.module.js"></script>
+    <script type="module" src="dist/catalyst-flip-button.js"></script>
     <next-code-block></next-code-block>
   </template>
 </custom-element-demo>
