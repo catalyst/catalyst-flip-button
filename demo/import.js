@@ -1,5 +1,5 @@
 // Import the element.
-import '../../catalyst-flip-button/dist/catalyst-flip-button.module.js';
+import '../../catalyst-flip-button/dist/catalyst-flip-button.js';
 
 /**
  * Load the polymer elements.

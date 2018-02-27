@@ -31,7 +31,6 @@
  * @extends HTMLElement
  *
  * @customElement
- * @memberof CatalystElements
  * @group Catalyst Elements
  * @element catalyst-flip-button
  * @demo demo/basic.html Basic
