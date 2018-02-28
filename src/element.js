@@ -49,15 +49,6 @@ class CatalystFlipButton extends HTMLElement {
   }
 
   /**
-   * Return's true if this element has been registered, otherwise false.
-   *
-   * @returns {boolean}
-   */
-  static get _isRegistered() {
-    return window.customElements !== undefined && window.customElements.get(CatalystFlipButton.is) !== undefined;
-  }
-
-  /**
    * Get the default template used by this element.
    */
   static get template() {
@@ -108,26 +99,6 @@ class CatalystFlipButton extends HTMLElement {
    */
   static get observedAttributes() {
     return ['disabled'];
-  }
-
-  /**
-   * Register this class as an element.
-   */
-  static _register() {
-    const doRegister = () => {
-      window.customElements.define(CatalystFlipButton.is, CatalystFlipButton);
-    };
-
-    // If not using web component polyfills or if polyfills are ready, register the element.
-    if (window.WebComponents === undefined || window.WebComponents.ready) {
-      doRegister();
-    }
-    // Otherwise wait until the polyfills are ready, then register the element.
-    else {
-      window.addEventListener('WebComponentsReady', () => {
-        doRegister();
-      });
-    }
   }
 
   /**
@@ -817,10 +788,17 @@ class CatalystFlipButton extends HTMLElement {
   }
 }
 
-// Register the element if it is not already registered.
-if (!CatalystFlipButton._isRegistered) {
-  CatalystFlipButton._register();
-}
+// Make sure the polyfills are ready (if they are being used).
+new Promise((resolve) => {
+  if (window.WebComponents === undefined || window.WebComponents.ready) {
+    resolve();
+  } else {
+    window.addEventListener('WebComponentsReady', () => resolve());
+  }
+}).then(() => {
+  // Register the element.
+  window.customElements.define(CatalystFlipButton.is, CatalystFlipButton);
+});
 
 // Export the element.
 export default CatalystFlipButton;
