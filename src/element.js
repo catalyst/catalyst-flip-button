@@ -498,6 +498,8 @@ class CatalystFlipButton extends HTMLElement {
             this._tabindexBeforeDisabled = this.getAttribute('tabindex');
             this.removeAttribute('tabindex');
             this.blur();
+          } else {
+            this._tabindexBeforeDisabled = undefined;
           }
         } else {
           this.selectElement.removeAttribute('disabled');
