@@ -823,4 +823,5 @@ if (!CatalystFlipButton._isRegistered) {
 }
 
 // Export the element.
+export default CatalystFlipButton;
 export { CatalystFlipButton };
