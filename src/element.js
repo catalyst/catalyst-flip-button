@@ -526,18 +526,14 @@ class CatalystFlipButton extends HTMLElement {
 
     // What key was pressed?
     switch (event.keyCode) {
-      case CatalystFlipButton._KEYCODE.SPACE:
-      case CatalystFlipButton._KEYCODE.ENTER:
-        event.preventDefault();
-        this._flip();
-        break;
-
       case CatalystFlipButton._KEYCODE.LEFT:
       case CatalystFlipButton._KEYCODE.UP:
         event.preventDefault();
         this.previous();
         break;
 
+      case CatalystFlipButton._KEYCODE.SPACE:
+      case CatalystFlipButton._KEYCODE.ENTER:
       case CatalystFlipButton._KEYCODE.RIGHT:
       case CatalystFlipButton._KEYCODE.DOWN:
         event.preventDefault();
