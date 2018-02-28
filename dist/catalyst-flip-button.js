@@ -49,16 +49,9 @@ class CatalystFlipButton extends HTMLElement {
   }
 
   /**
-   * Return's true if this element has been registered, otherwise false.
-   *
-   * @returns {boolean}
-   */
-  static get _isRegistered() {
-    return window.customElements !== undefined && window.customElements.get(CatalystFlipButton.is) !== undefined;
-  }
-
-  /**
    * Get the default template used by this element.
+   *
+   * @returns {HTMLTemplateElement}
    */
   static get template() {
     let template = document.createElement('template');
@@ -95,6 +88,8 @@ class CatalystFlipButton extends HTMLElement {
 
   /**
    * True if the web browser is ie11.
+   *
+   * @returns {boolean}
    */
   static get isIE11() {
     return !!navigator.userAgent.match(/Trident\/7\./);
@@ -108,26 +103,6 @@ class CatalystFlipButton extends HTMLElement {
    */
   static get observedAttributes() {
     return ['disabled'];
-  }
-
-  /**
-   * Register this class as an element.
-   */
-  static _register() {
-    const doRegister = () => {
-      window.customElements.define(CatalystFlipButton.is, CatalystFlipButton);
-    };
-
-    // If not using web component polyfills or if polyfills are ready, register the element.
-    if (window.WebComponents === undefined || window.WebComponents.ready) {
-      doRegister();
-    }
-    // Otherwise wait until the polyfills are ready, then register the element.
-    else {
-      window.addEventListener('WebComponentsReady', () => {
-        doRegister();
-      });
-    }
   }
 
   /**
@@ -262,49 +237,45 @@ class CatalystFlipButton extends HTMLElement {
   _setUpSelectElement() {
     let newSelectElement = this.querySelector('select');
 
-    if (newSelectElement !== null) {
-      if (newSelectElement !== this._selectElement) {
-        // Clean up the old form element.
-        if (this._selectElement !== null && this._selectElement !== undefined) {
-          this._selectElement.removeEventListener('change', this.notifySelectedOptionChanged.bind(this));
-        }
-
-        // Remove the old observer if there is one.
-        if (this._optionsObserver !== undefined) {
-          this._optionsObserver.disconnect();
-          this._optionsObserver = undefined;
-        }
-
-        // Set up the new form element.
-        this._selectElement = newSelectElement;
-        this._selectElement.addEventListener('change', this.notifySelectedOptionChanged.bind(this));
-
-        // Create an observer to watch for changes in the form element's options.
-        this._optionsObserver = new MutationObserver(this._onOptionsMutation.bind(this));
-        this._optionsObserver.observe(this._selectElement, {
-          childList: true
-        });
-
-        // Set up the label(s).
-        if (this._selectElement.labels && this._selectElement.labels.length > 0) {
-          let labelledBy = [];
-          for (let i = 0; i < this._selectElement.labels.length; i++) {
-            let label = this._selectElement.labels[i];
-            if (label.id === '') {
-              label.id = this._generateGuid();
-            }
-            labelledBy.push(label.id);
-          }
-          this.setAttribute('aria-labelledby', labelledBy.join(' '));
-        } else {
-          this.removeAttribute('aria-labelledby');
-        }
-
-        // Disable the select element if this element is disabled.
-        this._selectElement.disabled = this.disabled;
-
-        this.notifySelectedOptionChanged();
+    if (newSelectElement !== null && newSelectElement !== this._selectElement) {
+      // Clean up the old form element.
+      if (this._selectElement !== null && this._selectElement !== undefined) {
+        this._selectElement.removeEventListener('change', this.notifySelectedOptionChanged.bind(this));
       }
+
+      // Remove the old observer if there is one.
+      if (this._optionsObserver !== undefined) {
+        this._optionsObserver.disconnect();
+        this._optionsObserver = undefined;
+      }
+
+      // Set up the new form element.
+      this._selectElement = newSelectElement;
+      this._selectElement.addEventListener('change', this.notifySelectedOptionChanged.bind(this));
+
+      // Create an observer to watch for changes in the form element's options.
+      this._optionsObserver = new MutationObserver(this._onOptionsMutation.bind(this));
+      this._optionsObserver.observe(this._selectElement, {
+        childList: true
+      });
+
+      // Set up the label(s).
+      if (this._selectElement.labels && this._selectElement.labels.length > 0) {
+        let labelledBy = [];
+        for (let i = 0; i < this._selectElement.labels.length; i++) {
+          let label = this._selectElement.labels[i];
+          if (label.id === '') {
+            label.id = this._generateGuid();
+          }
+          labelledBy.push(label.id);
+        }
+        this.setAttribute('aria-labelledby', labelledBy.join(' '));
+      }
+
+      // Disable the select element if this element is disabled.
+      this._selectElement.disabled = this.disabled;
+
+      this.notifySelectedOptionChanged();
     }
   }
 
@@ -527,6 +498,8 @@ class CatalystFlipButton extends HTMLElement {
             this._tabindexBeforeDisabled = this.getAttribute('tabindex');
             this.removeAttribute('tabindex');
             this.blur();
+          } else {
+            this._tabindexBeforeDisabled = undefined;
           }
         } else {
           this.selectElement.removeAttribute('disabled');
@@ -553,18 +526,14 @@ class CatalystFlipButton extends HTMLElement {
 
     // What key was pressed?
     switch (event.keyCode) {
-      case CatalystFlipButton._KEYCODE.SPACE:
-      case CatalystFlipButton._KEYCODE.ENTER:
-        event.preventDefault();
-        this._flip();
-        break;
-
       case CatalystFlipButton._KEYCODE.LEFT:
       case CatalystFlipButton._KEYCODE.UP:
         event.preventDefault();
         this.previous();
         break;
 
+      case CatalystFlipButton._KEYCODE.SPACE:
+      case CatalystFlipButton._KEYCODE.ENTER:
       case CatalystFlipButton._KEYCODE.RIGHT:
       case CatalystFlipButton._KEYCODE.DOWN:
         event.preventDefault();
@@ -707,8 +676,8 @@ class CatalystFlipButton extends HTMLElement {
         }
       }
 
-        // Option removed?
-        for (let j = 0; j < mutations[i].addedNodes.length; j++) {
+      // Option removed?
+      for (let j = 0; j < mutations[i].addedNodes.length; j++) {
         if (mutations[i].addedNodes[j].tagName === 'OPTION') {
           optionsRemoved = true;
           break;
@@ -767,26 +736,13 @@ class CatalystFlipButton extends HTMLElement {
     this._selectElement.selectedIndex = ((newIndex % length) + length) % length;
 
     // Update the card's rotation.
-    this._rotation += 180 * (forwards ? -1 : 1);
+    this._rotation += -180 * (forwards ? 1 : -1);
 
     // Card has now been flipped/unflipped.
     this._flipped = !this._flipped;
 
-    /**
-     * Fired when the selected option changes due to user interaction.
-     *
-     * @event change
-     */
-    this.dispatchEvent(new CustomEvent('change', {
-      detail: {
-        selectedIndex: this._selectElement.selectedIndex,
-        selectedOption: this._selectElement.options[this._selectElement.selectedIndex]
-      },
-      bubbles: true,
-    }));
-
-    // `change` event on the form element is not emitted when setting selectedIndex manually.
-    this.notifySelectedOptionChanged();
+    // The select element should now fire a change event.
+    this._selectElement.dispatchEvent(new Event('change'));
   }
 
   /**
@@ -810,17 +766,25 @@ class CatalystFlipButton extends HTMLElement {
    * @see https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
    */
   _generateGuid() {
-    let s4 = () => {
+    const s4 = () => {
       return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-    }
+    };
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
   }
 }
 
-// Register the element if it is not already registered.
-if (!CatalystFlipButton._isRegistered) {
-  CatalystFlipButton._register();
-}
+// Make sure the polyfills are ready (if they are being used).
+new Promise((resolve) => {
+  if (window.WebComponents === undefined || window.WebComponents.ready) {
+    resolve();
+  } else {
+    window.addEventListener('WebComponentsReady', () => resolve());
+  }
+}).then(() => {
+  // Register the element.
+  window.customElements.define(CatalystFlipButton.is, CatalystFlipButton);
+});
 
 // Export the element.
+export default CatalystFlipButton;
 export { CatalystFlipButton };
