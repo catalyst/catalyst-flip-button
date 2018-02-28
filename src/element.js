@@ -676,8 +676,8 @@ class CatalystFlipButton extends HTMLElement {
         }
       }
 
-        // Option removed?
-        for (let j = 0; j < mutations[i].addedNodes.length; j++) {
+      // Option removed?
+      for (let j = 0; j < mutations[i].addedNodes.length; j++) {
         if (mutations[i].addedNodes[j].tagName === 'OPTION') {
           optionsRemoved = true;
           break;
