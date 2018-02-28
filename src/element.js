@@ -741,21 +741,8 @@ class CatalystFlipButton extends HTMLElement {
     // Card has now been flipped/unflipped.
     this._flipped = !this._flipped;
 
-    /**
-     * Fired when the selected option changes due to user interaction.
-     *
-     * @event change
-     */
-    this.dispatchEvent(new CustomEvent('change', {
-      detail: {
-        selectedIndex: this._selectElement.selectedIndex,
-        selectedOption: this._selectElement.options[this._selectElement.selectedIndex]
-      },
-      bubbles: true,
-    }));
-
-    // `change` event on the form element is not emitted when setting selectedIndex manually.
-    this.notifySelectedOptionChanged();
+    // The select element should now fire a change event.
+    this._selectElement.dispatchEvent(new Event('change'));
   }
 
   /**
