@@ -736,7 +736,7 @@ class CatalystFlipButton extends HTMLElement {
     this._selectElement.selectedIndex = ((newIndex % length) + length) % length;
 
     // Update the card's rotation.
-    this._rotation += 180 * (forwards ? -1 : 1);
+    this._rotation += -180 * (forwards ? 1 : -1);
 
     // Card has now been flipped/unflipped.
     this._flipped = !this._flipped;
