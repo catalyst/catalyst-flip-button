@@ -50,6 +50,8 @@ class CatalystFlipButton extends HTMLElement {
 
   /**
    * Get the default template used by this element.
+   *
+   * @returns {HTMLTemplateElement}
    */
   static get template() {
     let template = document.createElement('template');
@@ -86,6 +88,8 @@ class CatalystFlipButton extends HTMLElement {
 
   /**
    * True if the web browser is ie11.
+   *
+   * @returns {boolean}
    */
   static get isIE11() {
     return !!navigator.userAgent.match(/Trident\/7\./);
