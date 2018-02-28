@@ -237,49 +237,45 @@ class CatalystFlipButton extends HTMLElement {
   _setUpSelectElement() {
     let newSelectElement = this.querySelector('select');
 
-    if (newSelectElement !== null) {
-      if (newSelectElement !== this._selectElement) {
-        // Clean up the old form element.
-        if (this._selectElement !== null && this._selectElement !== undefined) {
-          this._selectElement.removeEventListener('change', this.notifySelectedOptionChanged.bind(this));
-        }
-
-        // Remove the old observer if there is one.
-        if (this._optionsObserver !== undefined) {
-          this._optionsObserver.disconnect();
-          this._optionsObserver = undefined;
-        }
-
-        // Set up the new form element.
-        this._selectElement = newSelectElement;
-        this._selectElement.addEventListener('change', this.notifySelectedOptionChanged.bind(this));
-
-        // Create an observer to watch for changes in the form element's options.
-        this._optionsObserver = new MutationObserver(this._onOptionsMutation.bind(this));
-        this._optionsObserver.observe(this._selectElement, {
-          childList: true
-        });
-
-        // Set up the label(s).
-        if (this._selectElement.labels && this._selectElement.labels.length > 0) {
-          let labelledBy = [];
-          for (let i = 0; i < this._selectElement.labels.length; i++) {
-            let label = this._selectElement.labels[i];
-            if (label.id === '') {
-              label.id = this._generateGuid();
-            }
-            labelledBy.push(label.id);
-          }
-          this.setAttribute('aria-labelledby', labelledBy.join(' '));
-        } else {
-          this.removeAttribute('aria-labelledby');
-        }
-
-        // Disable the select element if this element is disabled.
-        this._selectElement.disabled = this.disabled;
-
-        this.notifySelectedOptionChanged();
+    if (newSelectElement !== null && newSelectElement !== this._selectElement) {
+      // Clean up the old form element.
+      if (this._selectElement !== null && this._selectElement !== undefined) {
+        this._selectElement.removeEventListener('change', this.notifySelectedOptionChanged.bind(this));
       }
+
+      // Remove the old observer if there is one.
+      if (this._optionsObserver !== undefined) {
+        this._optionsObserver.disconnect();
+        this._optionsObserver = undefined;
+      }
+
+      // Set up the new form element.
+      this._selectElement = newSelectElement;
+      this._selectElement.addEventListener('change', this.notifySelectedOptionChanged.bind(this));
+
+      // Create an observer to watch for changes in the form element's options.
+      this._optionsObserver = new MutationObserver(this._onOptionsMutation.bind(this));
+      this._optionsObserver.observe(this._selectElement, {
+        childList: true
+      });
+
+      // Set up the label(s).
+      if (this._selectElement.labels && this._selectElement.labels.length > 0) {
+        let labelledBy = [];
+        for (let i = 0; i < this._selectElement.labels.length; i++) {
+          let label = this._selectElement.labels[i];
+          if (label.id === '') {
+            label.id = this._generateGuid();
+          }
+          labelledBy.push(label.id);
+        }
+        this.setAttribute('aria-labelledby', labelledBy.join(' '));
+      }
+
+      // Disable the select element if this element is disabled.
+      this._selectElement.disabled = this.disabled;
+
+      this.notifySelectedOptionChanged();
     }
   }
 
