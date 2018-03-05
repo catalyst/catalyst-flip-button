@@ -9,9 +9,9 @@
 [![Polymer 2 not supported](https://img.shields.io/badge/Polymer_2-not_supported-red.svg?style=flat-square)]()
 [![Polymer 3 support pending](https://img.shields.io/badge/Polymer_3-support_pending-yellow.svg?style=flat-square)]()
 
-[Live Demo ↗](https://catalyst.github.io/CatalystElements/#/elements/catalyst-flip-button/demos/basic)
+[Live Demo ↗](https://catalyst.github.io/CatalystElementsBundle/#/elements/catalyst-flip-button/demos/basic)
 |
-[API documentation ↗](https://catalyst.github.io/CatalystElements/#/elements/catalyst-flip-button)
+[API documentation ↗](https://catalyst.github.io/CatalystElementsBundle/#/elements/catalyst-flip-button)
 
 `<catalyst-flip-button>` is a wrapper for a `select` element. It displays as a button and flips between different options. It is part of the `Catalyst Elements Collection`.
 
