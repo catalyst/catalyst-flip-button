@@ -52,12 +52,10 @@
        * Test the initial state of the element.
        */
       suite('Initial State', () => {
-
         /**
          * Test the attributes and properties of the element in it's initial state.
          */
         suite('Attributes & Properties', () => {
-
           /**
            * Test disabled.
            */
@@ -71,7 +69,6 @@
          * Test the accessibility of the element in it's initial state.
          */
         suite('Accessibility', () => {
-
           /**
            * Test role.
            */
@@ -111,21 +108,18 @@
        * Test the attributes and properties of the element in it's initial state.
        */
       suite('Changing State', () => {
-
         /**
          * Mouse Interaction.
          */
         suite('Mouse Interaction', () => {
-
           /**
            * Left Click.
            */
           suite('Left Click', () => {
-
             /**
              * Test clicking the element.
              */
-            test('Click Once', (done) => {
+            test('Click Once', done => {
               let testRunning = true;
 
               // Change event needs to be fired.
@@ -141,7 +135,7 @@
               expect(select).to.have.property('selectedIndex', 1);
 
               // Timeout test.
-              setTimeout(function () {
+              setTimeout(function() {
                 if (testRunning) {
                   assert(false, 'Change event was not fired within 10 ms.');
                   testRunning = false;
@@ -188,18 +182,14 @@
            * Right Click.
            * TODO: write tests.
            */
-          suite('Right Click', () => {
-
-          });
+          suite('Right Click', () => {});
         });
 
         /**
          * KeyBoard Interaction.
          * TODO: write tests.
          */
-        suite('KeyBoard Interaction', () => {
-
-        });
+        suite('KeyBoard Interaction', () => {});
       });
     });
   </script>

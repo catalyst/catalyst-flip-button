@@ -52,7 +52,6 @@
        * Adding.
        */
       suite('Adding', () => {
-
         // Test the `add()` method.
         test('select.add()', () => {
           let newOption = document.createElement('option');
@@ -93,10 +92,9 @@
        * Removing.
        */
       suite('Removing', () => {
-
         suite('Remove Non-Active Element', () => {
           // Test the `remove()` method.
-          test('select.remove()', (done) => {
+          test('select.remove()', done => {
             let testRunning = true;
 
             select.remove(1);
@@ -119,7 +117,7 @@
           });
 
           // Test the directly editing the light dom.
-          test('Light Dom Manipulation', (done) => {
+          test('Light Dom Manipulation', done => {
             let testRunning = true;
 
             let option = select.querySelector('#id2');
@@ -147,7 +145,7 @@
         suite('Remove Active Element', () => {
           suite('Non-Last Element', () => {
             // Test the `remove()` method.
-            test('select.remove()', (done) => {
+            test('select.remove()', done => {
               let testRunning = true;
 
               select.remove(0);
@@ -166,7 +164,7 @@
             });
 
             // Test the directly editing the light dom.
-            test('Light Dom Manipulation', (done) => {
+            test('Light Dom Manipulation', done => {
               let testRunning = true;
 
               let option = select.querySelector('#id1');
@@ -189,7 +187,7 @@
 
           suite('Last Element', () => {
             // Test the `remove()` method.
-            test('select.remove()', (done) => {
+            test('select.remove()', done => {
               let testRunning = true;
 
               select.selectedIndex = 3;
@@ -209,7 +207,7 @@
             });
 
             // Test the directly editing the light dom.
-            test('Light Dom Manipulation', (done) => {
+            test('Light Dom Manipulation', done => {
               let testRunning = true;
 
               let option = select.querySelector('#id4');
