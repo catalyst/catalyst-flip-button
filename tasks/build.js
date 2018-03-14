@@ -13,6 +13,7 @@ const htmlmin = require('gulp-htmlmin');
 const modifyFile = require('gulp-modify-file');
 const replace = require('gulp-replace');
 const postcss = require('gulp-postcss');
+const prettier = require('prettier');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass');
 const webpack = require('webpack');
@@ -291,13 +292,41 @@ gulp.task(
   })
 );
 
+gulp.task(
+  'build-finalize',
+  gulp.parallel(
+    () => {
+      return gulp
+        .src(['README.md', 'LICENSE'])
+        .pipe(gulp.dest(`./${config.dist.path}`));
+    },
+    () => {
+      return gulp
+        .src('package.json')
+        .pipe(
+          modifyFile(content => {
+            const json = JSON.parse(content);
+            json.main = `${config.element.tag}.js`;
+            json.scripts = {
+              prepublishOnly:
+                "node -e \"assert.equal(require('./package.json').version, require('../package.json').version)\""
+            };
+            delete json.directories;
+            delete json.engines;
+            return prettier.format(JSON.stringify(json), { parser: 'json' });
+          })
+        )
+        .pipe(gulp.dest(`./${config.dist.path}`));
+    }
+  )
+);
+
 // Build all the component's versions.
 gulp.task(
   'build',
   gulp.series(
-    'clean-dist',
-    gulp.parallel('html-min', 'sass-compile'),
+    gulp.parallel('clean-dist', 'html-min', 'sass-compile'),
     gulp.parallel('build-module', 'build-script'),
-    'clean-tmp'
+    gulp.parallel('build-finalize', 'clean-tmp')
   )
 );
