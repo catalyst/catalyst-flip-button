@@ -9,5 +9,6 @@ module.exports = {
         firefox: ['-headless']
       }
     }
-  }
+  },
+  npm: true
 };

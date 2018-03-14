@@ -143,11 +143,12 @@ function createElementScript() {
               )
             );
           } else {
+            // eslint-disable-next-line no-console
             console.error(
               `Cannot automatically process declaration in ${
                 catalystExports[i].type
               }.`
-            ); // eslint-disable-line no-console
+            );
           }
         }
 
