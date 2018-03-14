@@ -23,7 +23,7 @@ Also see [catalyst-toggle-button](https://github.com/catalyst/catalyst-toggle-bu
 ```
 <custom-element-demo>
   <template>
-    <script type="module" src="dist/catalyst-flip-button.js"></script>
+    <script type="module" src="catalyst-flip-button.js"></script>
     <next-code-block></next-code-block>
   </template>
 </custom-element-demo>
@@ -64,7 +64,7 @@ Please note that this package is not compatible with Bower.
 Import the module on each page that uses the component.
 
 ```html
-<script type="module" src="node_modules/@catalyst-elements/catalyst-flip-button/dist/catalyst-flip-button.js"></script>
+<script type="module" src="node_modules/@catalyst-elements/catalyst-flip-button/catalyst-flip-button.js"></script>
 ```
 
 Then simply use it like any other tag.
@@ -74,7 +74,7 @@ Then simply use it like any other tag.
 Import the script for the component on each page that it is uses on.
 
 ```html
-<script src="node_modules/@catalyst-elements/catalyst-flip-button/dist/catalyst-flip-button.es5.min.js"></script>
+<script src="node_modules/@catalyst-elements/catalyst-flip-button/catalyst-flip-button.es5.min.js"></script>
 ```
 
 Please note that this script has been transpiled to es5 and thus use of `custom-elements-es5-adapter.js` or an equivalent library is required. See [es5 support](https://github.com/catalyst/CatalystElements/wiki/Browser-Compatibility#es5-support) on the Catalyst Elements wiki for details.
