@@ -1,37 +1,42 @@
 <!doctype html>
 <html>
-  <head>
-    <title>&lt;catalyst-flip-button&gt; Basic Demo</title>
 
-     <!-- Web Component Pollyfills -->
-    <!-- [[inject:custom-elements-es5-adapter]] --><script>console.info('custom-elements-es5-adapter is not in use.'); // eslint-disable-line no-console</script><!-- [[endinject]] -->
-    <script src="../../../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../../../@webcomponents/shadycss/scoping-shim.min.js"></script>
-    <script src="../../../@webcomponents/shadycss/apply-shim.min.js"></script>
+<head>
+  <title>&lt;catalyst-flip-button&gt; Basic Demo</title>
 
-    <!-- Import the things we need -->
-    <script src="../../../marked/marked.min.js"></script>
-    <script type="module" src="imports-importer.js"></script>
+  <!-- Web Component Pollyfills -->
+  <!-- [[inject:custom-elements-es5-adapter]] -->
+  <script>console.info('custom-elements-es5-adapter is not in use.'); // eslint-disable-line no-console</script>
+  <!-- [[endinject]] -->
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="../../../@webcomponents/shadycss/scoping-shim.min.js"></script>
+  <script src="../../../@webcomponents/shadycss/apply-shim.min.js"></script>
 
-    <style>
-      body {
-        font-family: Arial;
-      }
-    </style>
-  </head>
-  <body>
-    <h3>Basic:</h3>
-    <demo-snippet>
-      <template>
-        <catalyst-flip-button>
-          <select>
-            <option>Apples</option>
-            <option>Banana</option>
-            <option>Carrot</option>
-            <option>Duck</option>
-          </select>
-        </catalyst-flip-button>
-      </template>
-    </demo-snippet>
-  </body>
+  <!-- Import the things we need -->
+  <script src="../../../marked/marked.min.js"></script>
+  <script type="module" src="imports-importer.js"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+    }
+  </style>
+</head>
+
+<body>
+  <h3>Basic:</h3>
+  <demo-snippet>
+    <template>
+      <catalyst-flip-button>
+        <select>
+          <option>Apples</option>
+          <option>Banana</option>
+          <option>Carrot</option>
+          <option>Duck</option>
+        </select>
+      </catalyst-flip-button>
+    </template>
+  </demo-snippet>
+</body>
+
 </html>

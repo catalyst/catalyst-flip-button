@@ -16,17 +16,16 @@
     "name": "Rebecca Stevens",
     "email": "rebeccastevens@catalyst.net.nz"
   },
-  "keywords": [
-    "web-components",
-    "button",
-    "flip",
-    "select"
-  ],
+  "keywords": ["web-components", "button", "flip", "select"],
   "bugs": {
     "url": "https://github.com/catalyst/catalyst-flip-button/issues"
   },
   "homepage": "https://github.com/catalyst/catalyst-flip-button#readme",
   "scripts": {
+    "format":
+      "node node_modules/prettier/bin-prettier.js --write \"{{src,test,demo,tasks}/**/*.{js,css,scss},./*.{js,json,md}}\"",
+    "format:check":
+      "node node_modules/prettier/bin-prettier.js --list-different \"{{src,test,demo,tasks}/**/*.{js,css,scss},./*.{js,json,md}}\"",
     "build": "scripts/build.sh",
     "analyze": "scripts/analyze.sh",
     "build-docs": "scripts/build-docs.sh",
@@ -72,6 +71,7 @@
     "postcss-cssnext": "^3.0.2",
     "postcss-import": "^11.0.0",
     "postcss-reporter": "^5.0.0",
+    "prettier": "^1.11.1",
     "prismjs": "^1.11.0",
     "vinyl-named": "^1.1.0",
     "web-component-tester": "^6.5.0",

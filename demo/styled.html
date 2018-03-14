@@ -1,64 +1,69 @@
 <!doctype html>
 <html>
-  <head>
-    <title>&lt;catalyst-flip-button&gt; Styled Demo</title>
 
-     <!-- Web Component Pollyfills -->
-    <!-- [[inject:custom-elements-es5-adapter]] --><script>console.info('custom-elements-es5-adapter is not in use.'); // eslint-disable-line no-console</script><!-- [[endinject]] -->
-    <script src="../../../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../../../@webcomponents/shadycss/scoping-shim.min.js"></script>
-    <script src="../../../@webcomponents/shadycss/apply-shim.min.js"></script>
+<head>
+  <title>&lt;catalyst-flip-button&gt; Styled Demo</title>
 
-    <!-- Import the things we need -->
-    <script src="../../../marked/marked.min.js"></script>
-    <script type="module" src="imports-importer.js"></script>
+  <!-- Web Component Pollyfills -->
+  <!-- [[inject:custom-elements-es5-adapter]] -->
+  <script>console.info('custom-elements-es5-adapter is not in use.'); // eslint-disable-line no-console</script>
+  <!-- [[endinject]] -->
+  <script src="../../../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="../../../@webcomponents/shadycss/scoping-shim.min.js"></script>
+  <script src="../../../@webcomponents/shadycss/apply-shim.min.js"></script>
 
-    <style>
-      body {
-        font-family: Arial;
-      }
-    </style>
-  </head>
-  <body>
-    <h3>Styled:</h3>
-    <demo-snippet>
-      <template>
-        <style>
-          .flip {
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 5px 25px;
-            perspective: 75px;
+  <!-- Import the things we need -->
+  <script src="../../../marked/marked.min.js"></script>
+  <script type="module" src="imports-importer.js"></script>
 
-            --catalyst-flip-button-card-face-appearance: none;
-            --catalyst-flip-button-card-face-border: none;
-            --catalyst-flip-button-card-face-border-radius: 8px;
-          }
+  <style>
+    body {
+      font-family: Arial;
+    }
+  </style>
+</head>
 
-          .flip[value='off'] {
-            --catalyst-flip-button-card-face-background: red;
-          }
+<body>
+  <h3>Styled:</h3>
+  <demo-snippet>
+    <template>
+      <style>
+        .flip {
+          color: white;
+          font-size: 18px;
+          font-weight: bold;
+          padding: 5px 25px;
+          perspective: 75px;
 
-          .flip[value='on'] {
-            --catalyst-flip-button-card-face-background: green;
-          }
+          --catalyst-flip-button-card-face-appearance: none;
+          --catalyst-flip-button-card-face-border: none;
+          --catalyst-flip-button-card-face-border-radius: 8px;
+        }
 
-          .flip:focus {
-            text-shadow: 2px 2px 1px darkorange;
+        .flip[value='off'] {
+          --catalyst-flip-button-card-face-background: red;
+        }
 
-            --catalyst-flip-button-card-face-focused-outline: none;
-            --catalyst-flip-button-card-face-border: gold 2px dotted;
-          }
-        </style>
+        .flip[value='on'] {
+          --catalyst-flip-button-card-face-background: green;
+        }
 
-        <catalyst-flip-button class="flip" no-auto-perspective>
-          <select>
-            <option value="off">Off</option>
-            <option value="on">On</option>
-          </select>
-        </catalyst-flip-button>
-      </template>
-    </demo-snippet>
-  </body>
+        .flip:focus {
+          text-shadow: 2px 2px 1px darkorange;
+
+          --catalyst-flip-button-card-face-focused-outline: none;
+          --catalyst-flip-button-card-face-border: gold 2px dotted;
+        }
+      </style>
+
+      <catalyst-flip-button class="flip" no-auto-perspective>
+        <select>
+          <option value="off">Off</option>
+          <option value="on">On</option>
+        </select>
+      </catalyst-flip-button>
+    </template>
+  </demo-snippet>
+</body>
+
 </html>

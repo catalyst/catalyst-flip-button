@@ -56,13 +56,19 @@
       background: ButtonFace;
       background: var(--catalyst-flip-button-card-face-background, ButtonFace);
       border: 2px outset ButtonFace;
-      border: var(--catalyst-flip-button-card-face-border, 2px outset ButtonFace);
+      border: var(
+        --catalyst-flip-button-card-face-border,
+        2px outset ButtonFace
+      );
       border-radius: var(--catalyst-flip-button-card-face-border-radius, 0);
 
       backface-visibility: hidden;
 
-      -webkit-appearance: var(--catalyst-flip-button-card-face-appearance, button);
-      -moz-appearance:    var(--catalyst-flip-button-card-face-appearance, button);
+      -webkit-appearance: var(
+        --catalyst-flip-button-card-face-appearance,
+        button
+      );
+      -moz-appearance: var(--catalyst-flip-button-card-face-appearance, button);
     }
 
     #back {
@@ -77,7 +83,10 @@
   #card {
     #front,
     #back {
-      outline: var(--catalyst-flip-button-card-face-focused-outline, #000000 dotted 1px);
+      outline: var(
+        --catalyst-flip-button-card-face-focused-outline,
+        #000000 dotted 1px
+      );
     }
   }
 }

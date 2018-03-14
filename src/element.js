@@ -38,7 +38,6 @@
  * @demo demo/form.html Form
  */
 class CatalystFlipButton extends HTMLElement {
-
   /**
    * The element's tag name.
    *
@@ -55,7 +54,7 @@ class CatalystFlipButton extends HTMLElement {
    */
   static get template() {
     let template = document.createElement('template');
-    template.innerHTML = `<style>[[inject:style]][[endinject]]</style>[[inject:template]][[endinject]]`;  // eslint-disable-line quotes
+    template.innerHTML = `<style>[[inject:style]][[endinject]]</style>[[inject:template]][[endinject]]`; // eslint-disable-line quotes
 
     // If using ShadyCSS.
     if (window.ShadyCSS !== undefined) {
@@ -80,7 +79,7 @@ class CatalystFlipButton extends HTMLElement {
         UP: 38,
         RIGHT: 39,
         DOWN: 40
-      }
+      };
     }
 
     return this.__keycode;
@@ -115,7 +114,7 @@ class CatalystFlipButton extends HTMLElement {
     super();
 
     // Create a shadow root and stamp out the template's content inside.
-    this.attachShadow({mode: 'open'});
+    this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     /**
@@ -187,9 +186,14 @@ class CatalystFlipButton extends HTMLElement {
     this.addEventListener('mouseup', this._onMouseUp);
 
     // Disable context menu on right click.
-    this.setAttribute('oncontextmenu', 'if (event.button === 2) { event.preventDefault(); }');
+    this.setAttribute(
+      'oncontextmenu',
+      'if (event.button === 2) { event.preventDefault(); }'
+    );
 
-    this._selectObserver = new MutationObserver(this._onLightDomMutation.bind(this));
+    this._selectObserver = new MutationObserver(
+      this._onLightDomMutation.bind(this)
+    );
     this._selectObserver.observe(this, {
       childList: true
     });
@@ -224,9 +228,8 @@ class CatalystFlipButton extends HTMLElement {
       let value = this[prop];
       delete this[prop];
       this[prop] = value;
-    }
-    // Else if an attribute exists for the property, set the property using that.
-    else if (this.hasAttribute(prop)) {
+    } else if (this.hasAttribute(prop)) {
+      // Else if an attribute exists for the property, set the property using that.
       this[prop] = this.getAttribute(prop);
     }
   }
@@ -240,7 +243,10 @@ class CatalystFlipButton extends HTMLElement {
     if (newSelectElement !== null && newSelectElement !== this._selectElement) {
       // Clean up the old form element.
       if (this._selectElement !== null && this._selectElement !== undefined) {
-        this._selectElement.removeEventListener('change', this.notifySelectedOptionChanged.bind(this));
+        this._selectElement.removeEventListener(
+          'change',
+          this.notifySelectedOptionChanged.bind(this)
+        );
       }
 
       // Remove the old observer if there is one.
@@ -251,10 +257,15 @@ class CatalystFlipButton extends HTMLElement {
 
       // Set up the new form element.
       this._selectElement = newSelectElement;
-      this._selectElement.addEventListener('change', this.notifySelectedOptionChanged.bind(this));
+      this._selectElement.addEventListener(
+        'change',
+        this.notifySelectedOptionChanged.bind(this)
+      );
 
       // Create an observer to watch for changes in the form element's options.
-      this._optionsObserver = new MutationObserver(this._onOptionsMutation.bind(this));
+      this._optionsObserver = new MutationObserver(
+        this._onOptionsMutation.bind(this)
+      );
       this._optionsObserver.observe(this._selectElement, {
         childList: true
       });
@@ -303,7 +314,6 @@ class CatalystFlipButton extends HTMLElement {
 
     // If the element needs to be sized.
     if (adjustWidth || adjustHeight) {
-
       // The width and height of the largest children
       let maxOptionWidth = 0;
       let maxOptionHeight = 0;
@@ -314,7 +324,6 @@ class CatalystFlipButton extends HTMLElement {
       // Get the options.
       let options = this._selectElement.options;
       if (options.length > 0) {
-
         // Set the styling to relative so the size can be measured.
         this._cardFrontFace.style.position = 'relative';
         this._cardBackFace.style.position = 'relative';
@@ -333,11 +342,11 @@ class CatalystFlipButton extends HTMLElement {
 
           if (adjustWidth) {
             // If new largest width, save it.
-            let fw =  this._cardFrontFace.offsetWidth;
+            let fw = this._cardFrontFace.offsetWidth;
             if (fw > maxOptionWidth) {
               maxOptionWidth = fw;
             }
-            let bw =  this._cardBackFace.offsetWidth;
+            let bw = this._cardBackFace.offsetWidth;
             if (bw > maxOptionWidth) {
               maxOptionWidth = bw;
             }
@@ -345,11 +354,11 @@ class CatalystFlipButton extends HTMLElement {
 
           if (adjustHeight) {
             // If new largest height, save it.
-            let fh =  this._cardFrontFace.offsetHeight;
+            let fh = this._cardFrontFace.offsetHeight;
             if (fh > maxOptionHeight) {
               maxOptionHeight = fh;
             }
-            let hw =  this._cardBackFace.offsetHeight;
+            let hw = this._cardBackFace.offsetHeight;
             if (hw > maxOptionWidth) {
               maxOptionWidth = hw;
             }
@@ -374,7 +383,12 @@ class CatalystFlipButton extends HTMLElement {
         let newWidth = maxOptionWidth + 2;
         this.style.minWidth = newWidth + 'px';
         if (!this.noAutoPerspective) {
-          this.style.perspective = (2 * (newWidth + Number.parseInt(style.paddingLeft, 10) + Number.parseInt(style.paddingRight, 10))) + 'px';
+          this.style.perspective =
+            2 *
+              (newWidth +
+                Number.parseInt(style.paddingLeft, 10) +
+                Number.parseInt(style.paddingRight, 10)) +
+            'px';
         }
       }
       if (adjustHeight) {
@@ -418,8 +432,7 @@ class CatalystFlipButton extends HTMLElement {
       const isDisabled = Boolean(value);
       if (isDisabled) {
         this.setAttribute('disabled', '');
-      }
-      else {
+      } else {
         this.removeAttribute('disabled');
       }
     }
@@ -445,8 +458,7 @@ class CatalystFlipButton extends HTMLElement {
     const isNoAutoPerspective = Boolean(value);
     if (isNoAutoPerspective) {
       this.setAttribute('no-auto-perspective', '');
-    }
-    else {
+    } else {
       this.removeAttribute('no-auto-perspective');
     }
   }
@@ -505,7 +517,11 @@ class CatalystFlipButton extends HTMLElement {
           this.selectElement.removeAttribute('disabled');
 
           // If the tab index isn't already set and the previous value is known.
-          if (!this.hasAttribute('tabindex') && this._tabindexBeforeDisabled !== undefined && this._tabindexBeforeDisabled !== null) {
+          if (
+            !this.hasAttribute('tabindex') &&
+            this._tabindexBeforeDisabled !== undefined &&
+            this._tabindexBeforeDisabled !== null
+          ) {
             this.setAttribute('tabindex', this._tabindexBeforeDisabled);
           }
         }
@@ -733,7 +749,7 @@ class CatalystFlipButton extends HTMLElement {
     // Update the selected index.
     let newIndex = this._selectElement.selectedIndex + (forwards ? 1 : -1);
     let length = this._selectElement.length;
-    this._selectElement.selectedIndex = ((newIndex % length) + length) % length;
+    this._selectElement.selectedIndex = (newIndex % length + length) % length;
 
     // Update the card's rotation.
     this._rotation += -180 * (forwards ? 1 : -1);
@@ -767,14 +783,29 @@ class CatalystFlipButton extends HTMLElement {
    */
   _generateGuid() {
     const s4 = () => {
-      return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
     };
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    return (
+      s4() +
+      s4() +
+      '-' +
+      s4() +
+      '-' +
+      s4() +
+      '-' +
+      s4() +
+      '-' +
+      s4() +
+      s4() +
+      s4()
+    );
   }
 }
 
 // Make sure the polyfills are ready (if they are being used).
-new Promise((resolve) => {
+new Promise(resolve => {
   if (window.WebComponents === undefined || window.WebComponents.ready) {
     resolve();
   } else {
