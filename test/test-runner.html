@@ -4,6 +4,8 @@
 <head>
   <meta charset="utf-8">
 
+  <title>Test runner</title>
+
   <!-- Polyfills -->
   <script src="../node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
   <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
@@ -19,7 +21,34 @@
 
 <body>
 
-  <test-fixture id="form">
+  <!-- Fixtures -->
+  <test-fixture id="basic">
+    <template>
+      <catalyst-flip-button>
+        <select>
+          <option>Apples</option>
+          <option>Banana</option>
+          <option>Carrot</option>
+          <option>Duck</option>
+        </select>
+      </catalyst-flip-button>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="basic-with-option-ids-and-values">
+    <template>
+      <catalyst-flip-button>
+        <select>
+          <option id="id1" value="a">Apples</option>
+          <option id="id2" value="b">Banana</option>
+          <option id="id3" value="c">Carrot</option>
+          <option id="id4" value="d">Duck</option>
+        </select>
+      </catalyst-flip-button>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="basic-form">
     <template>
       <form>
         <catalyst-flip-button name="foo">
@@ -34,43 +63,10 @@
     </template>
   </test-fixture>
 
-  <script>
-    /**
-     * TODO: Form suite.
-     */
-    suite('', () => {
-      // let form;
-      // let element;
-      // let select;
-
-      /**
-       * Called before each following test is run.
-       */
-      setup(() => {
-        // form = fixture('form');
-        // element = form.querySelector('catalyst-flip-button');
-        // select = element.querySelector('select');
-      });
-
-      /**
-       * TODO:
-       * Test the initial state of the element.
-       */
-      suite('Initial State', () => {});
-
-      /**
-       * TODO:
-       * Test the element when it's state changes.
-       */
-      suite('Changing State', () => {});
-
-      /**
-       * TODO:
-       * Test the the element is submitted correctly.
-       */
-      suite('Submitting', () => {});
-    });
-  </script>
+  <!-- Test Scripts -->
+  <script src="basics.js"></script>
+  <script src="dom-manipulate.js"></script>
+  <!-- <script src="form.js"></script> -->
 </body>
 
 </html>
