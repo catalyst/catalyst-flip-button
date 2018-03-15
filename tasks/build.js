@@ -11,9 +11,9 @@ const esprima = require('esprima');
 const inject = require('gulp-inject');
 const htmlmin = require('gulp-htmlmin');
 const modifyFile = require('gulp-modify-file');
-const replace = require('gulp-replace');
 const postcss = require('gulp-postcss');
 const prettier = require('prettier');
+const replace = require('gulp-replace');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass');
 const webpack = require('webpack');
@@ -30,7 +30,7 @@ function createElementModule() {
       modifyFile(content => {
         return content.replace(
           new RegExp(`../node_modules/${config.element.scope}/`, 'g'),
-          '../../'
+          '../'
         );
       })
     )
@@ -325,7 +325,8 @@ gulp.task(
 gulp.task(
   'build',
   gulp.series(
-    gulp.parallel('clean-dist', 'html-min', 'sass-compile'),
+    'clean-dist',
+    gulp.parallel('html-min', 'sass-compile'),
     gulp.parallel('build-module', 'build-script'),
     gulp.parallel('build-finalize', 'clean-tmp')
   )
