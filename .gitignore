@@ -1,5 +1,5 @@
-tmp/
-dist/
+/tmp/
+/dist/
 
 # Node
 node_modules/
@@ -7,5 +7,5 @@ npm-debug.log
 yarn-error.log
 
 # Docs
-docs/
-analysis.json
+/docs/
+/analysis.json
