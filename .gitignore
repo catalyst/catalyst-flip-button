@@ -9,3 +9,7 @@ yarn-error.log
 # Docs
 /docs/
 /analysis.json
+
+# Symlinks
+/catalyst-flip-button.js
+/catalyst-flip-button.es5.min.js
