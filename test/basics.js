@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+
 /**
  * Basics suite.
  */
@@ -38,7 +40,7 @@ suite('Basics', () => {
        * Test role.
        */
       test('role', () => {
-        // role
+        // Role
         expect(element.hasAttribute('role')).to.be.true;
         expect(element.getAttribute('role')).to.equal('combobox');
       });
@@ -48,7 +50,9 @@ suite('Basics', () => {
        */
       test('tabindex', () => {
         expect(element.hasAttribute('tabindex')).to.be.true;
-        expect(Number.parseInt(element.getAttribute('tabindex'))).to.equal(0);
+        expect(Number.parseInt(element.getAttribute('tabindex'), 10)).to.equal(
+          0
+        );
       });
 
       /**
@@ -100,7 +104,7 @@ suite('Basics', () => {
           expect(select).to.have.property('selectedIndex', 1);
 
           // Timeout test.
-          setTimeout(function() {
+          setTimeout(() => {
             if (testRunning) {
               assert(false, 'Change event was not fired within 10 ms.');
               testRunning = false;

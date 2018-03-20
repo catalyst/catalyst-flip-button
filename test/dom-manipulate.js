@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+
 /**
  * Basics suite.
  */
@@ -19,7 +21,7 @@ suite('Dom Manipulate', () => {
   suite('Adding', () => {
     // Test the `add()` method.
     test('select.add()', () => {
-      let newOption = document.createElement('option');
+      const newOption = document.createElement('option');
       newOption.id = 'id5';
       newOption.value = 'e';
       newOption.textContent = 'Egg';
@@ -36,7 +38,7 @@ suite('Dom Manipulate', () => {
 
     // Test the directly editing the light dom.
     test('Light Dom Manipulation', () => {
-      let newOption = document.createElement('option');
+      const newOption = document.createElement('option');
       newOption.id = 'id5';
       newOption.slot = 'options';
       newOption.value = 'e';
@@ -85,7 +87,7 @@ suite('Dom Manipulate', () => {
       test('Light Dom Manipulation', done => {
         let testRunning = true;
 
-        let option = select.querySelector('#id2');
+        const option = select.querySelector('#id2');
 
         select.removeChild(option);
 
@@ -132,7 +134,7 @@ suite('Dom Manipulate', () => {
         test('Light Dom Manipulation', done => {
           let testRunning = true;
 
-          let option = select.querySelector('#id1');
+          const option = select.querySelector('#id1');
 
           select.removeChild(option);
 
@@ -175,7 +177,7 @@ suite('Dom Manipulate', () => {
         test('Light Dom Manipulation', done => {
           let testRunning = true;
 
-          let option = select.querySelector('#id4');
+          const option = select.querySelector('#id4');
 
           select.selectedIndex = 3;
           select.removeChild(option);

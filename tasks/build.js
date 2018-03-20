@@ -276,7 +276,7 @@ gulp.task(
             plugins: [
               new webpackClosureCompilerPlugin({
                 compiler: {
-                  language_in: 'ECMASCRIPT6',
+                  language_in: 'ECMASCRIPT_NEXT',
                   language_out: 'ECMASCRIPT5',
                   compilation_level: 'SIMPLE',
                   assume_function_wrapper: true,

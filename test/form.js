@@ -1,4 +1,6 @@
 /* eslint-disable */
+/* eslint-disable no-unused-expressions */
+
 // eslint is disbale until this file has been written to prevent linting issues.
 
 /**

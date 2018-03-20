@@ -6,7 +6,7 @@
     "mocha": true
   },
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 9,
     "sourceType": "module"
   },
   "plugins": ["html", "promise", "mocha", "prettier"],
@@ -24,7 +24,8 @@
       "error",
       "single",
       {
-        "avoidEscape": true
+        "avoidEscape": true,
+        "allowTemplateLiterals": true
       }
     ],
     "promise/always-return": "off",

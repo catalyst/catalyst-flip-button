@@ -41,6 +41,7 @@ class CatalystFlipButton extends HTMLElement {
   /**
    * The element's tag name.
    *
+   * @public
    * @returns {string}
    */
   static get is() {
@@ -50,11 +51,12 @@ class CatalystFlipButton extends HTMLElement {
   /**
    * Get the default template used by this element.
    *
+   * @public
    * @returns {HTMLTemplateElement}
    */
   static get template() {
-    let template = document.createElement('template');
-    template.innerHTML = `<style>[[inject:style]][[endinject]]</style>[[inject:template]][[endinject]]`; // eslint-disable-line quotes
+    const template = document.createElement('template');
+    template.innerHTML = `<style>[[inject:style]][[endinject]]</style>[[inject:template]][[endinject]]`;
 
     // If using ShadyCSS.
     if (window.ShadyCSS !== undefined) {
@@ -68,35 +70,34 @@ class CatalystFlipButton extends HTMLElement {
   /**
    * Key codes.
    *
+   * @public
    * @enum {number}
    */
-  static get _KEYCODE() {
-    if (this.__keycode === undefined) {
-      this.__keycode = {
-        SPACE: 32,
-        ENTER: 13,
-        LEFT: 37,
-        UP: 38,
-        RIGHT: 39,
-        DOWN: 40
-      };
-    }
-
-    return this.__keycode;
+  static get KEYCODE() {
+    return {
+      SPACE: 32,
+      ENTER: 13,
+      LEFT: 37,
+      UP: 38,
+      RIGHT: 39,
+      DOWN: 40
+    };
   }
 
   /**
    * True if the web browser is ie11.
    *
+   * @public
    * @returns {boolean}
    */
   static get isIE11() {
-    return !!navigator.userAgent.match(/Trident\/7\./);
+    return Boolean(navigator.userAgent.match(/Trident\/7\./));
   }
 
   /**
    * The attributes on this element to observe.
    *
+   * @public
    * @returns {Array.<string>}
    *   The attributes this element is observing for changes.
    */
@@ -105,52 +106,160 @@ class CatalystFlipButton extends HTMLElement {
   }
 
   /**
+   * States whether or not this element is disabled.
+   *
+   * @public
+   * @default false
+   * @returns {boolean}
+   */
+  get disabled() {
+    return this.hasAttribute('disabled');
+  }
+
+  /**
+   * Setter for `disabled`.
+   *
+   * @public
+   * @param {boolean} value
+   *   If truthy, `disabled` will be set to true, otherwise `disabled` will be set to false.
+   */
+  set disabled(value) {
+    if (this.selectElement !== undefined) {
+      const isDisabled = Boolean(value);
+      if (isDisabled) {
+        this.setAttribute('disabled', '');
+      } else {
+        this.removeAttribute('disabled');
+      }
+    }
+  }
+
+  /**
+   * States whether or not this element should automatically calculate its own perspective value.
+   *
+   * @public
+   * @default false
+   * @returns {boolean}
+   */
+  get noAutoPerspective() {
+    return this.hasAttribute('no-auto-perspective');
+  }
+
+  /**
+   * Setter for `noAutoPerspective`.
+   *
+   * @public
+   * @param {boolean} value
+   *   If truthy, `noAutoPerspective` will be set to true, otherwise `noAutoPerspective` will be set to false.
+   */
+  set noAutoPerspective(value) {
+    const isNoAutoPerspective = Boolean(value);
+    if (isNoAutoPerspective) {
+      this.setAttribute('no-auto-perspective', '');
+    } else {
+      this.removeAttribute('no-auto-perspective');
+    }
+  }
+
+  /**
+   * The select element.
+   *
+   * @public
+   * @returns {HTMLSelectElement}
+   */
+  get selectElement() {
+    // eslint-disable-next-line no-underscore-dangle
+    return this._selectElement;
+  }
+
+  /**
+   * Setter for `selectElement`.
+   *
+   * @protected
+   * @param {HTMLSelectElement} value
+   *   The element to set it to.
+   */
+  set selectElement(value) {
+    // eslint-disable-next-line no-underscore-dangle
+    this._selectElement = value;
+  }
+
+  /**
+   * The options observer.
+   *
+   * @private
+   * @returns {HTMLSelectElement}
+   */
+  get optionsObserver() {
+    // eslint-disable-next-line no-underscore-dangle
+    return this._optionsObserver;
+  }
+
+  /**
+   * Setter for `optionsObserver`.
+   *
+   * @private
+   * @param {HTMLSelectElement} value
+   *   The element to set it to.
+   */
+  set optionsObserver(value) {
+    // eslint-disable-next-line no-underscore-dangle
+    this._optionsObserver = value;
+  }
+
+  /**
    * Construct the element.
    *
-   * @param {HTMLTemplate} [template]
-   *   The template to use.
+   * @public
    */
-  constructor(template = CatalystFlipButton.template) {
+  constructor() {
     super();
 
     // Create a shadow root and stamp out the template's content inside.
     this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.shadowRoot.appendChild(
+      CatalystFlipButton.template.content.cloneNode(true)
+    );
 
     /**
      * The element that flips.
      *
+     * @protected
      * @type {HTMLElement}
      */
-    this._cardElement = this.shadowRoot.querySelector('#card');
+    this.cardElement = this.shadowRoot.querySelector('#card');
 
     /**
      * The front face of the card.
      *
+     * @protected
      * @type {HTMLElement}
      */
-    this._cardFrontFace = this._cardElement.querySelector('#front');
+    this.cardFrontFace = this.cardElement.querySelector('#front');
 
     /**
      * The back face of the card.
      *
+     * @protected
      * @type {HTMLElement}
      */
-    this._cardBackFace = this._cardElement.querySelector('#back');
+    this.cardBackFace = this.cardElement.querySelector('#back');
 
     /**
      * True if the card has been flipped, otherwise false.
      *
+     * @protected
      * @type {boolean}
      */
-    this._flipped = false;
+    this.flipped = false;
 
     /**
      * The rotation of the card.
      *
+     * @protected
      * @type {number}
      */
-    this._rotation = 0;
+    this.rotation = 0;
   }
 
   /**
@@ -160,11 +269,11 @@ class CatalystFlipButton extends HTMLElement {
    */
   connectedCallback() {
     // Set up the form element.
-    this._setUpSelectElement();
+    this.setUpSelectElement();
 
     // Upgrade the element's properties.
-    this._upgradeProperty('disabled');
-    this._upgradeProperty('noAutoPerspective');
+    this.upgradeProperty('disabled');
+    this.upgradeProperty('noAutoPerspective');
 
     // Set the aria attributes.
     this.setAttribute('aria-disabled', this.disabled);
@@ -181,9 +290,9 @@ class CatalystFlipButton extends HTMLElement {
     }
 
     // Add the element's event listeners.
-    this.addEventListener('keydown', this._onKeyDown);
-    this.addEventListener('click', this._onClick);
-    this.addEventListener('mouseup', this._onMouseUp);
+    this.addEventListener('keydown', this.onKeyDown);
+    this.addEventListener('click', this.onClick);
+    this.addEventListener('mouseup', this.onMouseUp);
 
     // Disable context menu on right click.
     this.setAttribute(
@@ -191,16 +300,17 @@ class CatalystFlipButton extends HTMLElement {
       'if (event.button === 2) { event.preventDefault(); }'
     );
 
-    this._selectObserver = new MutationObserver(
-      this._onLightDomMutation.bind(this)
+    /** @private */
+    this.selectObserver = new MutationObserver(
+      this.onLightDomMutation.bind(this)
     );
-    this._selectObserver.observe(this, {
+    this.selectObserver.observe(this, {
       childList: true
     });
 
     // Set the size of the element.
     setTimeout(() => {
-      this._setUpDimensions();
+      this.setUpDimensions();
     }, 0);
 
     // If using ShadyCSS.
@@ -216,16 +326,18 @@ class CatalystFlipButton extends HTMLElement {
    * A user may set a property on an _instance_ of an element before its prototype has been connected to this class.
    * This method will check for any instance properties and run them through the proper class setters.
    *
-   * See the [lazy properties](/web/fundamentals/architecture/building-components/best-practices#lazy-properties) section for more details.
+   * See the [lazy properties](https://developers.google.com/web/fundamentals/web-components/best-practices#lazy-properties)
+   * section for more details.
    *
+   * @protected
    * @param {string} prop
    *   The name of a property.
    */
-  _upgradeProperty(prop) {
+  upgradeProperty(prop) {
     // If the property exists.
-    if (this.hasOwnProperty(prop)) {
+    if (Object.prototype.hasOwnProperty.call(this, prop)) {
       // Delete it and reset it.
-      let value = this[prop];
+      const value = this[prop];
       delete this[prop];
       this[prop] = value;
     } else if (this.hasAttribute(prop)) {
@@ -236,47 +348,49 @@ class CatalystFlipButton extends HTMLElement {
 
   /**
    * Find the new form element and set it up.
+   *
+   * @private
    */
-  _setUpSelectElement() {
-    let newSelectElement = this.querySelector('select');
+  setUpSelectElement() {
+    const newSelectElement = this.querySelector('select');
 
-    if (newSelectElement !== null && newSelectElement !== this._selectElement) {
+    if (newSelectElement !== null && newSelectElement !== this.selectElement) {
       // Clean up the old form element.
-      if (this._selectElement !== null && this._selectElement !== undefined) {
-        this._selectElement.removeEventListener(
+      if (this.selectElement != null) {
+        this.selectElement.removeEventListener(
           'change',
           this.notifySelectedOptionChanged.bind(this)
         );
       }
 
       // Remove the old observer if there is one.
-      if (this._optionsObserver !== undefined) {
-        this._optionsObserver.disconnect();
-        this._optionsObserver = undefined;
+      if (this.optionsObserver != null) {
+        this.optionsObserver.disconnect();
+        this.optionsObserver = undefined;
       }
 
       // Set up the new form element.
-      this._selectElement = newSelectElement;
-      this._selectElement.addEventListener(
+      this.selectElement = newSelectElement;
+      this.selectElement.addEventListener(
         'change',
         this.notifySelectedOptionChanged.bind(this)
       );
 
       // Create an observer to watch for changes in the form element's options.
-      this._optionsObserver = new MutationObserver(
-        this._onOptionsMutation.bind(this)
+      this.optionsObserver = new MutationObserver(
+        this.onOptionsMutation.bind(this)
       );
-      this._optionsObserver.observe(this._selectElement, {
+      this.optionsObserver.observe(this.selectElement, {
         childList: true
       });
 
       // Set up the label(s).
-      if (this._selectElement.labels && this._selectElement.labels.length > 0) {
-        let labelledBy = [];
-        for (let i = 0; i < this._selectElement.labels.length; i++) {
-          let label = this._selectElement.labels[i];
+      if (this.selectElement.labels && this.selectElement.labels.length > 0) {
+        const labelledBy = [];
+        for (let i = 0; i < this.selectElement.labels.length; i++) {
+          const label = this.selectElement.labels[i];
           if (label.id === '') {
-            label.id = this._generateGuid();
+            label.id = CatalystFlipButton.generateGuid();
           }
           labelledBy.push(label.id);
         }
@@ -284,7 +398,7 @@ class CatalystFlipButton extends HTMLElement {
       }
 
       // Disable the select element if this element is disabled.
-      this._selectElement.disabled = this.disabled;
+      this.selectElement.disabled = this.disabled;
 
       this.notifySelectedOptionChanged();
     }
@@ -296,21 +410,23 @@ class CatalystFlipButton extends HTMLElement {
    * This element cannot obtain it's dimensions automatically from it's children
    * as they are positioned absolutely. This method will manually calculate the
    * minimum size this component should be to contain its children.
+   *
+   * @private
    */
-  _setUpDimensions() {
+  setUpDimensions() {
     // Remove any previous settings.
     this.style.minWidth = '';
     this.style.minHeight = '';
 
     // Get the size of this element as is.
-    let style = getComputedStyle(this);
-    let width = Number.parseInt(style.width, 10);
-    let height = Number.parseInt(style.height, 10);
+    const style = getComputedStyle(this);
+    const width = Number.parseInt(style.width, 10);
+    const height = Number.parseInt(style.height, 10);
 
     // If the element now has no size (i.e. a user has not manually set a size),
-    // mark it as needing to be sized.
-    let adjustWidth = width === 0;
-    let adjustHeight = height === 0;
+    // Mark it as needing to be sized.
+    const adjustWidth = width === 0;
+    const adjustHeight = height === 0;
 
     // If the element needs to be sized.
     if (adjustWidth || adjustHeight) {
@@ -319,34 +435,34 @@ class CatalystFlipButton extends HTMLElement {
       let maxOptionHeight = 0;
 
       // Position the card relatively so sizes can be calculated.
-      this._cardElement.style.position = 'relative';
+      this.cardElement.style.position = 'relative';
 
       // Get the options.
-      let options = this._selectElement.options;
+      const options = this.selectElement.options;
       if (options.length > 0) {
         // Set the styling to relative so the size can be measured.
-        this._cardFrontFace.style.position = 'relative';
-        this._cardBackFace.style.position = 'relative';
+        this.cardFrontFace.style.position = 'relative';
+        this.cardBackFace.style.position = 'relative';
 
         // Save the text content in the front face and then clear it.
-        let frontFaceText = this._cardFrontFace.textContent;
-        this._cardFrontFace.textContent = '';
+        const frontFaceText = this.cardFrontFace.textContent;
+        this.cardFrontFace.textContent = '';
 
         // Save the text content in the back face and then clear it.
-        let backFaceText = this._cardBackFace.textContent;
-        this._cardBackFace.textContent = '';
+        const backFaceText = this.cardBackFace.textContent;
+        this.cardBackFace.textContent = '';
 
         for (let i = 0; i < options.length; i++) {
-          this._cardFrontFace.textContent = options[i].textContent;
-          this._cardBackFace.textContent = options[i].textContent;
+          this.cardFrontFace.textContent = options[i].textContent;
+          this.cardBackFace.textContent = options[i].textContent;
 
           if (adjustWidth) {
             // If new largest width, save it.
-            let fw = this._cardFrontFace.offsetWidth;
+            const fw = this.cardFrontFace.offsetWidth;
             if (fw > maxOptionWidth) {
               maxOptionWidth = fw;
             }
-            let bw = this._cardBackFace.offsetWidth;
+            const bw = this.cardBackFace.offsetWidth;
             if (bw > maxOptionWidth) {
               maxOptionWidth = bw;
             }
@@ -354,11 +470,11 @@ class CatalystFlipButton extends HTMLElement {
 
           if (adjustHeight) {
             // If new largest height, save it.
-            let fh = this._cardFrontFace.offsetHeight;
+            const fh = this.cardFrontFace.offsetHeight;
             if (fh > maxOptionHeight) {
               maxOptionHeight = fh;
             }
-            let hw = this._cardBackFace.offsetHeight;
+            const hw = this.cardBackFace.offsetHeight;
             if (hw > maxOptionWidth) {
               maxOptionWidth = hw;
             }
@@ -366,34 +482,32 @@ class CatalystFlipButton extends HTMLElement {
         }
 
         // Restore the text content to the front and back faces.
-        this._cardFrontFace.textContent = frontFaceText;
-        this._cardBackFace.textContent = backFaceText;
+        this.cardFrontFace.textContent = frontFaceText;
+        this.cardBackFace.textContent = backFaceText;
 
         // Restore the original positioning.
-        this._cardFrontFace.style.position = '';
-        this._cardBackFace.style.position = '';
+        this.cardFrontFace.style.position = '';
+        this.cardBackFace.style.position = '';
       }
 
       // Restore the card styles.
-      this._cardElement.style.position = '';
+      this.cardElement.style.position = '';
 
       // For each dimension that needs to be adjusted, set it to the largest
-      // dimension an options way (with a little extra room for safety).
+      // Dimension an options way (with a little extra room for safety).
       if (adjustWidth) {
-        let newWidth = maxOptionWidth + 2;
-        this.style.minWidth = newWidth + 'px';
+        const newWidth = maxOptionWidth + 2;
+        this.style.minWidth = `${newWidth}px`;
         if (!this.noAutoPerspective) {
-          this.style.perspective =
-            2 *
-              (newWidth +
-                Number.parseInt(style.paddingLeft, 10) +
-                Number.parseInt(style.paddingRight, 10)) +
-            'px';
+          this.style.perspective = `${2 *
+            (newWidth +
+              Number.parseInt(style.paddingLeft, 10) +
+              Number.parseInt(style.paddingRight, 10))}px`;
         }
       }
       if (adjustHeight) {
-        let newHeight = maxOptionHeight + 2;
-        this.style.minHeight = newHeight + 'px';
+        const newHeight = maxOptionHeight + 2;
+        this.style.minHeight = `${newHeight}px`;
       }
     }
   }
@@ -404,82 +518,21 @@ class CatalystFlipButton extends HTMLElement {
    * @protected
    */
   disconnectedCallback() {
-    this.removeEventListener('keydown', this._onKeyDown);
-    this.removeEventListener('click', this._onClick);
-    this.removeEventListener('mouseUp', this._onMouseUp);
+    this.removeEventListener('keydown', this.onKeyDown);
+    this.removeEventListener('click', this.onClick);
+    this.removeEventListener('mouseUp', this.onMouseUp);
 
-    if (this._selectObserver !== null) {
-      this._selectObserver.disconnect();
-      this._selectObserver = undefined;
+    if (this.selectObserver !== null) {
+      this.selectObserver.disconnect();
+      this.selectObserver = undefined;
     }
 
-    this._selectElement = undefined;
+    this.selectElement = undefined;
 
-    if (this._optionsObserver !== null) {
-      this._optionsObserver.disconnect();
-      this._optionsObserver = undefined;
+    if (this.optionsObserver != null) {
+      this.optionsObserver.disconnect();
+      this.optionsObserver = undefined;
     }
-  }
-
-  /**
-   * Setter for `disabled`.
-   *
-   * @param {boolean} value
-   *   If truthy, `disabled` will be set to true, otherwise `disabled` will be set to false.
-   */
-  set disabled(value) {
-    if (this._selectElement !== undefined) {
-      const isDisabled = Boolean(value);
-      if (isDisabled) {
-        this.setAttribute('disabled', '');
-      } else {
-        this.removeAttribute('disabled');
-      }
-    }
-  }
-
-  /**
-   * States whether or not this element is disabled.
-   *
-   * @default false
-   * @returns {boolean}
-   */
-  get disabled() {
-    return this.hasAttribute('disabled');
-  }
-
-  /**
-   * Setter for `noAutoPerspective`.
-   *
-   * @param {boolean} value
-   *   If truthy, `noAutoPerspective` will be set to true, otherwise `noAutoPerspective` will be set to false.
-   */
-  set noAutoPerspective(value) {
-    const isNoAutoPerspective = Boolean(value);
-    if (isNoAutoPerspective) {
-      this.setAttribute('no-auto-perspective', '');
-    } else {
-      this.removeAttribute('no-auto-perspective');
-    }
-  }
-
-  /**
-   * States whether or not this element should automatically calculate its own perspective value.
-   *
-   * @default false
-   * @returns {boolean}
-   */
-  get noAutoPerspective() {
-    return this.hasAttribute('no-auto-perspective');
-  }
-
-  /**
-   * The select element.
-   *
-   * @returns {HTMLSelectElement}
-   */
-  get selectElement() {
-    return this._selectElement;
   }
 
   /**
@@ -495,7 +548,7 @@ class CatalystFlipButton extends HTMLElement {
    *   The new value of the attribute that changed.
    */
   attributeChangedCallback(name, oldValue, newValue) {
-    let hasValue = newValue !== null;
+    const hasValue = newValue !== null;
 
     switch (name) {
       case 'disabled':
@@ -507,11 +560,11 @@ class CatalystFlipButton extends HTMLElement {
 
           // If the tab index is set.
           if (this.hasAttribute('tabindex')) {
-            this._tabindexBeforeDisabled = this.getAttribute('tabindex');
+            this.tabindexBeforeDisabled = this.getAttribute('tabindex');
             this.removeAttribute('tabindex');
             this.blur();
           } else {
-            this._tabindexBeforeDisabled = undefined;
+            this.tabindexBeforeDisabled = undefined;
           }
         } else {
           this.selectElement.removeAttribute('disabled');
@@ -519,10 +572,10 @@ class CatalystFlipButton extends HTMLElement {
           // If the tab index isn't already set and the previous value is known.
           if (
             !this.hasAttribute('tabindex') &&
-            this._tabindexBeforeDisabled !== undefined &&
-            this._tabindexBeforeDisabled !== null
+            this.tabindexBeforeDisabled !== undefined &&
+            this.tabindexBeforeDisabled !== null
           ) {
-            this.setAttribute('tabindex', this._tabindexBeforeDisabled);
+            this.setAttribute('tabindex', this.tabindexBeforeDisabled);
           }
         }
         break;
@@ -532,9 +585,11 @@ class CatalystFlipButton extends HTMLElement {
   /**
    * Called when a key is pressed on this element.
    *
+   * @protected
    * @param {KeyboardEvent} event
+   *   The keyboard event.
    */
-  _onKeyDown(event) {
+  onKeyDown(event) {
     // Don’t handle modifier shortcuts typically used by assistive technology.
     if (event.altKey) {
       return;
@@ -542,16 +597,16 @@ class CatalystFlipButton extends HTMLElement {
 
     // What key was pressed?
     switch (event.keyCode) {
-      case CatalystFlipButton._KEYCODE.LEFT:
-      case CatalystFlipButton._KEYCODE.UP:
+      case CatalystFlipButton.KEYCODE.LEFT:
+      case CatalystFlipButton.KEYCODE.UP:
         event.preventDefault();
         this.previous();
         break;
 
-      case CatalystFlipButton._KEYCODE.SPACE:
-      case CatalystFlipButton._KEYCODE.ENTER:
-      case CatalystFlipButton._KEYCODE.RIGHT:
-      case CatalystFlipButton._KEYCODE.DOWN:
+      case CatalystFlipButton.KEYCODE.SPACE:
+      case CatalystFlipButton.KEYCODE.ENTER:
+      case CatalystFlipButton.KEYCODE.RIGHT:
+      case CatalystFlipButton.KEYCODE.DOWN:
         event.preventDefault();
         this.next();
         break;
@@ -565,37 +620,45 @@ class CatalystFlipButton extends HTMLElement {
   /**
    * Called when this element is clicked.
    *
+   * @protected
    * @param {MouseEvent} event
+   *   The mouse event
    */
-  _onClick(event) {
+  onClick(event) {
     if (event.button === 0) {
-      this._onLeftClick();
+      this.onLeftClick();
     }
   }
 
   /**
    * Called on the mouse up event.
    *
+   * @protected
    * @param {MouseEvent} event
+   *   The mouse event.
    */
-  _onMouseUp(event) {
+  onMouseUp(event) {
     if (event.button === 2) {
-      this._onRightClick();
+      this.onRightClick();
     }
   }
 
   /**
    * Called when this element is left clicked.
+   *
+   * @protected
    */
-  _onLeftClick() {
+  onLeftClick() {
     this.focus();
     this.next();
   }
 
   /**
    * Called when this element is right clicked.
+   *
+   * @protected
    */
-  _onRightClick() {
+  onRightClick() {
     this.focus();
     this.previous();
   }
@@ -604,36 +667,39 @@ class CatalystFlipButton extends HTMLElement {
    * Notify this component that the select element has changed.
    *
    * Must be called after manually setting the selected index.
+   *
+   * @public
    */
   notifySelectedOptionChanged() {
-    if (this._selectElement === null || this._selectElement.length === 0) {
+    if (this.selectElement == null || this.selectElement.length === 0) {
       return;
     }
 
-    let option = this._selectElement.options[this._selectElement.selectedIndex];
+    const option = this.selectElement.options[this.selectElement.selectedIndex];
 
-    if (this._flipped) {
-      this._cardBackFace.textContent = option.textContent;
+    if (this.flipped) {
+      this.cardBackFace.textContent = option.textContent;
     } else {
-      this._cardFrontFace.textContent = option.textContent;
+      this.cardFrontFace.textContent = option.textContent;
     }
 
     // IE11 specific fixes.
     if (CatalystFlipButton.isIE11) {
-      let backfaceVisibility = this._flipped ? 'visible' : 'hidden';
-      this._cardFrontFace.style.backfaceVisibility = backfaceVisibility;
-      this._cardBackFace.style.backfaceVisibility = backfaceVisibility;
+      const backfaceVisibility = this.flipped ? 'visible' : 'hidden';
+      this.cardFrontFace.style.backfaceVisibility = backfaceVisibility;
+      this.cardBackFace.style.backfaceVisibility = backfaceVisibility;
     }
 
-    this._update();
+    this.update();
   }
 
   /**
    * Called when a top level lightDom mutation happens.
    *
-   * @param {Array<MutationRecord} mutations
+   * @private
+   * @param {Array<MutationRecord>} mutations - The mutations
    */
-  _onLightDomMutation(mutations) {
+  onLightDomMutation(mutations) {
     let nodesAdded = false;
     let nodesRemoved = false;
 
@@ -655,27 +721,28 @@ class CatalystFlipButton extends HTMLElement {
 
     // If lightDom elements changed?
     if (nodesAdded || nodesRemoved) {
-      let fe = this._selectElement;
-      this._setUpSelectElement();
+      const fe = this.selectElement;
+      this.setUpSelectElement();
 
       // New form element?
-      if (this._selectElement !== fe) {
+      if (this.selectElement !== fe) {
         recalculateSize = true;
       }
     }
 
     // Size of the element needs recalculate?
     if (recalculateSize) {
-      this._setUpDimensions();
+      this.setUpDimensions();
     }
   }
 
   /**
    * Called when a top level lightDom mutation happens.
    *
-   * @param {Array<MutationRecord} mutations
+   * @private
+   * @param {Array<MutationRecord>} mutations - The mutations
    */
-  _onOptionsMutation(mutations) {
+  onOptionsMutation(mutations) {
     let optionsAdded = false;
     let optionsRemoved = false;
 
@@ -701,7 +768,7 @@ class CatalystFlipButton extends HTMLElement {
       }
 
       // No options left?
-      if (this._selectElement !== null && this._selectElement.length === 0) {
+      if (this.selectElement != null && this.selectElement.length === 0) {
         recalculateSize = true;
       }
     }
@@ -713,22 +780,26 @@ class CatalystFlipButton extends HTMLElement {
 
     // Size of the element needs recalculate?
     if (recalculateSize) {
-      this._setUpDimensions();
+      this.setUpDimensions();
     }
   }
 
   /**
    * Flip the button forwards to the next option.
+   *
+   * @public
    */
   next() {
-    this._flip(true);
+    this.flip(true);
   }
 
   /**
    * Flip the button back to the previous option.
+   *
+   * @public
    */
   previous() {
-    this._flip(false);
+    this.flip(false);
   }
 
   /**
@@ -736,85 +807,82 @@ class CatalystFlipButton extends HTMLElement {
    *
    * This method is only caused by a user action, so it will dispatch a change event.
    *
+   * @protected
    * @fires change
    *
    * @param {boolean} [forwards=true]
    *   If true, flip forward. If false, flip back.
    */
-  _flip(forwards = true) {
-    if (this._selectElement === null || this.disabled) {
+  flip(forwards = true) {
+    if (this.selectElement == null || this.disabled) {
       return;
     }
 
     // Update the selected index.
-    let newIndex = this._selectElement.selectedIndex + (forwards ? 1 : -1);
-    let length = this._selectElement.length;
-    this._selectElement.selectedIndex = (newIndex % length + length) % length;
+    const newIndex = this.selectElement.selectedIndex + (forwards ? 1 : -1);
+    const length = this.selectElement.length;
+    this.selectElement.selectedIndex = (newIndex % length + length) % length;
 
     // Update the card's rotation.
-    this._rotation += -180 * (forwards ? 1 : -1);
+    this.rotation += -180 * (forwards ? 1 : -1);
 
     // Card has now been flipped/unflipped.
-    this._flipped = !this._flipped;
+    this.flipped = !this.flipped;
 
     // The select element should now fire a change event.
-    this._selectElement.dispatchEvent(new Event('change'));
+    this.selectElement.dispatchEvent(new Event('change'));
   }
 
   /**
    * Update the element
+   *
+   * @protected
    */
-  _update() {
-    if (this._selectElement === null) {
+  update() {
+    if (this.selectElement === null) {
       return;
     }
 
     // Update the value attribute.
-    this.setAttribute('value', this._selectElement.value);
+    this.setAttribute('value', this.selectElement.value);
 
     // Play the transition.
-    this._cardElement.style.transform = 'rotateY(' + this._rotation + 'deg)';
+    this.cardElement.style.transform = `rotateY(${this.rotation}deg)`;
   }
 
   /**
    * Generate a guid (or at least something that seems like one)
    *
    * @see https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+   *
+   * @private
+   * @returns {string}
    */
-  _generateGuid() {
+  static generateGuid() {
     const s4 = () => {
       return Math.floor((1 + Math.random()) * 0x10000)
         .toString(16)
         .substring(1);
     };
-    return (
-      s4() +
-      s4() +
-      '-' +
-      s4() +
-      '-' +
-      s4() +
-      '-' +
-      s4() +
-      '-' +
-      s4() +
-      s4() +
-      s4()
-    );
+    return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
   }
 }
 
-// Make sure the polyfills are ready (if they are being used).
-new Promise(resolve => {
-  if (window.WebComponents === undefined || window.WebComponents.ready) {
-    resolve();
-  } else {
-    window.addEventListener('WebComponentsReady', () => resolve());
-  }
-}).then(() => {
-  // Register the element.
+/**
+ * Register the element.
+ */
+(async () => {
+  // Make sure the polyfills are ready (if they are being used).
+  await new Promise(resolve => {
+    if (window.WebComponents === undefined || window.WebComponents.ready) {
+      resolve();
+    } else {
+      window.addEventListener('WebComponentsReady', () => resolve());
+    }
+  });
+
   window.customElements.define(CatalystFlipButton.is, CatalystFlipButton);
-});
+})();
 
 // Export the element.
 export default CatalystFlipButton;
