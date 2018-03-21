@@ -52,6 +52,7 @@ class CatalystFlipButton extends HTMLElement {
    * Get the default template used by this element.
    *
    * @public
+   * @readonly
    * @returns {HTMLTemplateElement}
    */
   static get template() {
@@ -71,6 +72,7 @@ class CatalystFlipButton extends HTMLElement {
    * Key codes.
    *
    * @public
+   * @readonly
    * @enum {number}
    */
   static get KEYCODE() {
@@ -88,6 +90,7 @@ class CatalystFlipButton extends HTMLElement {
    * True if the web browser is ie11.
    *
    * @public
+   * @readonly
    * @returns {boolean}
    */
   static get isIE11() {
@@ -98,6 +101,7 @@ class CatalystFlipButton extends HTMLElement {
    * The attributes on this element to observe.
    *
    * @public
+   * @readonly
    * @returns {Array.<string>}
    *   The attributes this element is observing for changes.
    */
@@ -165,6 +169,7 @@ class CatalystFlipButton extends HTMLElement {
    * The select element.
    *
    * @public
+   * @readonly
    * @returns {HTMLSelectElement}
    */
   get selectElement() {
