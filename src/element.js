@@ -715,14 +715,14 @@ class CatalystFlipButton extends HTMLElement {
     recalculateSize = false;
 
     // For each mutation.
-    for (let i = 0; i < mutations.length; i++) {
+    for (const mutation of mutations) {
       // Nodes Added?
-      if (mutations[i].addedNodes.length > 0) {
+      if (mutation.addedNodes.length > 0) {
         nodesAdded = true;
       }
 
       // Nodes Removed?
-      if (mutations[i].removedNodes.length > 0) {
+      if (mutation.removedNodes.length > 0) {
         nodesRemoved = true;
       }
     }
