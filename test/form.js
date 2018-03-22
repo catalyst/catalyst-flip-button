@@ -1,5 +1,5 @@
 /* eslint-disable */
-/* eslint-disable no-unused-expressions */
+/* eslint-disable no-unused-expressions, max-nested-callbacks */
 
 // eslint is disbale until this file has been written to prevent linting issues.
 

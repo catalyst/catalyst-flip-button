@@ -584,6 +584,9 @@ class CatalystFlipButton extends HTMLElement {
           }
         }
         break;
+
+      // Different attribute changed? Do nothing.
+      default:
     }
   }
 
