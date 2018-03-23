@@ -42,6 +42,7 @@ class CatalystFlipButton extends HTMLElement {
    * The element's tag name.
    *
    * @public
+   * @readonly
    * @returns {string}
    */
   static get is() {
