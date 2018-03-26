@@ -429,56 +429,58 @@ class CatalystFlipButton extends SuperClass {
       this.cardElement.style.position = 'relative';
 
       // Get the options.
-      const options = this.selectElement.options;
-      if (options.length > 0) {
-        // Set the styling to relative so the size can be measured.
-        this.cardFrontFace.style.position = 'relative';
-        this.cardBackFace.style.position = 'relative';
+      if (this.selectElement != null) {
+        const options = this.selectElement.options;
+        if (options.length > 0) {
+          // Set the styling to relative so the size can be measured.
+          this.cardFrontFace.style.position = 'relative';
+          this.cardBackFace.style.position = 'relative';
 
-        // Save the text content in the front face and then clear it.
-        const frontFaceText = this.cardFrontFace.textContent;
-        this.cardFrontFace.textContent = '';
+          // Save the text content in the front face and then clear it.
+          const frontFaceText = this.cardFrontFace.textContent;
+          this.cardFrontFace.textContent = '';
 
-        // Save the text content in the back face and then clear it.
-        const backFaceText = this.cardBackFace.textContent;
-        this.cardBackFace.textContent = '';
+          // Save the text content in the back face and then clear it.
+          const backFaceText = this.cardBackFace.textContent;
+          this.cardBackFace.textContent = '';
 
-        for (let i = 0; i < options.length; i++) {
-          this.cardFrontFace.textContent = options[i].textContent;
-          this.cardBackFace.textContent = options[i].textContent;
+          for (let i = 0; i < options.length; i++) {
+            this.cardFrontFace.textContent = options[i].textContent;
+            this.cardBackFace.textContent = options[i].textContent;
 
-          if (adjustWidth) {
-            // If new largest width, save it.
-            const fw = this.cardFrontFace.offsetWidth;
-            if (fw > maxOptionWidth) {
-              maxOptionWidth = fw;
+            if (adjustWidth) {
+              // If new largest width, save it.
+              const fw = this.cardFrontFace.offsetWidth;
+              if (fw > maxOptionWidth) {
+                maxOptionWidth = fw;
+              }
+              const bw = this.cardBackFace.offsetWidth;
+              if (bw > maxOptionWidth) {
+                maxOptionWidth = bw;
+              }
             }
-            const bw = this.cardBackFace.offsetWidth;
-            if (bw > maxOptionWidth) {
-              maxOptionWidth = bw;
+
+            if (adjustHeight) {
+              // If new largest height, save it.
+              const fh = this.cardFrontFace.offsetHeight;
+              if (fh > maxOptionHeight) {
+                maxOptionHeight = fh;
+              }
+              const hw = this.cardBackFace.offsetHeight;
+              if (hw > maxOptionWidth) {
+                maxOptionWidth = hw;
+              }
             }
           }
 
-          if (adjustHeight) {
-            // If new largest height, save it.
-            const fh = this.cardFrontFace.offsetHeight;
-            if (fh > maxOptionHeight) {
-              maxOptionHeight = fh;
-            }
-            const hw = this.cardBackFace.offsetHeight;
-            if (hw > maxOptionWidth) {
-              maxOptionWidth = hw;
-            }
-          }
+          // Restore the text content to the front and back faces.
+          this.cardFrontFace.textContent = frontFaceText;
+          this.cardBackFace.textContent = backFaceText;
+
+          // Restore the original positioning.
+          this.cardFrontFace.style.position = '';
+          this.cardBackFace.style.position = '';
         }
-
-        // Restore the text content to the front and back faces.
-        this.cardFrontFace.textContent = frontFaceText;
-        this.cardBackFace.textContent = backFaceText;
-
-        // Restore the original positioning.
-        this.cardFrontFace.style.position = '';
-        this.cardBackFace.style.position = '';
       }
 
       // Restore the card styles.
@@ -555,7 +557,9 @@ class CatalystFlipButton extends SuperClass {
         this.setAttribute('aria-disabled', hasValue);
 
         if (hasValue) {
-          this.selectElement.setAttribute('disabled', '');
+          if (this.selectElement != null) {
+            this.selectElement.setAttribute('disabled', '');
+          }
 
           // If the tab index is set.
           if (this.hasAttribute('tabindex')) {
@@ -566,7 +570,9 @@ class CatalystFlipButton extends SuperClass {
             this.tabindexBeforeDisabled = null;
           }
         } else {
-          this.selectElement.removeAttribute('disabled');
+          if (this.selectElement != null) {
+            this.selectElement.removeAttribute('disabled');
+          }
 
           // If the tab index isn't already set and the previous value is known.
           if (
