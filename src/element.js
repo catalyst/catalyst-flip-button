@@ -1,6 +1,6 @@
 // Import dependencies.
-import catalystLabelableMixin from '../node_modules/@catalyst-elements/catalyst-labelable-mixin/catalyst-labelable-mixin.js';
-import catalystLazyPropertiesMixin from '../node_modules/@catalyst-elements/catalyst-lazy-properties-mixin/catalyst-lazy-properties-mixin.js';
+import { catalystLabelableMixin } from '../node_modules/@catalyst-elements/catalyst-labelable-mixin/catalyst-labelable-mixin.js';
+import { catalystLazyPropertiesMixin } from '../node_modules/@catalyst-elements/catalyst-lazy-properties-mixin/catalyst-lazy-properties-mixin.js';
 
 const SuperClass = catalystLabelableMixin(
   catalystLazyPropertiesMixin(HTMLElement)
@@ -886,5 +886,4 @@ class CatalystFlipButton extends SuperClass {
 })();
 
 // Export the element.
-export default CatalystFlipButton;
 export { CatalystFlipButton };
