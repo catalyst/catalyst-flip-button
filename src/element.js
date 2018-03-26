@@ -6,6 +6,10 @@ const SuperClass = catalystLabelableMixin(
   catalystLazyPropertiesMixin(HTMLElement)
 );
 
+const selectElement = Symbol('select element');
+const selectObserver = Symbol('select observer');
+const optionsObserver = Symbol('options observer');
+
 /**
  * Key codes.
  *
@@ -174,8 +178,7 @@ class CatalystFlipButton extends SuperClass {
    * @returns {HTMLSelectElement}
    */
   get selectElement() {
-    // eslint-disable-next-line no-underscore-dangle
-    return this._selectElement;
+    return this[selectElement];
   }
 
   /**
@@ -186,31 +189,7 @@ class CatalystFlipButton extends SuperClass {
    *   The element to set it to.
    */
   set selectElement(value) {
-    // eslint-disable-next-line no-underscore-dangle
-    this._selectElement = value;
-  }
-
-  /**
-   * The options observer.
-   *
-   * @private
-   * @returns {HTMLSelectElement}
-   */
-  get optionsObserver() {
-    // eslint-disable-next-line no-underscore-dangle
-    return this._optionsObserver;
-  }
-
-  /**
-   * Setter for `optionsObserver`.
-   *
-   * @private
-   * @param {HTMLSelectElement} value
-   *   The element to set it to.
-   */
-  set optionsObserver(value) {
-    // eslint-disable-next-line no-underscore-dangle
-    this._optionsObserver = value;
+    this[selectElement] = value;
   }
 
   /**
@@ -310,11 +289,10 @@ class CatalystFlipButton extends SuperClass {
       'if (event.button === 2) { event.preventDefault(); }'
     );
 
-    /** @private */
-    this.selectObserver = new MutationObserver(
+    this[selectObserver] = new MutationObserver(
       this.onLightDomMutation.bind(this)
     );
-    this.selectObserver.observe(this, {
+    this[selectObserver].observe(this, {
       childList: true
     });
 
@@ -348,9 +326,9 @@ class CatalystFlipButton extends SuperClass {
       }
 
       // Remove the old observer if there is one.
-      if (this.optionsObserver != null) {
-        this.optionsObserver.disconnect();
-        this.optionsObserver = null;
+      if (this[optionsObserver] != null) {
+        this[optionsObserver].disconnect();
+        this[optionsObserver] = null;
       }
 
       // Set up the new form element.
@@ -362,10 +340,10 @@ class CatalystFlipButton extends SuperClass {
       this.selectElement.setAttribute('tabindex', -1);
 
       // Create an observer to watch for changes in the form element's options.
-      this.optionsObserver = new MutationObserver(
+      this[optionsObserver] = new MutationObserver(
         this.onOptionsMutation.bind(this)
       );
-      this.optionsObserver.observe(this.selectElement, {
+      this[optionsObserver].observe(this.selectElement, {
         childList: true
       });
 
@@ -519,16 +497,16 @@ class CatalystFlipButton extends SuperClass {
     this.removeEventListener('click', this.onClick);
     this.removeEventListener('mouseUp', this.onMouseUp);
 
-    if (this.selectObserver != null) {
-      this.selectObserver.disconnect();
-      this.selectObserver = null;
+    if (this[selectObserver] != null) {
+      this[selectObserver].disconnect();
+      this[selectObserver] = null;
     }
 
     this.selectElement = null;
 
-    if (this.optionsObserver != null) {
-      this.optionsObserver.disconnect();
-      this.optionsObserver = null;
+    if (this[optionsObserver] != null) {
+      this[optionsObserver].disconnect();
+      this[optionsObserver] = null;
     }
   }
 
