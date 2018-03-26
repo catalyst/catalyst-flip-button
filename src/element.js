@@ -27,7 +27,7 @@ const KEYCODE = {
 /**
  * True if the web browser is ie11.
  *
- * @returns {boolean}
+ * @type {boolean}
  */
 const IS_IE11 = Boolean(navigator.userAgent.match(/Trident\/7\./));
 
