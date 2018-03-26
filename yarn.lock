@@ -71,6 +71,14 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+"@catalyst-elements/catalyst-labelable-mixin@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@catalyst-elements/catalyst-labelable-mixin/-/catalyst-labelable-mixin-0.1.2.tgz#6c2a46671b9cbf6b1d310a395d7373c39fe4ec56"
+
+"@catalyst-elements/catalyst-lazy-properties-mixin@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@catalyst-elements/catalyst-lazy-properties-mixin/-/catalyst-lazy-properties-mixin-0.1.0.tgz#71032610ce031606ae29b4f8d5af9292bdebb953"
+
 "@polymer/app-layout@^3.0.0-pre.10":
   version "3.0.0-pre.10"
   resolved "https://registry.yarnpkg.com/@polymer/app-layout/-/app-layout-3.0.0-pre.10.tgz#e64032cc87f3bccb75c4fd25ac4b23096ad9cea3"
