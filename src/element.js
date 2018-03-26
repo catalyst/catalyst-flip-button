@@ -21,6 +21,13 @@ const KEYCODE = {
 };
 
 /**
+ * True if the web browser is ie11.
+ *
+ * @returns {boolean}
+ */
+const IS_IE11 = Boolean(navigator.userAgent.match(/Trident\/7\./));
+
+/**
  * `<catalyst-flip-button>` is a wrapper for a `<select>` element.
  * It displays as a button and flips between different options.
  *
@@ -89,17 +96,6 @@ class CatalystFlipButton extends SuperClass {
     }
 
     return template;
-  }
-
-  /**
-   * True if the web browser is ie11.
-   *
-   * @public
-   * @readonly
-   * @returns {boolean}
-   */
-  static get isIE11() {
-    return Boolean(navigator.userAgent.match(/Trident\/7\./));
   }
 
   /**
@@ -698,7 +694,7 @@ class CatalystFlipButton extends SuperClass {
     }
 
     // IE11 specific fixes.
-    if (CatalystFlipButton.isIE11) {
+    if (IS_IE11) {
       const backfaceVisibility = this.flipped ? 'visible' : 'hidden';
       this.cardFrontFace.style.backfaceVisibility = backfaceVisibility;
       this.cardBackFace.style.backfaceVisibility = backfaceVisibility;
