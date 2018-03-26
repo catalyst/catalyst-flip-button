@@ -739,11 +739,11 @@ class CatalystFlipButton extends SuperClass {
 
     // If lightDom elements changed?
     if (nodesAdded || nodesRemoved) {
-      const fe = this.selectElement;
+      const originSelectElement = this.selectElement;
       this.setUpSelectElement();
 
       // New form element?
-      if (this.selectElement !== fe) {
+      if (this.selectElement !== originSelectElement) {
         recalculateSize = true;
       }
     }
