@@ -7,6 +7,20 @@ const SuperClass = catalystLabelableMixin(
 );
 
 /**
+ * Key codes.
+ *
+ * @enum {number}
+ */
+const KEYCODE = {
+  SPACE: 32,
+  ENTER: 13,
+  LEFT: 37,
+  UP: 38,
+  RIGHT: 39,
+  DOWN: 40
+};
+
+/**
  * `<catalyst-flip-button>` is a wrapper for a `<select>` element.
  * It displays as a button and flips between different options.
  *
@@ -75,24 +89,6 @@ class CatalystFlipButton extends SuperClass {
     }
 
     return template;
-  }
-
-  /**
-   * Key codes.
-   *
-   * @public
-   * @readonly
-   * @enum {number}
-   */
-  static get KEYCODE() {
-    return {
-      SPACE: 32,
-      ENTER: 13,
-      LEFT: 37,
-      UP: 38,
-      RIGHT: 39,
-      DOWN: 40
-    };
   }
 
   /**
@@ -606,16 +602,16 @@ class CatalystFlipButton extends SuperClass {
 
     // What key was pressed?
     switch (event.keyCode) {
-      case CatalystFlipButton.KEYCODE.LEFT:
-      case CatalystFlipButton.KEYCODE.UP:
+      case KEYCODE.LEFT:
+      case KEYCODE.UP:
         event.preventDefault();
         this.previous();
         break;
 
-      case CatalystFlipButton.KEYCODE.SPACE:
-      case CatalystFlipButton.KEYCODE.ENTER:
-      case CatalystFlipButton.KEYCODE.RIGHT:
-      case CatalystFlipButton.KEYCODE.DOWN:
+      case KEYCODE.SPACE:
+      case KEYCODE.ENTER:
+      case KEYCODE.RIGHT:
+      case KEYCODE.DOWN:
         event.preventDefault();
         this.next();
         break;
