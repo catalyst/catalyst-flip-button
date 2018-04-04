@@ -1,6 +1,6 @@
 // Import dependencies.
-import { catalystLabelableMixin } from '../node_modules/@catalyst-elements/catalyst-labelable-mixin/catalyst-labelable-mixin.js';
-import { catalystLazyPropertiesMixin } from '../node_modules/@catalyst-elements/catalyst-lazy-properties-mixin/catalyst-lazy-properties-mixin.js';
+import { catalystLabelableMixin } from '../node_modules/@catalyst-elements/catalyst-labelable-mixin/catalyst-labelable-mixin';
+import { catalystLazyPropertiesMixin } from '../node_modules/@catalyst-elements/catalyst-lazy-properties-mixin/catalyst-lazy-properties-mixin';
 
 const SuperClass = catalystLabelableMixin(
   catalystLazyPropertiesMixin(HTMLElement)
@@ -61,11 +61,12 @@ const IS_IE11 = Boolean(navigator.userAgent.match(/Trident\/7\./));
  * `--catalyst-flip-button-card-face-focused-outline` | The outline of the card face when focused.  |
  *
  * @class
- * @extends HTMLElement
- *
  * @customElement
  * @group Catalyst Elements
  * @element catalyst-flip-button
+ * @extends HTMLElement
+ * @mixes catalystLabelableMixin
+ * @mixes catalystLazyPropertiesMixin
  * @demo demo/basic.html Basic
  * @demo demo/styled.html Styled
  * @demo demo/form.html Form

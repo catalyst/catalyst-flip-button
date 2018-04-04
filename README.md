@@ -23,7 +23,7 @@ Also see [catalyst-toggle-button](https://github.com/catalyst/catalyst-toggle-bu
 ```
 <custom-element-demo>
   <template>
-    <script type="module" src="catalyst-flip-button.js"></script>
+    <script type="module" src="catalyst-flip-button.mjs"></script>
     <next-code-block></next-code-block>
   </template>
 </custom-element-demo>
@@ -64,7 +64,7 @@ Please note that this package is not compatible with Bower.
 Import the module on each page that uses the component.
 
 ```html
-<script type="module" src="node_modules/@catalyst-elements/catalyst-flip-button/catalyst-flip-button.js"></script>
+<script type="module" src="node_modules/@catalyst-elements/catalyst-flip-button/catalyst-flip-button.mjs"></script>
 ```
 
 Then simply use it like any other tag.
@@ -73,7 +73,14 @@ Then simply use it like any other tag.
 
 Import the script for the component on each page that it is uses on.
 
+Note: you will also have to import the dependencies the component uses first.
+
 ```html
+<!-- Import dependencies -->
+<script src="node_modules/@catalyst-elements/catalyst-labelable-mixin/catalyst-labelable-mixin.es5.min.js"></script>
+<script src="node_modules/@catalyst-elements/catalyst-lazy-properties-mixin/catalyst-lazy-properties-mixin.es5.min.js"></script>
+
+<!-- Import the element -->
 <script src="node_modules/@catalyst-elements/catalyst-flip-button/catalyst-flip-button.es5.min.js"></script>
 ```
 

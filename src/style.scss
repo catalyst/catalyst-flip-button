@@ -53,9 +53,8 @@
       margin: 0;
 
       background: #dddddd;
-      background: ButtonFace;
       background: var(--catalyst-flip-button-card-face-background, ButtonFace);
-      border: 2px outset ButtonFace;
+      border: 2px outset #dddddd;
       border: var(
         --catalyst-flip-button-card-face-border,
         2px outset ButtonFace

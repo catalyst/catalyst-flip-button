@@ -9,7 +9,7 @@ buildProcess.setConfig('./package.json', {
   },
 
   src: {
-    entrypoint: 'element.js',
+    entrypoint: 'element.mjs',
     template: {
       html: 'template.html',
       css: 'style.css'

@@ -11,5 +11,5 @@
   });
 
   // Import the things.
-  import('./imports.js');
+  import('./imports');
 })();
