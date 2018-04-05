@@ -37,7 +37,7 @@
     "serve": "./node_modules/.bin/polyserve --npm",
     "test": "./node_modules/.bin/gulp test",
     "postinstall": "./node_modules/.bin/gulp fix-dependencies",
-    "prepublishOnly": "echo \"Error: must publish from dist/\" && exit 1"
+    "prepublishOnly": "./node_modules/.bin/gulp lint build test prepublish"
   },
   "dependencies": {
     "@catalyst-elements/catalyst-labelable-mixin": "^0.1.2",
