@@ -2994,9 +2994,9 @@ escodegen@^1.7.0:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-catalyst@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-catalyst/-/eslint-config-catalyst-1.0.0.tgz#b3b17d365ddf30c1a70bb72e7ce3caab1d25ad3a"
+eslint-config-catalyst@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-catalyst/-/eslint-config-catalyst-1.0.1.tgz#bb5d7c16ba3e1f8c4d35456213b945335ecfc1c8"
 
 eslint-config-prettier@^2.9.0:
   version "2.9.0"
