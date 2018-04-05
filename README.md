@@ -77,11 +77,11 @@ Note: you will also have to import the dependencies the component uses first.
 
 ```html
 <!-- Import dependencies -->
-<script src="node_modules/@catalyst-elements/catalyst-labelable-mixin/catalyst-labelable-mixin.es5.min.js"></script>
-<script src="node_modules/@catalyst-elements/catalyst-lazy-properties-mixin/catalyst-lazy-properties-mixin.es5.min.js"></script>
+<script src="node_modules/@catalyst-elements/catalyst-labelable-mixin/catalyst-labelable-mixin.min.js"></script>
+<script src="node_modules/@catalyst-elements/catalyst-lazy-properties-mixin/catalyst-lazy-properties-mixin.min.js"></script>
 
 <!-- Import the element -->
-<script src="node_modules/@catalyst-elements/catalyst-flip-button/catalyst-flip-button.es5.min.js"></script>
+<script src="node_modules/@catalyst-elements/catalyst-flip-button/catalyst-flip-button.min.js"></script>
 ```
 
 Please note that this script has been transpiled to es5 and thus use of `custom-elements-es5-adapter.js` or an equivalent library is required. See [es5 support](https://github.com/catalyst/CatalystElements/wiki/Browser-Compatibility#es5-support) on the Catalyst Elements wiki for details.
