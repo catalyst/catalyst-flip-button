@@ -359,8 +359,8 @@ class CatalystFlipButton extends SuperClass {
             .split(' ')
             .concat(this.selectElement.labels)
             .filter(
-              (value, pos, self) =>
-                value != null && value !== '' && self.indexOf(value) === pos
+              (value, index, array) =>
+                value != null && value !== '' && array.indexOf(value) === index
             )
             .join(' ');
 

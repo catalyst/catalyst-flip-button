@@ -17,6 +17,6 @@ buildProcess.setConfig('./package.json', {
   }
 });
 
-for (const [name, func] of Object.entries(buildProcess.tasks)) {
-  gulp.task(name, func(gulp));
+for (const [taskName, taskFunction] of Object.entries(buildProcess.tasks)) {
+  gulp.task(taskName, taskFunction(gulp));
 }
