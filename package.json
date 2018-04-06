@@ -45,7 +45,7 @@
     "@catalyst-elements/catalyst-lazy-properties-mixin": "^0.1.0"
   },
   "devDependencies": {
-    "@catalyst-elements/build-process": "^0.2.1",
+    "@catalyst-elements/build-process": "^0.2.4",
     "@polymer/iron-component-page": "^3.0.0-pre.1",
     "@polymer/iron-demo-helpers": "^3.0.0-pre.1",
     "@polymer/test-fixture": "^3.0.0-pre.1",

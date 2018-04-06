@@ -78,9 +78,9 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@catalyst-elements/build-process@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@catalyst-elements/build-process/-/build-process-0.2.1.tgz#902700ce1acfc0ae124f114192c32fa422ae8308"
+"@catalyst-elements/build-process@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@catalyst-elements/build-process/-/build-process-0.2.4.tgz#52f5d88cd55cc83f8afb090970682cbc980b3207"
   dependencies:
     ansi-colors "^1.1.0"
     archiver "^2.1.1"
