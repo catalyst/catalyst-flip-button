@@ -8,6 +8,11 @@ buildProcess.setConfig('./package.json', {
     name: 'catalyst-flip-button'
   },
 
+  publish: {
+    masterBranch: 'master',
+    prereleaseBranchRegex: /^external-build-process$/g
+  },
+
   src: {
     entrypoint: 'element.mjs',
     template: {
