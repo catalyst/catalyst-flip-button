@@ -84,26 +84,6 @@ class CatalystFlipButton extends SuperClass {
   }
 
   /**
-   * Get the default template used by this element.
-   *
-   * @public
-   * @readonly
-   * @returns {HTMLTemplateElement}
-   */
-  static get template() {
-    const template = document.createElement('template');
-    template.innerHTML = `<style>[[inject:style]][[endinject]]</style>[[inject:template]][[endinject]]`;
-
-    // If using ShadyCSS.
-    if (window.ShadyCSS != null) {
-      // Rename classes as needed to ensure style scoping.
-      window.ShadyCSS.prepareTemplate(template, CatalystFlipButton.is);
-    }
-
-    return template;
-  }
-
-  /**
    * The attributes on this element to observe.
    *
    * @public
@@ -113,6 +93,26 @@ class CatalystFlipButton extends SuperClass {
    */
   static get observedAttributes() {
     return ['disabled'];
+  }
+
+  /**
+   * Get the default template used by this element.
+   *
+   * @public
+   * @readonly
+   * @returns {HTMLTemplateElement}
+   */
+  get template() {
+    const template = document.createElement('template');
+    template.innerHTML = `<style>[[inject:css]][[endinject]]</style>[[inject:markup]][[endinject]]`;
+
+    // If using ShadyCSS.
+    if (window.ShadyCSS != null) {
+      // Rename classes as needed to ensure style scoping.
+      window.ShadyCSS.prepareTemplate(template, CatalystFlipButton.is);
+    }
+
+    return template;
   }
 
   /**
@@ -203,9 +203,7 @@ class CatalystFlipButton extends SuperClass {
 
     // Create a shadow root and stamp out the template's content inside.
     this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(
-      CatalystFlipButton.template.content.cloneNode(true)
-    );
+    this.shadowRoot.appendChild(this.template.content.cloneNode(true));
 
     /**
      * The element that flips.

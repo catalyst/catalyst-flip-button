@@ -3,7 +3,7 @@
   "license": "BSD-3-Clause",
   "version": "0.10.0-rc1",
   "description": "A button that flips between different options.",
-  "main": "src/element.js",
+  "main": "src/element.mjs",
   "directories": {
     "doc": "docs",
     "test": "test"
@@ -31,13 +31,13 @@
     "format:check": "./node_modules/.bin/prettier-eslint --list-different \"{{src,test,demo,tasks}/**/*.{js,css,scss},./*.{js,json,md}}\"",
     "analyze": "./node_modules/.bin/gulp analyze",
     "build": "./node_modules/.bin/gulp build",
-    "build-docs": "./node_modules/.bin/gulp build-docs",
+    "build-docs": "./node_modules/.bin/gulp buildDocs",
     "clean": "./node_modules/.bin/gulp clean",
     "lint": "./node_modules/.bin/gulp lint",
     "serve": "./node_modules/.bin/polyserve --npm",
     "test": "./node_modules/.bin/gulp test",
     "do-publish": "./node_modules/.bin/gulp lint && ./node_modules/.bin/gulp build && ./node_modules/.bin/gulp test && ./node_modules/.bin/gulp publish",
-    "postinstall": "./node_modules/.bin/gulp fix-dependencies",
+    "postinstall": "./node_modules/.bin/gulp fixDependencies",
     "prepublishOnly": "echo \"Error: use the 'do-publish' script to publish.\" && exit 1"
   },
   "dependencies": {
@@ -45,7 +45,7 @@
     "@catalyst-elements/catalyst-lazy-properties-mixin": "^0.1.0"
   },
   "devDependencies": {
-    "@catalyst-elements/build-process": "^0.2.4",
+    "@catalyst-elements/build-process": "^0.2.11",
     "@polymer/iron-component-page": "^3.0.0-pre.1",
     "@polymer/iron-demo-helpers": "^3.0.0-pre.1",
     "@polymer/test-fixture": "^3.0.0-pre.1",

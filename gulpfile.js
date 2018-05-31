@@ -3,7 +3,7 @@
 const gulp = require('gulp');
 const buildProcess = require('@catalyst-elements/build-process');
 
-buildProcess.setConfig('./package.json', {
+const buildConfig = buildProcess.getConfig({
   componenet: {
     name: 'catalyst-flip-button'
   },
@@ -16,12 +16,12 @@ buildProcess.setConfig('./package.json', {
   src: {
     entrypoint: 'element.mjs',
     template: {
-      html: 'template.html',
-      css: 'style.css'
+      markup: 'markup.html',
+      style: 'style.scss'
     }
   }
 });
 
 for (const [taskName, taskFunction] of Object.entries(buildProcess.tasks)) {
-  gulp.task(taskName, taskFunction(gulp));
+  gulp.task(taskName, taskFunction(taskName, buildConfig));
 }
