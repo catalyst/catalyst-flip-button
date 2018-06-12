@@ -1,0 +1,18 @@
+{
+  "componenet": {
+    "name": "catalyst-flip-button"
+  },
+
+  "publish": {
+    "masterBranch": "master",
+    "prereleaseBranchRegex": "/^external-build-process$/g"
+  },
+
+  "src": {
+    "entrypoint": "element.mjs",
+    "template": {
+      "markup": "markup.html",
+      "style": "style.scss"
+    }
+  }
+}

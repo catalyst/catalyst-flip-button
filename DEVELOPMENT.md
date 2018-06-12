@@ -38,8 +38,6 @@ The build process will create the following versions of the component in the dis
 * an es6 module version
 * an es5 minified script version
 
-[Gulp](https://gulpjs.com) is used to run the build process.
-
 Build with:
 
 ```sh
